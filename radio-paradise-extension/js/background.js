@@ -20,24 +20,57 @@
   var body_element = window.document.body;
   var browser_action = chrome.browserAction;
 
-  function onClickHandler() {
-    var i;
-    var a = body_element.getElementsByTagName('audio');
-    if (a.length === 0) {
-      a = window.document.createElement('audio');
-      body_element.appendChild(a);
-      a.oncanplaythrough = function () {
-        a.play();
+  var audio_element; // undefined
+  var volume_ctl_timer; // undefined
+  var target_volume = 0;
+
+  function change_volume() {
+    volume_ctl_timer = undefined;
+    if (audio_element === undefined) {
+      // init
+      audio_element = window.document.createElement('audio');
+      body_element.appendChild(audio_element);
+      audio_element.oncanplaythrough = function () {
+        audio_element.volume = 0;
+        target_volume = 1;
+        audio_element.play();
         browser_action.setBadgeText({text: '\u25ba'});
+        change_volume();
       };
-      a.src = stream_url;
-      a.load();
+      audio_element.src = stream_url;
+      audio_element.load();
       browser_action.setBadgeText({text: '…'});
     } else {
-      for (i = 0; i < a.length; ++i) {
-        body_element.removeChild(a[i]);
+      // continue
+      var v = audio_element.volume;
+      var sv = target_volume - v;
+      var dv = sv < 0 ? -0.01 : 0.01;
+      var nv = v + dv;
+      if (sv * (target_volume - nv) < 0) {
+        // fin
+        if (target_volume <= 0) {
+          body_element.removeChild(audio_element);
+          audio_element = undefined;
+          browser_action.setBadgeText({text: ''});
+          return;
+        }
+        nv = v;
+      } else {
+        // continue
+        volume_ctl_timer = setTimeout(change_volume, 25);
       }
-      browser_action.setBadgeText({text: ''});
+      audio_element.volume = nv;
+    }
+  }
+
+  function onClickHandler() {
+    if (target_volume > 0) {
+      target_volume = 0;
+    } else {
+      target_volume = 1;
+    }
+    if (volume_ctl_timer === undefined) {
+      change_volume();
     }
   }
 
