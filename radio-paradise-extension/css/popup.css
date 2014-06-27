@@ -100,3 +100,39 @@ input[type="radio"]:checked + label {
   background-image: linear-gradient(#fbeed7, #fbd186);
   cursor: default;
 }
+
+/* ************************************ */
+
+.loading {
+  border-style: solid;
+  border-color: #000 #dd5731;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border-width: 3px;
+  -webkit-animation: spin 2s infinite linear;
+  display: inline-block;
+  margin: 10px;
+}
+
+@-webkit-keyframes spin {
+  from { -webkit-transform: rotate(0deg); }
+  to { -webkit-transform: rotate(360deg); }
+}
+
+.center-text {
+  padding: 5px;
+  text-align: center;
+}
+
+.song-info-item {
+  color: #963b21;
+  font-size: 9px;
+}
+
+#song-info-image img {
+  width: 140px;
+  padding: 8px;
+  border: 1px solid #963b21;
+  margin: 2px;
+}
