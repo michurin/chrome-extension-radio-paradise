@@ -8,6 +8,64 @@ body {
   -webkit-user-select: none;
 }
 
+.wide {
+  width: 200px;
+}
+
+.center {
+  text-align: center;
+}
+
+.title {
+  font: bold 12px/1 sans-serif;
+}
+
+table {
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+td {
+  padding: 3px;
+  margin: 0;
+  font-size: 0;
+}
+
+.play-undef {
+  width: 12px;
+  height: 12px;
+  border: 1px solid #777;
+}
+
+.play-on {
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 14px solid #f8cc83;
+  cursor: pointer;
+}
+
+.play-off {
+  width: 4px;
+  height: 14px;
+  border-top: 0;
+  border-bottom: 0;
+  border-left: 5px solid #f8cc83;
+  border-right: 5px solid #f8cc83;
+  cursor: pointer;
+}
+
+.sub-title {
+  color: #963b21;
+  font: bold 9px/1 sans-serif;
+}
+
+.selectors {
+  overflow: hidden;
+  font: 11px/1 sans-serif;
+}
+
 input[type=range] {
   -webkit-appearance: none;
   background: #963b21 linear-gradient(#963b21, #dd5731);
@@ -34,56 +92,14 @@ input[type="radio"] {
   display: none;
 }
 
+input[type="radio"]:checked + label {
+  color: #963b21;
+  background-image: linear-gradient(#fbeed7, #fbd186);
+  cursor: default;
+}
+
 input:focus {
   outline: 0;
-}
-
-.play-undef {
-  width: 14px;
-  height: 14px;
-  border: 0;
-}
-
-.play-on {
-  width: 0;
-  height: 0;
-  border-top: 7px solid transparent;
-  border-bottom: 7px solid transparent;
-  border-left: 14px solid #f8cc83;
-  cursor: pointer;
-}
-
-.play-off {
-  width: 4px;
-  height: 14px;
-  border-top: 0;
-  border-bottom: 0;
-  border-left: 5px solid #f8cc83;
-  border-right: 5px solid #f8cc83;
-  cursor: pointer;
-}
-
-table {
-  border-collapse: collapse;
-  width: 172px;
-}
-
-td {
-  padding: 0;
-  margin: 0;
-  font-size: 0;
-}
-
-.h-space {
-  width: 6px;
-}
-
-.title-text {
-  font: bold 12px/1 sans-serif;
-}
-
-.regular-text {
-  font: 11px/1 sans-serif;
 }
 
 label {
@@ -97,14 +113,6 @@ label {
   cursor: pointer;
   color: #fbd186;
 }
-
-input[type="radio"]:checked + label {
-  color: #963b21;
-  background-image: linear-gradient(#fbeed7, #fbd186);
-  cursor: default;
-}
-
-/* ************************************ */
 
 .loading {
   border-style: solid;
@@ -123,19 +131,25 @@ input[type="radio"]:checked + label {
   to { -webkit-transform: rotate(360deg); }
 }
 
-.center-text {
-  padding: 5px;
-  text-align: center;
-}
-
-.song-info-item {
-  color: #963b21;
-  font-size: 9px;
+#song-info-image {
+  margin: 8px 0;
 }
 
 #song-info-image img {
   width: 140px;
   padding: 8px;
   border: 1px solid #963b21;
-  margin: 2px;
+}
+
+#song-info-text {
+  margin: 8px 0;
+}
+
+.song-info {
+  font: 15px/1 serif;
+}
+
+.song-info-title {
+  color: #963b21;
+  font: bold 9px/1 sans-serif;
 }

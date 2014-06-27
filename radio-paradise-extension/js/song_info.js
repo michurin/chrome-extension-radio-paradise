@@ -30,10 +30,11 @@
           if (t) {
             x = window.document.createElement('div');
             x.innerText += ' ' + v[1];
-            x.className = 'song-info-item';
+            x.className = 'song-info-title';
             e.appendChild(x);
             x = window.document.createElement('div');
             x.innerText += ' ' + t;
+            x.className = 'song-info';
             e.appendChild(x);
           }
         }
