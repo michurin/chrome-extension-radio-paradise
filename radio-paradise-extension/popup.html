@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"></meta>
+  <link rel="stylesheet" href="css/popup.css"></link>
+  <title>Radio Paradise player</title>
+</head>
+<body>
+  <table>
+    <tr>
+      <td colspan="3" class="title-text">Radio Paradise</td>
+    </tr>
+    <tr>
+      <td><div id="play-pause-button" class="play-undef"></div></td>
+      <td class="h-space"></td>
+      <td><input type="range" name="volume" min="1" max="100" disabled></input></td>
+    </tr>
+    <tr>
+      <td colspan="3" class="regular-text">ogg streams:</td>
+    </tr>
+    <tr>
+      <td colspan="3" class="regular-text" id="streams-selector-ogg"></td>
+    </tr>
+      <td colspan="3" class="regular-text">mp3 streams:</td>
+    </tr>
+    <tr>
+      <td colspan="3" class="regular-text" id="streams-selector-mp3"></td>
+    </tr>
+  </table>
+  <script src="js/streams.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/popup.js"></script>
+</body>
+</html>
