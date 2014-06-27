@@ -28,6 +28,7 @@ var storage = {
   },
   set_volume: function (volume) {
     chrome.storage.local.set({volume: volume}, function (a) {
+      storage.__runtime('update_volume', volume);
     });
   },
   set_stream: function (stream) {

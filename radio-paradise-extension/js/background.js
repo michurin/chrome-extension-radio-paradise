@@ -27,18 +27,21 @@
   function change_volume() {
     volume_ctl_timer = undefined;
     if (audio_element === undefined) {
+      if (target_volume === 0) {
+        return;
+      }
       // init
       audio_element = window.document.createElement('audio');
       body_element.appendChild(audio_element);
       audio_element.oncanplaythrough = function () {
         audio_element.volume = 0;
-        target_volume = 1;
         audio_element.play();
         browser_action.setBadgeText({text: '\u25ba'});
         change_volume();
       };
       audio_element.src = stream_url;
       audio_element.load();
+      volume_ctl_timer = true;
       browser_action.setBadgeText({text: '…'});
     } else {
       // continue
@@ -79,13 +82,20 @@
   }
 
   browser_action.setBadgeBackgroundColor({color: '#942'});
-  browser_action.onClicked.addListener(onClickHandler);
+  browser_action.onClicked.addListener(onClickHandler); // fired only if popup not set
 
   // publick
 
-  window.play_pause = function(state) {
+  window.play_pause = function (state) {
     target_volume = state ? 1 : 0;
     run_change_volume();
+  }
+
+  window.update_volume = function (volume) {
+    target_volume = volume / 100;
+    if (audio_element) {
+      run_change_volume();
+    }
   }
 
 }());
