@@ -63,18 +63,29 @@
     }
   }
 
+  function run_change_volume() {
+    if (volume_ctl_timer === undefined) {
+      change_volume();
+    }
+  }
+
   function onClickHandler() {
     if (target_volume > 0) {
       target_volume = 0;
     } else {
       target_volume = 1;
     }
-    if (volume_ctl_timer === undefined) {
-      change_volume();
-    }
+    run_change_volume();
   }
 
   browser_action.setBadgeBackgroundColor({color: '#942'});
   browser_action.onClicked.addListener(onClickHandler);
+
+  // publick
+
+  window.play_pause = function(state) {
+    target_volume = state ? 1 : 0;
+    run_change_volume();
+  }
 
 }());

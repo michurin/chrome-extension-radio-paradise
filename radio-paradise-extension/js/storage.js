@@ -37,6 +37,7 @@ var storage = {
   toggle_playing_state: function () {
     chrome.storage.local.get('play_state', function (a) {
       var state = !a.play_state;
+      storage.__runtime('play_pause', state);
       chrome.storage.local.set({play_state: state}, function () {
         storage.on.update_play_pause_element(state);
       });
@@ -44,5 +45,10 @@ var storage = {
   },
   on: { // event handlers
     update_play_pause_element: null,
+  },
+  __runtime: function(name, params) {
+    chrome.runtime.getBackgroundPage(function (w) {
+      w[name](params);
+    });
   }
 };
