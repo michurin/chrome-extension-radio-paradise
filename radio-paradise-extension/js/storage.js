@@ -9,7 +9,8 @@
 /*jslint
   indent:   2,
   vars:     true,
-  plusplus: true
+  plusplus: true,
+  nomen:    true
 */
 
 'use strict';
@@ -46,7 +47,7 @@ var storage = {
   on: { // event handlers
     update_play_pause_element: null,
   },
-  __runtime: function(name, params) {
+  __runtime: function (name, params) {
     chrome.runtime.getBackgroundPage(function (w) {
       w[name](params);
     });

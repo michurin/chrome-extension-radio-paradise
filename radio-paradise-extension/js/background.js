@@ -5,6 +5,7 @@
  */
 
 /*global window, chrome */
+/*global streams, storage */
 /*jslint
   indent:   2,
   vars:     true,
@@ -93,14 +94,14 @@
   window.play_pause = function (state) {
     target_volume = state ? 1 : 0;
     run_change_volume();
-  }
+  };
 
   window.update_volume = function (volume, force) {
     target_volume = volume / 100;
     if (audio_element || force) {
       run_change_volume();
     }
-  }
+  };
 
   window.reset_media_source = function (stream) {
     console.log('stream:', stream);
