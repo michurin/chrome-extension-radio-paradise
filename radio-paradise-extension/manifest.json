@@ -23,6 +23,7 @@
 
   "background": {
     "scripts": [
+      "js/streams.js",
       "js/storage.js",
       "js/background.js"
     ],

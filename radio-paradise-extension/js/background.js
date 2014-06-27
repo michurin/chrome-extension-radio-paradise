@@ -91,11 +91,17 @@
     run_change_volume();
   }
 
-  window.update_volume = function (volume) {
+  window.update_volume = function (volume, force) {
     target_volume = volume / 100;
-    if (audio_element) {
+    if (audio_element || force) {
       run_change_volume();
     }
   }
+
+  // init
+
+  storage.get_all(function (vol, stream, state) {
+    window.update_volume(vol, state);
+  });
 
 }());
