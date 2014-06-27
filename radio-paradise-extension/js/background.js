@@ -15,7 +15,7 @@
 
 (function () {
 
-  var stream_url = 'http://stream-uk1.radioparadise.com:80/mp3-192';
+  var stream_url; // undefined
 
   var body_element = window.document.body;
   var browser_action = chrome.browserAction;
@@ -23,6 +23,12 @@
   var audio_element; // undefined
   var volume_ctl_timer; // undefined
   var target_volume = 0;
+
+  function drop_audio_element() {
+    body_element.removeChild(audio_element);
+    audio_element = undefined;
+    browser_action.setBadgeText({text: ''});
+  }
 
   function change_volume() {
     volume_ctl_timer = undefined;
@@ -52,9 +58,7 @@
       if (sv * (target_volume - nv) < 0) {
         // fin
         if (target_volume <= 0) {
-          body_element.removeChild(audio_element);
-          audio_element = undefined;
-          browser_action.setBadgeText({text: ''});
+          drop_audio_element();
           return;
         }
         nv = v;
@@ -98,9 +102,19 @@
     }
   }
 
+  window.reset_media_source = function (stream) {
+    console.log('stream:', stream);
+    stream_url = streams.map[stream].url;
+    if (audio_element) {
+      drop_audio_element();
+      run_change_volume();
+    }
+  };
+
   // init
 
   storage.get_all(function (vol, stream, state) {
+    stream_url = streams.map[stream].url;
     window.update_volume(vol, state);
   });
 

@@ -27,13 +27,12 @@ var storage = {
     });
   },
   set_volume: function (volume) {
-    chrome.storage.local.set({volume: volume}, function (a) {
-      storage.__runtime('update_volume', volume);
-    });
+    storage.__runtime('update_volume', volume);
+    chrome.storage.local.set({volume: volume});
   },
   set_stream: function (stream) {
-    chrome.storage.local.set({stream: stream}, function (a) {
-    });
+    storage.__runtime('reset_media_source', stream);
+    chrome.storage.local.set({stream: stream});
   },
   toggle_playing_state: function () {
     chrome.storage.local.get('play_state', function (a) {
