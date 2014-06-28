@@ -1,0 +1,11 @@
+body {
+  font-family: sans-serif;
+}
+
+input[type="radio"] {
+  margin: 0;
+}
+
+fieldset {
+  vertical-align: middle;
+}
