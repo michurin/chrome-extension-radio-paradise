@@ -30,6 +30,8 @@
     "persistent": false
   },
 
+  "options_page": "options.html",
+
   "short_name": "RP player",
 
   "homepage_url": "http://www.radioparadise.com/",
