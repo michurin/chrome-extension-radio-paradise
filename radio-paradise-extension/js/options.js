@@ -4,8 +4,8 @@
  * MIT License [http://www.opensource.org/licenses/mit-license.php]
  */
 
-/*global window, chrome */
-/*global streams, storage */
+/*global window */
+/*global storage */
 /*jslint
   indent:   2,
   vars:     true,
@@ -16,9 +16,16 @@
 
 (function () {
   console.log(window.document.querySelectorAll('input[name="control_mode"]'));
-  Array.prototype.slice.call(
-    window.document.querySelectorAll('input[name="control_mode"]')
-  ).forEach(function (v, n) {
-    v.disabled = false;
+  storage.get_all(function (a, b, c, control_mode) {
+    window.document.getElementById(control_mode).checked = true;
+    Array.prototype.slice.call(
+      window.document.querySelectorAll('input[name="control_mode"]')
+    ).forEach(function (v, n) {
+      v.disabled = false;
+      v.onchange = function () {
+        console.log(this.id);
+        storage.set_control_mode(this.id);
+      };
+    });
   });
 }());

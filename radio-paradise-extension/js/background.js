@@ -24,6 +24,7 @@
   var audio_element; // undefined
   var volume_ctl_timer; // undefined
   var target_volume = 0;
+  var default_volume; // undefined
 
   function drop_audio_element() {
     body_element.removeChild(audio_element);
@@ -77,28 +78,34 @@
     }
   }
 
-  function onClickHandler() {
-    if (target_volume > 0) {
-      target_volume = 0;
-    } else {
-      target_volume = 1;
-    }
-    run_change_volume();
+  function init() {
+    browser_action.setBadgeBackgroundColor({color: '#942'});
+    storage.get_all(function (vol, stream, state, mode) {
+      console.log('state=', state);
+      stream_url = streams.map[stream].url;
+      default_volume = vol;
+      window.update_volume(vol, state);
+      window.update_control_mode(mode);
+    });
   }
 
-  browser_action.setBadgeBackgroundColor({color: '#942'});
-  browser_action.onClicked.addListener(onClickHandler); // fired only if popup not set
+  // bindings
+
+  browser_action.onClicked.addListener(storage.toggle_playing_state); // fired only if popup not set
+  chrome.runtime.onStartup.addListener(init); // not fired on installed
+  chrome.runtime.onInstalled.addListener(init);
 
   // publick
 
   window.play_pause = function (state) {
-    target_volume = state ? 1 : 0;
+    target_volume = state ? default_volume : 0;
     run_change_volume();
   };
 
   window.update_volume = function (volume, force) {
-    target_volume = volume / 100;
+    default_volume = volume / 100;
     if (audio_element || force) {
+      target_volume = default_volume;
       run_change_volume();
     }
   };
@@ -112,11 +119,11 @@
     }
   };
 
-  // init
-
-  storage.get_all(function (vol, stream, state) {
-    stream_url = streams.map[stream].url;
-    window.update_volume(vol, state);
-  });
+  window.update_control_mode = function (mode) {
+    console.log('BG', mode);
+    browser_action.setPopup({
+      popup: mode === 'popup' ? 'popup.html' : ''
+    });
+  };
 
 }());
