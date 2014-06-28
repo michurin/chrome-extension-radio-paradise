@@ -18,12 +18,13 @@
 var storage = {
   get_all: function (f) {
     console.log('get...');
-    chrome.storage.local.get(['volume', 'stream', 'play_state'], function (a) {
+    chrome.storage.local.get(['volume', 'stream', 'play_state', 'control_mode'], function (a) {
       console.log('get:', a);
       f(
         a.volume || 75,
         streams.map[a.stream] ? a.stream : streams.def.stream,
-        a.play_state === true
+        a.play_state === true,
+        a.control_mode === 'one-click' ? 'one-click' : 'popup'
       );
     });
   },
@@ -34,6 +35,10 @@ var storage = {
   set_stream: function (stream) {
     storage.__runtime('reset_media_source', stream);
     chrome.storage.local.set({stream: stream});
+  },
+  set_control_mode: function (mode) {
+    chrome.storage.local.set({control_mode: mode});
+    storage.__runtime('update_control_mode', mode);
   },
   toggle_playing_state: function () {
     chrome.storage.local.get('play_state', function (a) {

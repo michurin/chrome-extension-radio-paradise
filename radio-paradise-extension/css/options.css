@@ -6,6 +6,10 @@ input[type="radio"] {
   margin: 0;
 }
 
+input:focus {
+  outline: 0;
+}
+
 fieldset {
   vertical-align: middle;
 }
