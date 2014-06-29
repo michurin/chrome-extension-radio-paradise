@@ -154,3 +154,8 @@ label {
   color: #963b21;
   font: bold 9px/1 sans-serif;
 }
+
+#rp-link {
+  text-decoration: underline;
+  cursor: pointer;
+}
