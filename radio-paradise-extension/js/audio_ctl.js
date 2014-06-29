@@ -49,9 +49,16 @@ var audio_controller = (function () {
         on_start_playing();
         change_volume();
       };
+      audio_element.onerror = function () {
+        if (volume_ctl_timer !== undefined) {
+          clearTimeout(volume_ctl_timer);
+          volume_ctl_timer = undefined;
+        }
+        drop_audio_element();
+      };
       audio_element.src = stream_url;
       audio_element.load();
-      volume_ctl_timer = true;
+      volume_ctl_timer = 1;
       on_start_loading();
     } else {
       // continue

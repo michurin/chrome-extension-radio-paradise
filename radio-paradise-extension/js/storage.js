@@ -20,7 +20,7 @@ var storage = {
     chrome.storage.local.get(['volume', 'stream', 'play_state', 'control_mode'], function (a) {
       f(
         a.volume || 75,
-        streams.map[a.stream] ? a.stream : streams.def.stream,
+        a.stream ? a.stream : streams.def.stream,
         a.play_state === true,
         a.control_mode === 'one-click' ? 'one-click' : 'popup'
       );

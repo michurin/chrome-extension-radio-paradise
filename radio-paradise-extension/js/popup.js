@@ -57,12 +57,12 @@
     volume_element.oninput = function () {
       storage.set_volume(this.value);
     };
-    window.document.getElementById(stream).checked = true;
-    storage.on.update_play_pause_element(state);
     play_pause_element.onclick = function (event) {
       event.preventDefault();
       storage.toggle_playing_state();
     };
+    storage.on.update_play_pause_element(state);
+    window.document.getElementById(stream).checked = true;
   });
 
 }());
