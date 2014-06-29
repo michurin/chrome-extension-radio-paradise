@@ -18,33 +18,6 @@
 
   var browser_action = chrome.browserAction;
 
-  function init() {
-    browser_action.setBadgeBackgroundColor({color: '#942'});
-    storage.get_all(function (vol, stream, state, mode) {
-      audio_controller.set_stream(streams.map[stream].url);
-      audio_controller.set_volume(vol / 100);
-      audio_controller.set_state(state);
-      window.update_control_mode(mode);
-    });
-  }
-
-  // bindings
-
-  function badge_updater(text) {
-    return function () {
-      browser_action.setBadgeText({text: text});
-    };
-  }
-
-  browser_action.onClicked.addListener(storage.toggle_playing_state); // fired only if popup not set
-  chrome.runtime.onStartup.addListener(init); // not fired on installed
-  chrome.runtime.onInstalled.addListener(init);
-  audio_controller.set_callbacks(
-    badge_updater('…'),
-    badge_updater('\u25ba'),
-    badge_updater('')
-  );
-
   // publick
 
   window.play_pause = audio_controller.set_state;
@@ -62,5 +35,34 @@
       popup: mode === 'popup' ? 'popup.html' : ''
     });
   };
+
+  // private
+
+  function init() {
+    browser_action.setBadgeBackgroundColor({color: '#942'});
+    storage.get_all(function (vol, stream, state, mode) {
+      window.reset_media_source(stream);
+      window.update_volume(vol);
+      window.play_pause(state);
+      window.update_control_mode(mode);
+    });
+  }
+
+  function badge_updater(text) {
+    return function () {
+      browser_action.setBadgeText({text: text});
+    };
+  }
+
+  // bindings
+
+  browser_action.onClicked.addListener(storage.toggle_playing_state); // fired only if popup not set
+  chrome.runtime.onStartup.addListener(init); // not fired on installed
+  chrome.runtime.onInstalled.addListener(init);
+  audio_controller.set_callbacks(
+    badge_updater('…'),
+    badge_updater('\u25ba'),
+    badge_updater('')
+  );
 
 }());
