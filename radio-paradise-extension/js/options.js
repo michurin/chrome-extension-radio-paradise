@@ -15,7 +15,6 @@
 "use strict";
 
 (function () {
-  console.log(window.document.querySelectorAll('input[name="control_mode"]'));
   storage.get_all(function (a, b, c, control_mode) {
     window.document.getElementById(control_mode).checked = true;
     Array.prototype.slice.call(
@@ -23,7 +22,6 @@
     ).forEach(function (v, n) {
       v.disabled = false;
       v.onchange = function () {
-        console.log(this.id);
         storage.set_control_mode(this.id);
       };
     });

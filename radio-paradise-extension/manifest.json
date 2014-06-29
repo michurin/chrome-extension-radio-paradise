@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "Radio Paradise player",
-  "version": "0.4.0.1",
+  "version": "0.4.0.2",
   "minimum_chrome_version": "22",
 
   "description": "Chrome extension to easily listen Radio Paradise stream",
@@ -17,7 +17,7 @@
   },
 
   "permissions": [
-    "http://radioparadise.com/*",
+    "http://radioparadise.com/ajax_xml_song_info.php",
     "storage"
   ],
 

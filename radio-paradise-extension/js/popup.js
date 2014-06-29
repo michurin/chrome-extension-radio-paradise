@@ -4,7 +4,7 @@
  * MIT License [http://www.opensource.org/licenses/mit-license.php]
  */
 
-/*global window, chrome */
+/*global window */
 /*global streams, storage */
 /*jslint
   indent:   2,
@@ -52,7 +52,6 @@
   };
 
   storage.get_all(function (vol, stream, state) {
-    console.log(vol, stream, state);
     volume_element.value = vol;
     volume_element.disabled = false;
     volume_element.oninput = function () {
@@ -62,7 +61,6 @@
     storage.on.update_play_pause_element(state);
     play_pause_element.onclick = function (event) {
       event.preventDefault();
-      console.log('onclick');
       storage.toggle_playing_state();
     };
   });

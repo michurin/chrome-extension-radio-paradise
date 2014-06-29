@@ -4,7 +4,7 @@
  * MIT License [http://www.opensource.org/licenses/mit-license.php]
  */
 
-/*global window, chrome */
+/*global window */
 /*jslint
   indent:   2,
   vars:     true,
@@ -55,7 +55,6 @@
   }
 
   function parse_song_info(dom) {
-    console.log('dom', dom);
     // dom can be null
     if (!dom) {
       return;
@@ -86,9 +85,7 @@
   function get_song_info() {
     var xhr = new window.XMLHttpRequest();
     xhr.onreadystatechange = function () {
-      console.log('state', xhr.readyState);
       if (xhr.readyState === 4) {
-        console.log(xhr);
         var info = parse_song_info(xhr.responseXML);
         display_song_info(info);
         setTimeout(get_song_info, 20000);

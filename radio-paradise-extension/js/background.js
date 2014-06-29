@@ -58,7 +58,6 @@
   };
 
   window.update_control_mode = function (mode) {
-    console.log('BG', mode);
     browser_action.setPopup({
       popup: mode === 'popup' ? 'popup.html' : ''
     });
