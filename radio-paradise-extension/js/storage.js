@@ -45,7 +45,9 @@ var storage = {
       var state = !a.play_state;
       storage.__runtime('play_pause', state);
       chrome.storage.local.set({play_state: state}, function () {
-        storage.on.update_play_pause_element(state);
+        if (storage.on.update_play_pause_element) {
+          storage.on.update_play_pause_element(state);
+        }
       });
     });
   },
