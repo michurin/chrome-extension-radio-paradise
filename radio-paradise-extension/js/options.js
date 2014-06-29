@@ -16,6 +16,7 @@
 
 (function () {
   storage.get_all(function (a, b, c, control_mode) {
+    console.log('DEBUG:', a, b, c, control_mode);
     window.document.getElementById(control_mode).checked = true;
     Array.prototype.slice.call(
       window.document.querySelectorAll('input[name="control_mode"]')
