@@ -64,9 +64,9 @@ var audio_controller = (function () {
       // continue
       var v = audio_element.volume;
       var sv = target_volume - v;
-      var dv = sv < 0 ? -0.01 : 0.01;
+      var dv = sv <= 0 ? -0.01 : 0.01;
       var nv = v + dv;
-      if (sv * (target_volume - nv) < 0) {
+      if (sv * (target_volume - nv) <= 0) {
         // fin
         if (target_volume <= 0) {
           drop_audio_element();
