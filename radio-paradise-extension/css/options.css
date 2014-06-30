@@ -1,5 +1,8 @@
 body {
-  font-family: sans-serif;
+  font-family: Arial, sans-serif;
+  font-size: 90%;
+  cursor: default;
+  -webkit-user-select: none;
 }
 
 input[type="radio"] {
@@ -12,4 +15,22 @@ input:focus {
 
 fieldset {
   vertical-align: middle;
+}
+
+h1 {
+  font-size: 1.5em;
+  font-weight: normal;
+  color: #555;
+}
+
+td:first-child {
+  vertical-align: top;
+  padding: 4px 10px 0 0;
+  border-style: solid;
+  border-color: #888;
+  border-width: 0 1px 0 0;
+}
+
+td:last-child {
+  padding: 0 0 2em 2em;
 }
