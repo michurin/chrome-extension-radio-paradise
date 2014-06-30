@@ -3,6 +3,7 @@ body {
   font-size: 90%;
   cursor: default;
   -webkit-user-select: none;
+  background: #fff;
 }
 
 input[type="radio"] {
@@ -33,4 +34,21 @@ td:first-child {
 
 td:last-child {
   padding: 0 0 2em 2em;
+}
+
+#bugreport {
+  color: #999;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+pre {
+  border-color: #ccc;
+  border-style: groove;
+  border-width: 2px;
+  -webkit-user-select: text;
+  cursor: text;
+  padding: 9px;
+  margin: 2px;
+  background: #eee;
 }
