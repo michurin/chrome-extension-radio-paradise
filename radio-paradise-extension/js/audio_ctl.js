@@ -23,6 +23,7 @@ var audio_controller = (function () {
   var on_start_loading;
   var on_start_playing;
   var on_stop_playing;
+  var on_timeout_loading;
 
   var target_volume;
   var volume_ctl_timer;
@@ -49,30 +50,30 @@ var audio_controller = (function () {
         on_start_playing();
         change_volume();
       };
-      audio_element.onerror = function () {
-        if (volume_ctl_timer !== undefined) {
-          clearTimeout(volume_ctl_timer);
-          volume_ctl_timer = undefined;
+      setTimeout(function () { // watchdog
+        if (audio_element && audio_element.paused) {
+          if (volume_ctl_timer) {
+            clearTimeout(volume_ctl_timer);
+          }
+          on_timeout_loading(); // calls drop_audio_element by chain
         }
-        drop_audio_element();
-      };
+      }, 4000);
       audio_element.src = stream_url;
       audio_element.load();
-      volume_ctl_timer = 1;
       on_start_loading();
     } else {
       // continue
       var v = audio_element.volume;
       var sv = target_volume - v;
-      var dv = sv <= 0 ? -0.01 : 0.01;
+      var dv = sv <= 0 ? -0.02 : 0.01;
       var nv = v + dv;
-      if (sv * (target_volume - nv) <= 0) {
+      if (sv * (nv - target_volume) >= 0) {
         // fin
         if (target_volume <= 0) {
           drop_audio_element();
           return;
         }
-        nv = v;
+        nv = target_volume;
       } else {
         // continue
         volume_ctl_timer = setTimeout(change_volume, 25);
@@ -89,10 +90,11 @@ var audio_controller = (function () {
   }
 
   return {
-    set_callbacks: function (start_loading, start_playing, stop_playing) {
+    set_callbacks: function (start_loading, start_playing, stop_playing, timeout_loading) {
       on_start_loading = start_loading;
       on_start_playing = start_playing;
       on_stop_playing = stop_playing;
+      on_timeout_loading = timeout_loading;
     },
     set_volume: function (volume) {
       normal_volume = volume;

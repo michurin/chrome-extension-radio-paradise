@@ -4,8 +4,8 @@
  * MIT License [http://www.opensource.org/licenses/mit-license.php]
  */
 
-/*global window */
-/*global streams, storage */
+/*global window, chrome */
+/*global streams, storage, toggle_playing_state, on_storage_change */
 /*jslint
   indent:   2,
   vars:     true,
@@ -23,7 +23,7 @@
 
   function radio_change(e) {
     return function () {
-      storage.set_stream(e.id);
+      storage.set({stream_id: e.id});
     };
   }
 
@@ -47,22 +47,36 @@
     }
   }
 
-  storage.on.update_play_pause_element = function (state) {
-    play_pause_element.className = state ? 'play-on' : 'play-off';
+  play_pause_element.onclick = function (event) {
+    event.preventDefault();
+    toggle_playing_state();
   };
 
-  storage.get_all(function (vol, stream, state) {
-    volume_element.value = vol;
-    volume_element.disabled = false;
+  function update_play_pause_element(state) {
+    play_pause_element.className = state ? 'play-on' : 'play-off';
+  }
+
+  on_storage_change(function (ch) {
+    if (ch.playing) {
+      // can be changed by
+      // - @here
+      // - watchdog in background page
+      update_play_pause_element(ch.playing.newValue);
+    }
+  });
+
+  storage.get({
+    playing: false,
+    volume: 0.75,
+    stream_id: streams.def.stream
+  }, function (x) {
+    update_play_pause_element(x.playing);
+    volume_element.value = Math.round(x.volume * 100);
     volume_element.oninput = function () {
-      storage.set_volume(this.value);
+      storage.set({volume: this.value / 100});
     };
-    play_pause_element.onclick = function (event) {
-      event.preventDefault();
-      storage.toggle_playing_state();
-    };
-    storage.on.update_play_pause_element(state);
-    window.document.getElementById(stream).checked = true;
+    volume_element.disabled = false;
+    window.document.getElementById(x.stream_id).checked = true;
   });
 
 }());

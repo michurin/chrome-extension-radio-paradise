@@ -15,16 +15,23 @@
 "use strict";
 
 (function () {
-  storage.get_all(function (a, b, c, control_mode) {
-    console.log('DEBUG:', a, b, c, control_mode);
-    window.document.getElementById(control_mode).checked = true;
+
+  function pupup_setter(v) {
+    return function () {
+      storage.set({popup: v});
+    };
+  }
+
+  storage.get({
+    popup: true
+  }, function (x) {
+    window.document.getElementById(x.popup ? 'popup' : 'one-click').checked = true;
     Array.prototype.slice.call(
       window.document.querySelectorAll('input[name="control_mode"]')
     ).forEach(function (v, n) {
       v.disabled = false;
-      v.onchange = function () {
-        storage.set_control_mode(this.id);
-      };
+      v.onchange = pupup_setter(v.id === 'popup');
     });
   });
+
 }());

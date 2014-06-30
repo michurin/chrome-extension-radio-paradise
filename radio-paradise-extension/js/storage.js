@@ -15,46 +15,18 @@
 
 'use strict';
 
-var storage = {
-  get_all: function (f) {
-    chrome.storage.local.get(['volume', 'stream', 'play_state', 'control_mode'], function (a) {
-      f(
-        a.volume || 75,
-        a.stream || streams.def.stream,
-        a.play_state === true,
-        a.control_mode === 'one-click' ? 'one-click' : 'popup'
-      );
-    });
-  },
-  set_volume: function (volume) {
-    storage.__runtime('update_volume', volume);
-    chrome.storage.local.set({volume: volume});
-  },
-  set_stream: function (stream) {
-    storage.__runtime('reset_media_source', stream);
-    chrome.storage.local.set({stream: stream});
-  },
-  set_control_mode: function (mode) {
-    chrome.storage.local.set({control_mode: mode});
-    storage.__runtime('update_control_mode', mode);
-  },
-  toggle_playing_state: function () {
-    chrome.storage.local.get('play_state', function (a) {
-      var state = !a.play_state;
-      storage.__runtime('play_pause', state);
-      chrome.storage.local.set({play_state: state}, function () {
-        if (storage.on.update_play_pause_element) {
-          storage.on.update_play_pause_element(state);
-        }
-      });
-    });
-  },
-  on: { // event handlers
-    update_play_pause_element: null,
-  },
-  __runtime: function (name, params) {
-    chrome.runtime.getBackgroundPage(function (w) {
-      w[name](params);
-    });
-  }
-};
+var storage = chrome.storage.local;
+
+function toggle_playing_state() {
+  storage.get({playing: false}, function (x) {
+    storage.set({playing: !x.playing});
+  });
+}
+
+function on_storage_change(f) {
+  chrome.storage.onChanged.addListener(function (ch, area) {
+    if (area === 'local') {
+      f(ch);
+    }
+  });
+}

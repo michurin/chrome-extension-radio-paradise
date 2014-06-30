@@ -5,7 +5,7 @@
  */
 
 /*global window, chrome */
-/*global streams, storage, audio_controller */
+/*global streams, storage, audio_controller, on_storage_change, toggle_playing_state */
 /*jslint
   indent:   2,
   vars:     true,
@@ -18,33 +18,12 @@
 
   var browser_action = chrome.browserAction;
 
-  // publick
-
-  window.play_pause = audio_controller.set_state;
-
-  window.update_volume = function (vol) {
-    audio_controller.set_volume(vol / 100);
-  };
-
-  window.reset_media_source = function (stream) {
-    audio_controller.set_stream(streams.map[stream].url);
-  };
-
-  window.update_control_mode = function (mode) {
-    browser_action.setPopup({
-      popup: mode === 'popup' ? 'popup.html' : ''
-    });
-  };
-
-  // private
-
   function init() {
     browser_action.setBadgeBackgroundColor({color: '#942'});
-    storage.get_all(function (vol, stream, state, mode) {
-      window.reset_media_source(stream);
-      window.update_volume(vol);
-      window.play_pause(state);
-      window.update_control_mode(mode);
+    storage.get({
+      popup: true
+    }, function (x) {
+      browser_action.setPopup({popup: x.popup ? 'popup.html' : ''});
     });
   }
 
@@ -54,15 +33,44 @@
     };
   }
 
-  // bindings
+  // we must setup audio every time we load page
 
-  browser_action.onClicked.addListener(storage.toggle_playing_state); // fired only if popup not set
-  chrome.runtime.onStartup.addListener(init); // not fired on installed
-  chrome.runtime.onInstalled.addListener(init);
+  (function () {
+    browser_action.setBadgeBackgroundColor({color: '#942'});
+    storage.get({
+      volume: 0.75,
+      playing: false,
+      stream_id: streams.def.stream
+    }, function (x) {
+      audio_controller.set_stream(streams.map[x.stream_id].url);
+      audio_controller.set_volume(x.volume);
+      audio_controller.set_state(x.playing);
+    });
+  }());
+
+  // bindings (every loading too)
+
+  browser_action.onClicked.addListener(toggle_playing_state); // fired only if popup not set
   audio_controller.set_callbacks(
     badge_updater('…'),
-    badge_updater('\u25ba'),
-    badge_updater('')
+    badge_updater('►'),
+    badge_updater(''),
+    function () {
+      storage.set({playing: false});
+    }
   );
+  on_storage_change(function (ch) {
+    if (ch.volume) {
+      audio_controller.set_volume(ch.volume.newValue);
+    } else if (ch.playing) {
+      audio_controller.set_state(ch.playing.newValue);
+    } else if (ch.stream_id) {
+      audio_controller.set_stream(streams.map[ch.stream_id.newValue].url);
+    } else if (ch.popup) {
+      browser_action.setPopup({popup: ch.popup.newValue ? 'popup.html' : ''});
+    }
+  });
+  chrome.runtime.onStartup.addListener(init); // not fired on installed
+  chrome.runtime.onInstalled.addListener(init);
 
 }());
