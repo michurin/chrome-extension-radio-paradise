@@ -87,7 +87,9 @@
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4) {
         var info = parse_song_info(xhr.responseXML);
-        display_song_info(info);
+        if (info) {
+          display_song_info(info);
+        }
         setTimeout(get_song_info, 20000);
       }
     };
