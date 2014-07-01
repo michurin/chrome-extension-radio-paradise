@@ -6,16 +6,13 @@ body {
   background: #fff;
 }
 
-input[type="radio"] {
+input[type="radio"], label {
   margin: 0;
+  vertical-align: middle;
 }
 
 input:focus {
   outline: 0;
-}
-
-fieldset {
-  vertical-align: middle;
 }
 
 h1 {
