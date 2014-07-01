@@ -82,4 +82,10 @@
     init();
   });
 
+  // reload if update available, but isn't installed immediately
+  // because the background page is currently running
+  chrome.runtime.onUpdateAvailable.addListener(function () {
+    chrome.runtime.reload();
+  });
+
 }());
