@@ -4,7 +4,7 @@
  * MIT License [http://www.opensource.org/licenses/mit-license.php]
  */
 
-/*global window, chrome */
+/*global window */
 /*global storage */
 /*jslint
   indent:   2,
