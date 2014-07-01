@@ -21,7 +21,13 @@
     <input type="radio" name="control_mode" id="one-click" disabled="disabled"></input>
     <label for="one-click">One-click control</label>
   </fieldset>
-  <p><small id="bugreport">bug report</small></p>
+  <p>
+    <small>
+      <span id="bugreport">bug report</span> |
+      <span id="reload">reload extension</span>
+    </small>
+  </p>
+  <pre id="bugreport-body"></pre>
   </td>
   </tr>
   </table>
@@ -29,5 +35,6 @@
   <script src="js/storage.js"></script>
   <script src="js/options.js"></script>
   <script src="js/bugreport.js"></script>
+  <script src="js/reload.js"></script>
 </body>
 </html>

@@ -33,8 +33,11 @@ td:last-child {
   padding: 0 0 2em 2em;
 }
 
-#bugreport {
+small {
   color: #999;
+}
+
+#bugreport, #reload {
   text-decoration: underline;
   cursor: pointer;
 }
@@ -48,4 +51,5 @@ pre {
   padding: 9px;
   margin: 2px;
   background: #eee;
+  display: none;
 }

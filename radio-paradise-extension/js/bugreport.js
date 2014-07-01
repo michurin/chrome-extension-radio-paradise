@@ -17,14 +17,12 @@
 (function () {
 
   var bugreport_element = window.document.getElementById('bugreport');
-  var root_element = bugreport_element.parentElement;
+  var root_element = window.document.getElementById('bugreport-body');
 
   bugreport_element.onclick = function () {
+    root_element.style.display = 'block';
     storage.get(null, function (stor) {
-      root_element.removeChild(bugreport_element);
-      var e = window.document.createElement('pre');
-      root_element.appendChild(e);
-      e.innerText =
+      root_element.innerText =
         'Contributions and bug reports are welcome from anyone!\n' +
         'Please attach this summary to your bug report.\n\n' +
         JSON.stringify({
@@ -39,4 +37,5 @@
         chrome.app.getDetails().author;
     });
   };
+
 }());
