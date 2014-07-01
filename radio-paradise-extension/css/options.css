@@ -37,7 +37,7 @@ small {
   color: #999;
 }
 
-#bugreport, #reload {
+span {
   text-decoration: underline;
   cursor: pointer;
 }

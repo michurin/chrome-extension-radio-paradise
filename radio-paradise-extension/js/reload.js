@@ -16,7 +16,9 @@
 (function () {
 
   window.document.getElementById('reload').onclick = function () {
-    chrome.runtime.reload();
+    if (window.confirm('Are you sure you want to reload extension?')) {
+      chrome.runtime.reload();
+    }
   };
 
 }());
