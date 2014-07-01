@@ -24,10 +24,9 @@
       e.style.height = 'auto';
       e.style.overflow = 'visible';
       return;
-    } else {
-      e.style.height = nh + 'px';
     }
-    setTimeout(function() {
+    e.style.height = nh + 'px';
+    setTimeout(function () {
       step_animation(e, th, step);
     }, 20);
   }

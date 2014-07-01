@@ -5,15 +5,18 @@
  */
 
 /*global window, chrome */
+/*global storage */
 /*jslint
   indent:   2,
   vars:     true,
   plusplus: true
 */
 
+'use strict';
+
 (function () {
 
-  var bugreport_element = window.document.getElementById('bugreport')
+  var bugreport_element = window.document.getElementById('bugreport');
   var root_element = bugreport_element.parentElement;
 
   bugreport_element.onclick = function () {
@@ -33,7 +36,7 @@
         'what you experienced (screenshots) and what you expected\n' +
         '(unless that is obvious).\n\n' +
         'Thanks for reporting!\n\n' +
-      chrome.app.getDetails().author;
+        chrome.app.getDetails().author;
     });
   };
 }());
