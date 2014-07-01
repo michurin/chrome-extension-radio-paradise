@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "Radio Paradise player",
-  "version": "0.5.1.1",
+  "version": "0.5.1.2",
   "minimum_chrome_version": "22",
 
   "description": "Chrome extension to easily listen Radio Paradise stream",

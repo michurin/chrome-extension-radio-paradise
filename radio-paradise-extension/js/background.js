@@ -5,7 +5,7 @@
  */
 
 /*global window, chrome */
-/*global streams, storage, audio_controller, on_storage_change, toggle_playing_state */
+/*global streams, storage, audio_controller, on_storage_change, toggle_playing_state, update_field */
 /*jslint
   indent:   2,
   vars:     true,
@@ -42,6 +42,8 @@
       playing: false,
       stream_id: streams.def.stream
     }, function (x) {
+      update_field('last_init');
+      storage.set({last_init_args: x});
       audio_controller.set_stream(streams.map[x.stream_id].url);
       audio_controller.set_volume(x.volume);
       audio_controller.set_state(x.playing);
@@ -70,7 +72,14 @@
       browser_action.setPopup({popup: ch.popup.newValue ? 'popup.html' : ''});
     }
   });
-  chrome.runtime.onStartup.addListener(init); // not fired on installed
-  chrome.runtime.onInstalled.addListener(init);
+  chrome.runtime.onStartup.addListener(function () {
+    // not fired on installed
+    update_field('last_startup');
+    init();
+  });
+  chrome.runtime.onInstalled.addListener(function () {
+    update_field('last_install');
+    init();
+  });
 
 }());

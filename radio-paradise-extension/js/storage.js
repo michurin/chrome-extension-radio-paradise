@@ -30,3 +30,9 @@ function on_storage_change(f) {
     }
   });
 }
+
+function update_field(name) {
+  var p = {};
+  p[name] = (new Date()).toUTCString();
+  storage.set(p);
+}
