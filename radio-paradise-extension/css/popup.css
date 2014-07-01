@@ -124,7 +124,7 @@ label {
   border-width: 3px;
   -webkit-animation: spin 2s infinite linear;
   display: inline-block;
-  margin: 10px;
+  margin: 20px;
 }
 
 @-webkit-keyframes spin {
@@ -134,12 +134,24 @@ label {
 
 #song-info-image {
   margin: 8px 0;
+  font-size: 0;
 }
 
-#song-info-image img {
-  width: 140px;
+#song-image-border {
   padding: 8px;
   border: 1px solid #963b21;
+  display: inline-block;
+}
+
+#song-image-keeper {
+  margin: 0;
+  border: 0;
+}
+
+img {
+  width: 140px;
+  margin: 0;
+  border: 0;
 }
 
 #song-info-text {

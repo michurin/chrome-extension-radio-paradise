@@ -17,11 +17,42 @@
 
   var RP_INFO_URL = 'http://radioparadise.com/ajax_xml_song_info.php?song_id=now';
 
+  function step_animation(e, th, step) {
+    var ch = e.clientHeight;
+    var nh = ch + step;
+    if ((ch - th) * (th - nh) >= 0) {
+      e.style.height = 'auto';
+      e.style.overflow = 'visible';
+      return;
+    } else {
+      e.style.height = nh + 'px';
+    }
+    setTimeout(function() {
+      step_animation(e, th, step);
+    }, 20);
+  }
+
+  function start_animation(e, ih, eh) {
+    var d = eh - ih;
+    var step;
+    if (d < 0) {
+      step = -4;
+    } else if (d > 0) {
+      step = 4;
+    } else {
+      return;
+    }
+    e.style.height = ih + 'px';
+    e.style.overflow = 'hidden';
+    step_animation(e, eh, step);
+  }
+
   var prev_fingerprint = '';
 
   function display_song_info(info) {
     if (info.fingerprint !== prev_fingerprint) {
       var g, e = window.document.getElementById('song-info-text');
+      var ih = e.clientHeight;
       e.innerText = '';
       [['artist', 'Artist'], ['title', 'Title'], ['album', 'Album']].forEach(
         function (v, n) {
@@ -39,12 +70,17 @@
           }
         }
       );
-      e = window.document.getElementById('song-info-image');
+      var eh = e.clientHeight;
+      start_animation(e, ih, eh);
+      e = window.document.getElementById('song-image-keeper');
       if (info.med_cover) {
         g = window.document.createElement('img');
         g.onload = function () {
+          var ih = e.clientHeight;
           e.innerText = '';
           e.appendChild(g);
+          var eh = e.clientHeight;
+          start_animation(e, ih, eh);
         };
         g.src = info.med_cover;
       } else {
