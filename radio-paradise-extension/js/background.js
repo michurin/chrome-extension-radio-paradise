@@ -58,6 +58,7 @@
     badge_updater('►'),
     badge_updater(''),
     function () {
+      update_field('last_stream_timeout');
       storage.set({playing: false});
     }
   );
