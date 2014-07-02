@@ -4,7 +4,7 @@
  * MIT License [http://www.opensource.org/licenses/mit-license.php]
  */
 
-/*global window */
+/*global window, chrome */
 /*global storage */
 /*jslint
   indent:   2,
@@ -16,10 +16,10 @@
 
 (function () {
 
-  window.document.getElementById('clear-storage').onclick = function () {
+  window.document.getElementById('hard-reload').onclick = function () {
     if (window.confirm('Are you sure you want to clear local storage of this extension? Extensions data will be lost: sound volume, media source etc.')) {
       storage.clear(function () {
-        window.alert('OK. Extension local storage cleaned.');
+        chrome.runtime.reload();
       });
     }
   };
