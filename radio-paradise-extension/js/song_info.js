@@ -17,7 +17,10 @@
 
   var RP_INFO_URL = 'http://radioparadise.com/ajax_xml_song_info.php?song_id=now';
 
+  var animation_timer;
+
   function step_animation(e, th, step) {
+    animation_timer = undefined;
     var ch = e.clientHeight;
     var nh = ch + step;
     if ((ch - th) * (th - nh) >= 0) {
@@ -26,7 +29,7 @@
       return;
     }
     e.style.height = nh + 'px';
-    setTimeout(function () {
+    animation_timer = setTimeout(function () {
       step_animation(e, th, step);
     }, 20);
   }
@@ -43,7 +46,9 @@
     }
     e.style.height = ih + 'px';
     e.style.overflow = 'hidden';
-    step_animation(e, eh, step);
+    if (!animation_timer) {
+      step_animation(e, eh, step);
+    }
   }
 
   var prev_fingerprint = '';
