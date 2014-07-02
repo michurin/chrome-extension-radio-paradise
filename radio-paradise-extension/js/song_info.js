@@ -16,80 +16,106 @@
 (function () {
 
   var RP_INFO_URL = 'http://radioparadise.com/ajax_xml_song_info.php?song_id=now';
-
-  var animation_timer;
-
-  function step_animation(e, th, step) {
-    animation_timer = undefined;
-    var ch = e.clientHeight;
-    var nh = ch + step;
-    if ((ch - th) * (th - nh) >= 0) {
-      e.style.height = 'auto';
-      e.style.overflow = 'visible';
-      return;
-    }
-    e.style.height = nh + 'px';
-    animation_timer = setTimeout(function () {
-      step_animation(e, th, step);
-    }, 20);
-  }
-
-  function start_animation(e, ih, eh) {
-    var d = eh - ih;
-    var step;
-    if (d < 0) {
-      step = -4;
-    } else if (d > 0) {
-      step = 4;
-    } else {
-      return;
-    }
-    e.style.height = ih + 'px';
-    e.style.overflow = 'hidden';
-    if (!animation_timer) {
-      step_animation(e, eh, step);
-    }
-  }
+  var ERROR_IMAGE_URL = 'images/0.jpg';
 
   var prev_fingerprint = '';
 
+  var song_info_element = window.document.getElementById('song-info-text');
+  var song_info_element_wrapper = window.document.getElementById('song-info-text-wrapper');
+
+  var animator_of_textbox = window.animator_generator(function (v) {
+    song_info_element.style.height = Math.round(v) + 'px';
+  }, function () {
+    song_info_element.style.overflow = 'visible';
+    song_info_element.style.height = 'auto';
+  });
+
+  var song_image_element = window.document.getElementById('song-image-keeper');
+  var song_image_element_wrapper = window.document.getElementById('song-image-border');
+
+  var animator_of_imagebox = window.animator_generator(function (v) {
+    song_image_element.style.height = Math.round(v) + 'px';
+  }, function () {
+    song_image_element.style.overflow = 'visible';
+    song_image_element.style.height = 'auto';
+  });
+
+  function seq(a, b) {
+    var f, x, m, i, s = [], J = 20;
+    m = b - a;
+    for (i = 0; i <= J; ++i) {
+      // like f = Math.sin(i/J * Math.PI/2) but better
+      x = i / J - 2;
+      f = (4 - x * x) / 3; // 0..1
+      s.push(a + m * f);
+    }
+    return s;
+  }
+
+  function lock_size(e) {
+    e.style.overflowY = 'hidden';
+    e.style.height = e.clientHeight + 'px';
+  }
+
+  function unlock_size(e) {
+    e.style.overflowY = 'visible';
+    e.style.height = 'auto';
+  }
+
   function display_song_info(info) {
     if (info.fingerprint !== prev_fingerprint) {
-      var g, e = window.document.getElementById('song-info-text');
-      var ih = e.clientHeight;
-      e.innerText = '';
+      // prepare text
+      lock_size(song_info_element_wrapper); // lock wraper
+      // render new content
+      var ih = song_info_element.clientHeight;
+      song_info_element.style.overflow = 'visible';
+      song_info_element.style.height = 'auto';
+      // clean
+      song_info_element.innerText = '';
+      // fill
       [['artist', 'Artist'], ['title', 'Title'], ['album', 'Album']].forEach(
         function (v, n) {
           var x;
           var t = info[v[0]];
           if (t) {
             x = window.document.createElement('div');
-            x.innerText += ' ' + v[1];
+            x.innerText = '• ' + v[1] + ' •';
             x.className = 'song-info-title';
-            e.appendChild(x);
+            song_info_element.appendChild(x);
             x = window.document.createElement('div');
-            x.innerText += ' ' + t;
+            x.innerText = t;
             x.className = 'song-info';
-            e.appendChild(x);
+            song_info_element.appendChild(x);
           }
         }
       );
-      var eh = e.clientHeight;
-      start_animation(e, ih, eh);
-      e = window.document.getElementById('song-image-keeper');
+      var fh = song_info_element.clientHeight;
+      // prepare to animate
+      song_info_element.style.overflow = 'hidden';
+      song_info_element.style.height = ih + 'px';
+      unlock_size(song_info_element_wrapper);
+      animator_of_textbox(seq(ih, fh)); // start animation
+      // prepare image
+      var url = ERROR_IMAGE_URL;
       if (info.med_cover) {
-        g = window.document.createElement('img');
-        g.onload = function () {
-          var ih = e.clientHeight;
-          e.innerText = '';
-          e.appendChild(g);
-          var eh = e.clientHeight;
-          start_animation(e, ih, eh);
-        };
-        g.src = info.med_cover;
-      } else {
-        e.innerText = '';
+        url = info.med_cover;
       }
+      var g = window.document.createElement('img');
+      g.onload = function () {
+        var ih = song_image_element.clientHeight;
+        lock_size(song_image_element_wrapper);
+        song_image_element.innerText = '';
+        song_image_element.appendChild(g);
+        var fh = song_image_element.clientHeight;
+        song_image_element.style.overflow = 'hidden';
+        song_image_element.style.height = ih + 'px';
+        unlock_size(song_image_element_wrapper);
+        animator_of_imagebox(seq(ih, fh)); // start animation
+      };
+      g.onerror = function () {
+        g.src = ERROR_IMAGE_URL;
+      };
+      g.src = url;
     }
     prev_fingerprint = info.fingerprint;
   }
