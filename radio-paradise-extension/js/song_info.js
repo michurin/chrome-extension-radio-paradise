@@ -5,6 +5,7 @@
  */
 
 /*global window */
+/*global animator_generator */
 /*jslint
   indent:   2,
   vars:     true,
@@ -23,7 +24,7 @@
   var song_info_element = window.document.getElementById('song-info-text');
   var song_info_element_wrapper = window.document.getElementById('song-info-text-wrapper');
 
-  var animator_of_textbox = window.animator_generator(function (v) {
+  var animator_of_textbox = animator_generator(function (v) {
     song_info_element.style.height = Math.round(v) + 'px';
   }, function () {
     song_info_element.style.overflow = 'visible';
@@ -33,7 +34,7 @@
   var song_image_element = window.document.getElementById('song-image-keeper');
   var song_image_element_wrapper = window.document.getElementById('song-image-border');
 
-  var animator_of_imagebox = window.animator_generator(function (v) {
+  var animator_of_imagebox = animator_generator(function (v) {
     song_image_element.style.height = Math.round(v) + 'px';
   }, function () {
     song_image_element.style.overflow = 'visible';

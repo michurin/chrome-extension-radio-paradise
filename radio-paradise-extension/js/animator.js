@@ -13,7 +13,7 @@
 
 'use strict';
 
-window.animator_generator = function (cb_step, cb_fin) {
+var animator_generator = function (cb_step, cb_fin) {
   var current_strategy = [];
   function step() {
     var v = current_strategy.shift();
