@@ -39,21 +39,21 @@ td {
 }
 
 .play-on {
-  width: 0;
-  height: 0;
-  border-top: 7px solid transparent;
-  border-bottom: 7px solid transparent;
-  border-left: 14px solid #f8cc83;
-  cursor: pointer;
-}
-
-.play-off {
   width: 4px;
   height: 14px;
   border-top: 0;
   border-bottom: 0;
   border-left: 5px solid #f8cc83;
   border-right: 5px solid #f8cc83;
+  cursor: pointer;
+}
+
+.play-off {
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 14px solid #f8cc83;
   cursor: pointer;
 }
 
