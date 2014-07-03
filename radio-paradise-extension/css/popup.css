@@ -35,6 +35,7 @@ td {
 #play-pause-button {
   width: 14px;
   height: 14px;
+  cursor: pointer;
 }
 
 .sub-title {
