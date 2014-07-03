@@ -54,10 +54,10 @@ var audio_controller = (function () {
         on_start_playing();
         change_volume();
       };
-      setTimeout(function () { // watchdog
+      window.setTimeout(function () { // watchdog
         if (audio_element && audio_element.paused) {
           if (volume_ctl_timer) {
-            clearTimeout(volume_ctl_timer);
+            window.clearTimeout(volume_ctl_timer);
           }
           on_timeout_loading(); // calls drop_audio_element by chain
         }
@@ -80,7 +80,7 @@ var audio_controller = (function () {
         nv = target_volume;
       } else {
         // continue
-        volume_ctl_timer = setTimeout(change_volume, 25);
+        volume_ctl_timer = window.setTimeout(change_volume, 25);
       }
       audio_element.volume = nv;
     }

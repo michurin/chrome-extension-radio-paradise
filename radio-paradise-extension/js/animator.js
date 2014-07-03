@@ -21,7 +21,7 @@ window.animator_generator = function (cb_step, cb_fin) {
     if (current_strategy.length === 0) {
       cb_fin();
     } else {
-      setTimeout(step, 33);
+      window.setTimeout(step, 33);
     }
   }
   return function (strategy) {

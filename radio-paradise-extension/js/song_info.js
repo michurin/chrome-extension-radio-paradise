@@ -156,11 +156,11 @@
         if (info) {
           display_song_info(info);
         }
-        setTimeout(get_song_info, 20000);
+        window.setTimeout(get_song_info, 20000);
       }
     };
     xhr.onerror = function () {
-      setTimeout(get_song_info, 5000);
+      window.setTimeout(get_song_info, 5000);
     };
     xhr.open('GET', RP_INFO_URL, true);
     xhr.send();
