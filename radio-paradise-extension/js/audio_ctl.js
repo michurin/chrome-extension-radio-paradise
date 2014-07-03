@@ -30,8 +30,12 @@ var audio_controller = (function () {
   var audio_element;
 
   function drop_audio_element() {
+    // force abort of buffering
+    audio_element.pause();
+    audio_element.src = '';
     body_element.removeChild(audio_element);
     audio_element = undefined;
+    // /force
     on_stop_playing();
   }
 
