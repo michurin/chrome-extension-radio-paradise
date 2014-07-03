@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "Radio Paradise player",
-  "version": "0.7.1.2",
+  "version": "0.8.0.0",
   "minimum_chrome_version": "22",
 
   "description": "Chrome extension to easily listen Radio Paradise stream",
@@ -30,7 +30,8 @@
       "js/audio_ctl.js",
       "js/streams.js",
       "js/storage.js",
-      "js/background.js"
+      "js/background.js",
+      "js/dom_keeper.js"
     ],
     "persistent": false
   },

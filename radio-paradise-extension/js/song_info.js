@@ -63,6 +63,15 @@
     e.style.height = 'auto';
   }
 
+  function save_childs(k, e) {
+    window.dom_keeper.set(k, Array.prototype.map.call(
+      e.childNodes,
+      function (x) {
+        return x.cloneNode(true);
+      }
+    ));
+  }
+
   function display_song_info(info) {
     if (info.fingerprint !== prev_fingerprint) {
       // prepare text
@@ -91,6 +100,8 @@
         }
       );
       var fh = song_info_element.clientHeight;
+      // save in cache
+      save_childs('song_info_text', song_info_element);
       // prepare to animate
       song_info_element.style.overflow = 'hidden';
       song_info_element.style.height = ih + 'px';
@@ -108,17 +119,20 @@
         song_image_element.innerText = '';
         song_image_element.appendChild(g);
         var fh = song_image_element.clientHeight;
+        save_childs('song_info_image', song_image_element);
         song_image_element.style.overflow = 'hidden';
         song_image_element.style.height = ih + 'px';
         unlock_size(song_image_element_wrapper);
         animator_of_imagebox(seq(ih, fh)); // start animation
+        // set and save fingerprint
+        prev_fingerprint = info.fingerprint;
+        window.dom_keeper.set('song_info_fp', prev_fingerprint);
       };
       g.onerror = function () {
         g.src = ERROR_IMAGE_URL;
       };
       g.src = url;
     }
-    prev_fingerprint = info.fingerprint;
   }
 
   function parse_song_info(dom) {
@@ -167,6 +181,22 @@
     xhr.send();
   }
 
-  get_song_info();
+  function fill_from_cache(a, e) {
+    if (a) {
+      e.innerText = '';
+      a.forEach(function (v, n) {
+        e.appendChild(v);
+      });
+    }
+  }
+
+  window.dom_keeper.get_all(function (cache) {
+    fill_from_cache(cache.song_info_text, song_info_element);
+    fill_from_cache(cache.song_info_image, song_image_element);
+    if (cache.song_info_fp) {
+      prev_fingerprint = cache.song_info_fp;
+    }
+    get_song_info();
+  });
 
 }());
