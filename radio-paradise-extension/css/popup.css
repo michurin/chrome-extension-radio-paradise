@@ -76,7 +76,7 @@ input[type=range]::-webkit-slider-thumb {
   height: 12px;
   border: 0;
   border-radius: 4px;
-  background-image: linear-gradient(#fbeed7, #fbd186);
+  background: linear-gradient(#fbeed7, #fbd186);
   cursor: pointer;
 }
 
@@ -86,7 +86,7 @@ input[type="radio"] {
 
 input[type="radio"]:checked + label {
   color: #963b21;
-  background-image: linear-gradient(#fbeed7, #fbd186);
+  background: linear-gradient(#fbeed7, #fbd186);
   cursor: default;
 }
 
