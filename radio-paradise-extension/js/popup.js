@@ -53,7 +53,7 @@
   };
 
   function update_play_pause_element(state) {
-    play_pause_element.src = 'images/' + (state ? 'play-on' : 'play-off') + '.svg';
+    play_pause_element.src = 'images/' + (state ? 'play-off' : 'play-on') + '.svg';
   }
 
   on_storage_change(function (ch) {
