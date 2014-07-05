@@ -23,7 +23,6 @@ window.dom_keeper = (function () {
     },
     get_all: function (f) {
       chrome.runtime.getBackgroundPage(function (w) {
-        console.log('BG:', w);
         f(w.dom_keeper.get_all());
       });
     }

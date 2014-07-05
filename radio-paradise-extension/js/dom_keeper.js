@@ -27,8 +27,6 @@ window.dom_keeper = (function () {
 
   return {
     set: function (k, v) {
-      console.log(k);
-      console.log(v);
       cache[k] = v;
       if (expire_timer_id) {
         window.clearTimeout(expire_timer_id);
@@ -36,7 +34,6 @@ window.dom_keeper = (function () {
       expire_timer_id = window.setTimeout(expire, CACHE_EXPIRATION_MS);
     },
     get_all: function () {
-      console.log('return', cache);
       return cache; // return cache itself, not a copy
     }
   };
