@@ -16,73 +16,59 @@ var streams = {};
 
 streams.list = [
   ['ogg-32k', {
-    type: 'ogg',
-    title: '32k',
+    title: 'ogg 32k',
     url: 'http://stream-tx3.radioparadise.com/rp_32.ogg'
   }],
   ['ogg-96k', {
-    type: 'ogg',
-    title: '96k',
+    title: 'ogg 96k',
     url: 'http://stream-tx3.radioparadise.com/rp_96.ogg'
   }],
   ['ogg-96k-uk', {
-    type: 'ogg',
-    title: '96k (uk)',
+    title: 'ogg 96k (uk)',
     url: 'http://stream-uk1.radioparadise.com/rp-96.ogg'
   }],
   ['ogg-96k-ru', {
-    type: 'ogg',
-    title: '96k (ru)',
+    title: 'ogg 96k (ru)',
     url: 'http://stream-ru1.radioparadise.com:9000/rp_96.ogg'
   }],
   ['ogg-192k', {
-    type: 'ogg',
-    title: '192k',
+    title: 'ogg 192k',
     url: 'http://stream-tx3.radioparadise.com/rp_192.ogg'
   }],
   ['mp3-32k-us', {
-    type: 'mp3',
-    title: '32k (us)',
+    title: 'mp3 32k (us)',
     url: 'http://stream-dc1.radioparadise.com/mp3-32'
   }],
   ['mp3-32k-eu', {
-    type: 'mp3',
-    title: '32k (eu)',
+    title: 'mp3 32k (eu)',
     url: 'http://stream-uk1.radioparadise.com/mp3-32'
   }],
   ['mp3-128k-us-tx', {
-    type: 'mp3',
-    title: '128k (us-tx)',
+    title: 'mp3 128k (us-tx)',
     url: 'http://stream-tx1.radioparadise.com/mp3-128'
   }],
   ['mp3-128k-us-dc', {
-    type: 'mp3',
-    title: '128k (us-dc)',
+    title: 'mp3 128k (us-dc)',
     url: 'http://stream-dc1.radioparadise.com/mp3-128'
   }],
   ['mp3-128k-eu', {
-    type: 'mp3',
-    title: '128k (eu)',
+    title: 'mp3 128k (eu)',
     url: 'http://stream-uk1.radioparadise.com/mp3-128'
   }],
   ['mp3-128k-ru', {
-    type: 'mp3',
-    title: '128k (ru)',
+    title: 'mp3 128k (ru)',
     url: 'http://stream-ru1.radioparadise.com:9000/mp3-128'
   }],
   ['mp3-192k-us-tx', {
-    type: 'mp3',
-    title: '192k (us-tx)',
+    title: 'mp3 192k (us-tx)',
     url: 'http://stream-tx3.radioparadise.com/mp3-192'
   }],
   ['mp3-192k-us-dc', {
-    type: 'mp3',
-    title: '192k (us-dc)',
+    title: 'mp3 192k (us-dc)',
     url: 'http://stream-dc1.radioparadise.com/mp3-192'
   }],
   ['mp3-192k-eu', {
-    type: 'mp3',
-    title: '192k (eu)',
+    title: 'mp3 192k (eu)',
     url: 'http://stream-uk1.radioparadise.com/mp3-192'
   }]
 ];

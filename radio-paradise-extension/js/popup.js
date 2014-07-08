@@ -19,34 +19,6 @@
   var volume_element = window.document.querySelector('input[name="volume"]');
   var play_pause_element = window.document.getElementById('play-pause-button');
 
-  var i, v, e, root, j, tp, tps = ['ogg', 'mp3'];
-
-  function radio_change(e) {
-    return function () {
-      storage.set({stream_id: e.id});
-    };
-  }
-
-  for (j = 0; j < 2; j++) {
-    tp = tps[j];
-    root = window.document.getElementById('streams-selector-' + tp);
-    for (i = 0; i < streams.list.length; ++i) {
-      v = streams.list[i];
-      if (v[1].type === tp) {
-        e = window.document.createElement('input');
-        e.type = 'radio';
-        e.name = 'stream';
-        e.id = v[0];
-        e.onchange = radio_change(e);
-        root.appendChild(e);
-        e = window.document.createElement('label');
-        e.setAttribute('for', v[0]);
-        e.innerText = v[1].title;
-        root.appendChild(e);
-      }
-    }
-  }
-
   play_pause_element.onclick = function (event) {
     event.preventDefault();
     toggle_playing_state();
