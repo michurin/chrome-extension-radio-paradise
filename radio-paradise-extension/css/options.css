@@ -92,3 +92,7 @@ img {
   top: 10px;
   left: 10px;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
