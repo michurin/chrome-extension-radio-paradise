@@ -6,31 +6,45 @@
   <link rel="stylesheet" href="css/options.css"></link>
 </head>
 <body>
+
   <img src="images/logo-64x64.png">
+
   <div id="body">
-  <h1><b>Options</b> | Radio Paradise player</h1>
-  <fieldset>
-    <legend>Control mode</legend>
-    <input type="radio" name="control_mode" id="popup" disabled="disabled"></input>
-    <label for="popup">Popup window</label>
-    <br>
-    <input type="radio" name="control_mode" id="one-click" disabled="disabled"></input>
-    <label for="one-click">One-click control</label>
-  </fieldset>
-  <p>
-    <small>
-      <span id="bugreport">bug report</span> |
-      <span id="reload">reload extension</span> |
-      <span id="hard-reload">hard reset extension and all it settings</span>
-    </small>
-  </p>
-  <pre id="bugreport-body"></pre>
+    <h1><b>Options</b> | Radio Paradise player</h1>
+    <p>
+      <fieldset>
+        <legend>Control mode</legend>
+        <input type="radio" name="control_mode" id="popup" disabled="disabled"></input>
+        <label for="popup">Popup window</label>
+        <br>
+        <input type="radio" name="control_mode" id="one-click" disabled="disabled"></input>
+        <label for="one-click">One-click control</label>
+      </fieldset>
+    </p>
+    <p>
+      <fieldset id="streams-list">
+        <legend>Streams on popup window</legend>
+      </fieldset>
+    </p>
+    <p>
+      <small>
+        <span id="bugreport">bug report</span> |
+        <span id="reload">reload extension</span> |
+        <span id="hard-reload">hard reset extension and all it settings</span>
+      </small>
+    </p>
+    <p>
+      <pre id="bugreport-body"></pre>
+    </p>
   </div>
+
   <script src="js/streams.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/options.js"></script>
+
   <script src="js/bugreport.js"></script>
   <script src="js/reload.js"></script>
   <script src="js/clear_storage.js"></script>
+
 </body>
 </html>

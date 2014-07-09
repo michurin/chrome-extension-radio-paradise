@@ -16,6 +16,47 @@
 
 (function () {
 
+  function init_stream_selectors(hidden_streams) {
+
+    var si = window.document.getElementById('stream-info');
+    var ss = window.document.getElementById('stream-selectors');
+
+    function radio_change(sid) {
+      return function () {
+        storage.set({stream_id: sid});
+      };
+    }
+
+    streams.list.forEach(function (v) {
+      if (hidden_streams[v[0]]) {
+        return;
+      }
+      var d = window.document.createElement('div');
+      var s = window.document.createElement('span');
+      s.innerText = v[1].title;
+      d.appendChild(s);
+      si.appendChild(d);
+      var e = window.document.createElement('input');
+      e.type = 'radio';
+      e.name = 'stream';
+      e.id = v[0];
+      e.onchange = radio_change(v[0]);
+      ss.appendChild(e);
+      e = window.document.createElement('label');
+      e.setAttribute('for', v[0]);
+      e.innerText = '●';
+      e.onmouseover = function () {
+        d.style.opacity = 0.8;
+      };
+      e.onmouseout = function () {
+        d.style.opacity = 0;
+      };
+      ss.appendChild(e);
+    });
+
+  }
+
+
   var volume_element = window.document.querySelector('input[name="volume"]');
   var play_pause_element = window.document.getElementById('play-pause-button');
 
@@ -40,7 +81,8 @@
   storage.get({
     playing: false,
     volume: 0.75,
-    stream_id: streams.def.stream
+    stream_id: streams.def.stream,
+    hidden_streams: {}
   }, function (x) {
     update_play_pause_element(x.playing);
     volume_element.value = Math.round(x.volume * 100);
@@ -48,7 +90,12 @@
       storage.set({volume: this.value / 100});
     };
     volume_element.disabled = false;
-    window.document.getElementById(x.stream_id).checked = true;
+    init_stream_selectors(x.hidden_streams);
+    // element can be null if it hidden
+    var e = window.document.getElementById(x.stream_id);
+    if (e) {
+      e.checked = true;
+    }
   });
 
 }());
