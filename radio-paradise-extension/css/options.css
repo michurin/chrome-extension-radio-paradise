@@ -35,7 +35,7 @@ b, a {
   color: #555;
 }
 
-cpan {
+#streams-list span {
   color: #950;
 }
 
@@ -49,11 +49,6 @@ a:hover {
 
 small {
   color: #999;
-}
-
-span {
-  text-decoration: underline;
-  cursor: pointer;
 }
 
 pre {
@@ -95,4 +90,24 @@ img {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+fieldset {
+  margin: 1em 0;
+}
+
+#volume-control span {
+  float: left;
+  border: 1px outset #ddd;
+  background: #ddd;
+}
+
+#volume-plus, #volume-minus {
+  padding: 0 0.3em;
+  cursor: pointer;
+}
+
+#volume-value {
+  text-align: center;
+  min-width: 4em;
 }

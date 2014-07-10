@@ -42,9 +42,27 @@
     };
   }
 
+  function update_streams_list(sid) {
+    var act = 'active-' + sid;
+    Array.prototype.slice.call(
+      window.document.querySelectorAll('#streams-list span')
+    ).forEach(function (v, n) {
+      if (v.id === act) {
+        v.innerText = ' ★ ';
+        v.title = 'current stream';
+        v.className = '';
+        v.onclick = undefined;
+      } else {
+        v.innerText = ' ☆ ';
+        v.title = 'choose stream';
+        v.className = 'cursor-pointer';
+        v.onclick = stream_activator(v.id.substr(7)); // cut off 'active-'
+      }
+    });
+  }
+
   function streams_list(state) { // state.hidden_streams, state.stream_id
     var fs = window.document.getElementById('streams-list');
-    fs.innerText = '';
     streams.list.forEach(function (v, n) {
       if (n > 0) {
         fs.appendChild(window.document.createElement('br'));
@@ -59,16 +77,10 @@
       e = window.document.createElement('label');
       e.setAttribute('for', eid);
       g = window.document.createElement('b');
-      g.innerText = ' ' + v[1].title + ' ';
+      g.innerText = ' ' + v[1].title;
       e.appendChild(g);
-      g = window.document.createElement('cpan');
-      if (v[0] === state.stream_id) {
-        g.innerText = '(current) ';
-      } else {
-        g.innerText = '► ';
-        g.className = 'cursor-pointer';
-        g.onclick = stream_activator(v[0]);
-      }
+      g = window.document.createElement('span');
+      g.id = 'active-' + v[0];
       e.appendChild(g);
       g = window.document.createElement('a');
       g.target = '_blank';
@@ -77,6 +89,24 @@
       e.appendChild(g);
       fs.appendChild(e);
     });
+    update_streams_list(state.stream_id);
+  }
+
+  function update_volume(vol) {
+    window.document.getElementById('volume-value').innerText = Math.round(vol * 100) + '%';
+  }
+
+  function volume_changer(dv) {
+    return function () {
+      storage.get({volume: 0.75}, function (x) {
+        var v = x.volume;
+        v += dv;
+        v = Math.round(v * 10) / 10;
+        v = v > 1 ? 1 : v;
+        v = v < 0 ? 0 : v;
+        storage.set({volume: v});
+      });
+    };
   }
 
   on_storage_change(function (ch) {
@@ -84,16 +114,17 @@
       // can be changed by
       // - @here
       // - popup window
-      storage.get({
-        stream_id: streams.def.stream,
-        hidden_streams: {}
-      }, streams_list);
+      update_streams_list(ch.stream_id.newValue);
+    }
+    if (ch.volume) {
+      update_volume(ch.volume.newValue);
     }
   });
 
   storage.get({
     popup: true,
     stream_id: streams.def.stream,
+    volume: 0.75,
     hidden_streams: {}
   }, function (state) {
     // control mode
@@ -104,6 +135,10 @@
       v.disabled = false;
       v.onchange = pupup_setter(v.id === 'popup');
     });
+    // volue controller
+    update_volume(state.volume);
+    window.document.getElementById('volume-plus').onclick = volume_changer(0.1);
+    window.document.getElementById('volume-minus').onclick = volume_changer(-0.1);
     // streams
     streams_list(state);
   });

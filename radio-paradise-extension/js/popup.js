@@ -56,7 +56,6 @@
 
   }
 
-
   var volume_element = window.document.querySelector('input[name="volume"]');
   var play_pause_element = window.document.getElementById('play-pause-button');
 
