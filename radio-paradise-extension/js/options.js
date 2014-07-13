@@ -125,7 +125,7 @@
     popup: true,
     stream_id: streams.def.stream,
     volume: 0.75,
-    hidden_streams: {}
+    hidden_streams: streams.hidden_by_default
   }, function (state) {
     // control mode
     window.document.getElementById(state.popup ? 'popup' : 'one-click').checked = true;

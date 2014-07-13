@@ -52,6 +52,7 @@
         d.style.opacity = 0;
       };
       ss.appendChild(e);
+      ss.appendChild(window.document.createTextNode(' '));
     });
 
   }
@@ -81,7 +82,7 @@
     playing: false,
     volume: 0.75,
     stream_id: streams.def.stream,
-    hidden_streams: {}
+    hidden_streams: streams.hidden_by_default
   }, function (x) {
     update_play_pause_element(x.playing);
     volume_element.value = Math.round(x.volume * 100);
@@ -90,7 +91,7 @@
     };
     volume_element.disabled = false;
     init_stream_selectors(x.hidden_streams);
-    // element can be null if it hidden
+    // element can be null if it hidden (by checkbox on options page)
     var e = window.document.getElementById(x.stream_id);
     if (e) {
       e.checked = true;
