@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# stop 1. collect a list of *.m3u files
+# step 1. collect a list of *.m3u files
 
 collection='collection.tmp'
 

@@ -10,6 +10,56 @@ var vm = require('vm');
 
 vm.runInThisContext(fs.readFileSync(STREAMS_JS), STREAMS_JS);
 
+var map = {};
+
+streams.list.forEach(function (v) {
+  map[v[0]] = {
+    code: 'null',
+    dt: 'null'
+  };
+});
+
+function http_call(n) {
+  var v = streams.list[n];
+  if (v === undefined) {
+    fs.appendFileSync(
+      STAT_FILE,
+      (new Date()).toString() + '\n' +
+      create_line(streams.list.map(function (x) {return x[0]})) + '\n' +
+      create_line(streams.list.map(function (x) {var p = map[x[0]].code; return p === 200 ? 'ok' : p;})) + '\n' +
+      create_line(streams.list.map(function (x) {return map[x[0]].dt})) + '\n'
+    );
+    return;
+  }
+  ++n;
+  var nik = v[0];
+  var addr = v[1].url;
+  var up = url.parse(addr);
+  var start = Date.now();
+  var req = http.request({
+    hostname: up.hostname,
+    port: up.port,
+    path: up.path,
+    method: 'GET'
+  }, function (r) {
+    collector(nik, r.statusCode, Date.now() - start);
+    r.destroy();
+    wait_and_http_call(n);
+  });
+  req.shouldKeepAlive = false;
+  req.on('error', function(e) {
+    collector(nik, e.errno, Date.now() - start, e.message);
+    wait_and_http_call(n);
+  });
+  req.end();
+}
+
+function wait_and_http_call(n) {
+  setTimeout(function () {
+    http_call(n);
+  }, 1000);
+}
+
 function create_line(a) {
   return a.map(function(v) {
     v = v.toString();
@@ -24,54 +74,21 @@ function create_line(a) {
   }).join(' ');
 }
 
-var collector = (function (streams) {
-  var map = {};
-  var count = streams.length;
-  streams.forEach(function (v) {
-    map[v[0]] = null;
-  });
-  return function(nik, code, dt, error) {
-    if (error) {
-      fs.appendFileSync(
-        ERROR_LOG_FILE,
-        (new Date()).toString() + ' [' + nik + '] ' + code + ' ' + dt + 'ms ' + error + '\n'
-      )
-    }
-    map[nik] = {
-      code: code,
-      dt: dt,
-      error: error
-    }
-    if (--count === 0) {
-      console.log('FIN');
-      console.log(map);
-      console.log('====');
-      fs.appendFileSync(
-        STAT_FILE,
-        (new Date()).toString() + '\n' +
-        create_line(streams.map(function (x) {return x[0]})) + '\n' +
-        create_line(streams.map(function (x) {var p = map[x[0]].code; return p === 200 ? 'ok' : p;})) + '\n' +
-        create_line(streams.map(function (x) {return map[x[0]].dt})) + '\n'
-      );
-    }
-  };
-}(streams.list));
+function collector(nik, code, dt, error) {
+  console.log('collector', nik, code, dt, error);
+  if (error) {
+    fs.appendFileSync(
+      ERROR_LOG_FILE,
+      (new Date()).toString() + ' [' + nik + '] ' + code + ' ' + dt + 'ms ' + error + '\n'
+    )
+  }
+  map[nik] = {
+    code: code,
+    dt: dt,
+    error: error
+  }
+  console.log('====');
+  console.log(map);
+}
 
-streams.list.forEach(function (v, n) {
-  var nik = v[0];
-  var addr = v[1].url;
-  var up = url.parse(addr);
-  var start = Date.now();
-  var req = http.request({
-    hostname: up.hostname,
-    port: up.port,
-    path: up.path,
-    method: 'GET'
-  }, function (r) {
-    collector(nik, r.statusCode, Date.now() - start);
-  });
-  req.on('error', function(e) {
-    collector(nik, e.errno, Date.now() - start, e.message);
-  });
-  req.end();
-});
+http_call(0);
