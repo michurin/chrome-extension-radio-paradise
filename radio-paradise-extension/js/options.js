@@ -63,6 +63,7 @@
 
   function streams_list(state) { // state.hidden_streams, state.stream_id
     var fs = window.document.getElementById('streams-list');
+    var hs = state.hidden_streams || streams.hidden_by_default;
     streams.list.forEach(function (v, n) {
       if (n > 0) {
         fs.appendChild(window.document.createElement('br'));
@@ -72,7 +73,7 @@
       fs.appendChild(e);
       e.type = 'checkbox';
       e.id = eid;
-      e.checked = !state.hidden_streams[v[0]];
+      e.checked = !hs[v[0]];
       e.onchange = stream_setter(eid);
       e = window.document.createElement('label');
       e.setAttribute('for', eid);
@@ -125,7 +126,7 @@
     popup: true,
     stream_id: streams.def.stream,
     volume: 0.75,
-    hidden_streams: streams.hidden_by_default
+    hidden_streams: null // see comment in popup.js
   }, function (state) {
     // control mode
     window.document.getElementById(state.popup ? 'popup' : 'one-click').checked = true;

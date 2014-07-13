@@ -82,7 +82,7 @@
     playing: false,
     volume: 0.75,
     stream_id: streams.def.stream,
-    hidden_streams: streams.hidden_by_default
+    hidden_streams: null // we must NOT use object as default because chrome merge default and actual objects
   }, function (x) {
     update_play_pause_element(x.playing);
     volume_element.value = Math.round(x.volume * 100);
@@ -90,7 +90,7 @@
       storage.set({volume: this.value / 100});
     };
     volume_element.disabled = false;
-    init_stream_selectors(x.hidden_streams);
+    init_stream_selectors(x.hidden_streams || streams.hidden_by_default);
     // element can be null if it hidden (by checkbox on options page)
     var e = window.document.getElementById(x.stream_id);
     if (e) {
