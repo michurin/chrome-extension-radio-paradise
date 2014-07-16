@@ -5,7 +5,7 @@
  */
 
 /*global window, chrome */
-/*global streams, storage, toggle_playing_state, on_storage_change */
+/*global streams, storage, toggle_playing_state, on_storage_change, image_info_init */
 /*jslint
   indent:   2,
   vars:     true,
@@ -82,6 +82,7 @@
     playing: false,
     volume: 0.75,
     stream_id: streams.def.stream,
+    animation: true,
     hidden_streams: null // we must NOT use object as default because chrome merge default and actual objects
   }, function (x) {
     update_play_pause_element(x.playing);
@@ -96,6 +97,10 @@
     if (e) {
       e.checked = true;
     }
+    var not_animate = !x.animation;
+    window.dom_keeper.get_all(function (cache) {
+      image_info_init(cache, not_animate);
+    });
   });
 
 }());

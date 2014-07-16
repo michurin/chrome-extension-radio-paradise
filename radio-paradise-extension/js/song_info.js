@@ -5,7 +5,7 @@
  */
 
 /*global window */
-/*global animator_generator, open_url_in_new_tab */
+/*global height_animator_generator, open_url_in_new_tab */
 /*jslint
   indent:   2,
   vars:     true,
@@ -14,62 +14,29 @@
 
 'use strict';
 
-(function () {
+var image_info_init = (function () {
 
   var RP_INFO_URL = 'http://radioparadise.com/ajax_xml_song_info.php?song_id=now';
+  var RP_SONGINFO_BASE = 'http://www.radioparadise.com/rp2p-content.php?name=Music&file=songinfo&song_id=';
   var ERROR_IMAGE_URL = 'images/0.jpg';
 
   var prev_fingerprint = '';
 
-  var song_info_element = window.document.getElementById('song-info-text');
-  var song_info_element_wrapper = window.document.getElementById('song-info-text-wrapper');
+  var not_animate = false;
 
-  var animator_of_textbox = animator_generator(function (v) {
-    song_info_element.style.height = Math.round(v) + 'px';
-  }, function () {
-    song_info_element.style.overflow = 'visible';
-    song_info_element.style.height = 'auto';
-  });
-
-  var song_image_element = window.document.getElementById('song-image-keeper');
-  var song_image_element_wrapper = window.document.getElementById('song-image-border');
-
-  var animator_of_imagebox = animator_generator(function (v) {
-    song_image_element.style.height = Math.round(v) + 'px';
-  }, function () {
-    song_image_element.style.overflow = 'visible';
-    song_image_element.style.height = 'auto';
-  });
-
-  function seq(a, b) {
-    var f, x, m, i, s = [], J = 20;
-    m = b - a;
-    for (i = 0; i <= J; ++i) {
-      // like f = Math.sin(i/J * Math.PI/2) but better
-      x = i / J - 2;
-      f = (4 - x * x) / 3; // 0..1
-      s.push(a + m * f);
-    }
-    return s;
-  }
-
-  function lock_size(e) {
-    e.style.overflowY = 'hidden';
-    e.style.height = e.clientHeight + 'px';
-  }
-
-  function unlock_size(e) {
-    e.style.overflowY = 'visible';
-    e.style.height = 'auto';
-  }
+  var text_box_animator = height_animator_generator(
+    window.document.getElementById('song-info-text'),
+    window.document.getElementById('song-info-text-wrapper')
+  );
+  var image_box_animator = height_animator_generator(
+    window.document.getElementById('song-image-keeper'),
+    window.document.getElementById('song-image-border')
+  );
 
   function save_childs(k, e) {
-    window.dom_keeper.set(k, Array.prototype.map.call(
-      e.childNodes,
-      function (x) {
-        return x.cloneNode(true);
-      }
-    ));
+    window.dom_keeper.set(k, e.map(function (x) {
+      return x.cloneNode(true);
+    }));
   }
 
   function display_song_info(info) {
@@ -83,41 +50,29 @@
           return function () {
             open_url_in_new_tab(url);
           };
-        }('http://www.radioparadise.com/rp2p-content.php?name=Music&file=songinfo&song_id=' + songid));
+        }(RP_SONGINFO_BASE + songid));
       }
       // prepare text
-      lock_size(song_info_element_wrapper); // lock wraper
-      // render new content
-      var ih = song_info_element.clientHeight;
-      song_info_element.style.overflow = 'visible';
-      song_info_element.style.height = 'auto';
-      // clean
-      song_info_element.innerText = '';
-      // fill
+      var content = [];
       [['artist', 'Artist'], ['title', 'Title'], ['album', 'Album']].forEach(
-        function (v, n) {
+        function (v) {
           var x;
           var t = info[v[0]];
           if (t) {
             x = window.document.createElement('div');
             x.innerText = '• ' + v[1] + ' •';
             x.className = 'song-info-title';
-            song_info_element.appendChild(x);
+            content.push(x);
             x = window.document.createElement('div');
             x.innerText = t;
             x.className = 'song-info';
-            song_info_element.appendChild(x);
+            content.push(x);
           }
         }
       );
-      var fh = song_info_element.clientHeight;
+      text_box_animator(content, not_animate);
       // save in cache
-      save_childs('song_info_text', song_info_element);
-      // prepare to animate
-      song_info_element.style.overflow = 'hidden';
-      song_info_element.style.height = ih + 'px';
-      unlock_size(song_info_element_wrapper);
-      animator_of_textbox(seq(ih, fh)); // start animation
+      save_childs('song_info_text', content);
       // prepare image
       var url = ERROR_IMAGE_URL;
       if (info.med_cover) {
@@ -125,16 +80,8 @@
       }
       var g = window.document.createElement('img');
       g.onload = function () {
-        var ih = song_image_element.clientHeight;
-        lock_size(song_image_element_wrapper);
-        song_image_element.innerText = '';
-        song_image_element.appendChild(g);
-        var fh = song_image_element.clientHeight;
-        save_childs('song_info_image', song_image_element);
-        song_image_element.style.overflow = 'hidden';
-        song_image_element.style.height = ih + 'px';
-        unlock_size(song_image_element_wrapper);
-        animator_of_imagebox(seq(ih, fh)); // start animation
+        image_box_animator([g], not_animate);
+        save_childs('song_info_image', [g]);
         // set and save fingerprint
         prev_fingerprint = info.fingerprint;
         window.dom_keeper.set('song_info_fp', prev_fingerprint);
@@ -159,7 +106,7 @@
       fingerprint: ''
     };
     ['artist', 'title', 'album', 'med_cover', 'songid'].forEach(
-      function (v, n) {
+      function (v) {
         var ee, e;
         ee = fc.getElementsByTagName(v);
         if (ee.length > 0) {
@@ -192,22 +139,18 @@
     xhr.send();
   }
 
-  function fill_from_cache(a, e) {
-    if (a) {
-      e.innerText = '';
-      a.forEach(function (v, n) {
-        e.appendChild(v);
-      });
+  return function (cache, not_animate_arg) {
+    not_animate = not_animate_arg;
+    if (cache.song_info_text) {
+      text_box_animator(cache.song_info_text, true);
     }
-  }
-
-  window.dom_keeper.get_all(function (cache) {
-    fill_from_cache(cache.song_info_text, song_info_element);
-    fill_from_cache(cache.song_info_image, song_image_element);
+    if (cache.song_info_image) {
+      image_box_animator(cache.song_info_image, true);
+    }
     if (cache.song_info_fp) {
       prev_fingerprint = cache.song_info_fp;
     }
     get_song_info();
-  });
+  };
 
 }());

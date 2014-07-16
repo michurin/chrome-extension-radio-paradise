@@ -158,16 +158,13 @@ label {
 
 #song-info-image {
   margin: 8px 0;
-  font-size: 0;
-}
-
-#song-image-border {
   padding: 8px;
+  font-size: 0;
   border: 1px solid #963b21;
   display: inline-block;
 }
 
-#song-image-keeper {
+#song-image-border, #song-image-keeper {
   margin: 0;
   border: 0;
 }
@@ -178,8 +175,8 @@ img {
   border: 0;
 }
 
-#song-info-text {
-  margin: 5px 0;
+#song-info-text-wrapper {
+  margin: 8px 0;
 }
 
 .song-info {

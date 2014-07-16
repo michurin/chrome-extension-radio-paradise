@@ -22,16 +22,14 @@
     };
   }
 
-  function stream_setter(v) {
-    return function () {
-      var vv = {};
-      Array.prototype.slice.call(
-        window.document.getElementById('streams-list').querySelectorAll('input:not(:checked)')
-      ).forEach(function (v, n) {
-        vv[v.id.substr(7)] = true; // cut off 'stream-'
-      });
-      storage.set({hidden_streams: vv});
-    };
+  function stream_setter() {
+    var vv = {};
+    Array.prototype.slice.call(
+      window.document.getElementById('streams-list').querySelectorAll('input:not(:checked)')
+    ).forEach(function (v) {
+      vv[v.id.substr(7)] = true; // cut off 'stream-'
+    });
+    storage.set({hidden_streams: vv});
   }
 
   function stream_activator(sid) {
@@ -46,7 +44,7 @@
     var act = 'active-' + sid;
     Array.prototype.slice.call(
       window.document.querySelectorAll('#streams-list span')
-    ).forEach(function (v, n) {
+    ).forEach(function (v) {
       if (v.id === act) {
         v.innerText = ' ★ ';
         v.title = 'current stream';
@@ -74,7 +72,7 @@
       e.type = 'checkbox';
       e.id = eid;
       e.checked = !hs[v[0]];
-      e.onchange = stream_setter(eid);
+      e.onchange = stream_setter;
       e = window.document.createElement('label');
       e.setAttribute('for', eid);
       g = window.document.createElement('b');
@@ -122,17 +120,26 @@
     }
   });
 
+  function setup_animation(a) {
+    var e = window.document.getElementById('animation');
+    e.checked = a;
+    e.onchange = function () {
+      storage.set({animation: e.checked});
+    };
+  }
+
   storage.get({
     popup: true,
     stream_id: streams.def.stream,
     volume: 0.75,
+    animation: true,
     hidden_streams: null // see comment in popup.js
   }, function (state) {
     // control mode
     window.document.getElementById(state.popup ? 'popup' : 'one-click').checked = true;
     Array.prototype.slice.call(
       window.document.querySelectorAll('input[name="control_mode"]')
-    ).forEach(function (v, n) {
+    ).forEach(function (v) {
       v.disabled = false;
       v.onchange = pupup_setter(v.id === 'popup');
     });
@@ -140,6 +147,8 @@
     update_volume(state.volume);
     window.document.getElementById('volume-plus').onclick = volume_changer(0.1);
     window.document.getElementById('volume-minus').onclick = volume_changer(-0.1);
+    // animation
+    setup_animation(state.animation);
     // streams
     streams_list(state);
   });

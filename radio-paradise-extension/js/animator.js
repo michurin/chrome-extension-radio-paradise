@@ -13,7 +13,7 @@
 
 'use strict';
 
-var animator_generator = function (cb_step, cb_fin) {
+function animator_generator(cb_step, cb_fin) {
   var current_strategy = [];
   function step() {
     var v = current_strategy.shift();
@@ -31,4 +31,54 @@ var animator_generator = function (cb_step, cb_fin) {
       step();
     }
   };
-};
+}
+
+function height_animator_generator(wrapper, container) {
+  var animator = animator_generator(function (v) {
+    container.style.height = Math.round(v) + 'px';
+  }, function () {
+    container.style.overflow = 'visible';
+    container.style.height = 'auto';
+  });
+  function set_content(content) {
+    var i;
+    container.innerText = '';
+    for (i = 0; i < content.length; ++i) {
+      container.appendChild(content[i]);
+    }
+  }
+  return function (content, no_animation) {
+    if (no_animation) {
+      set_content(content);
+      return;
+    }
+    var ih = container.clientHeight;
+    container.style.overflow = 'visible';
+    container.style.height = 'auto';
+    wrapper.style.overflow = 'hidden';
+    wrapper.style.height = wrapper.clientHeight + 'px';
+    set_content(content);
+    var fh = container.clientHeight;
+    container.style.overflow = 'hidden';
+    container.style.height = ih + 'px';
+    wrapper.style.overflowY = 'visible';
+    wrapper.style.height = 'auto';
+    animator((function (a, b) {
+      var f, x, y, m, i, s = [], J = 20;
+      m = b - a;
+      if (m === 0) {
+        return s;
+      }
+      for (i = 0; i <= J; ++i) {
+        // like f = Math.sin(i/J * Math.PI/2) but better
+        x = i / J - 2;
+        y = x * x;
+        y = y * x;
+        y = y * y;
+        f = (64 - y) / 63; // 0..1
+        s.push(a + m * f);
+      }
+      return s;
+    }(ih, fh))); // start animation
+  };
+}
