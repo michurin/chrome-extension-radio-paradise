@@ -5,7 +5,7 @@
  */
 
 /*global window */
-/*global animator_generator */
+/*global animator_generator, open_url_in_new_tab */
 /*jslint
   indent:   2,
   vars:     true,
@@ -74,6 +74,17 @@
 
   function display_song_info(info) {
     if (info.fingerprint !== prev_fingerprint) {
+      // prepare onclick
+      var songid = info.songid;
+      if (songid) {
+        var e = window.document.getElementById('song-info');
+        e.style.cursor = 'pointer';
+        e.onclick = (function (url) {
+          return function () {
+            open_url_in_new_tab(url);
+          };
+        }('http://www.radioparadise.com/rp2p-content.php?name=Music&file=songinfo&song_id=' + songid));
+      }
       // prepare text
       lock_size(song_info_element_wrapper); // lock wraper
       // render new content
@@ -147,7 +158,7 @@
     var info = {
       fingerprint: ''
     };
-    ['artist', 'title', 'album', 'med_cover'].forEach(
+    ['artist', 'title', 'album', 'med_cover', 'songid'].forEach(
       function (v, n) {
         var ee, e;
         ee = fc.getElementsByTagName(v);
