@@ -73,9 +73,8 @@ function height_animator_generator(wrapper, container) {
         // like f = Math.sin(i/J * Math.PI/2) but better
         x = i / J - 2;
         y = x * x;
-        y = y * x;
         y = y * y;
-        f = (64 - y) / 63; // 0..1
+        f = (16 - y) / 15; // 0..1
         s.push(a + m * f);
       }
       return s;

@@ -29,8 +29,8 @@ var image_info_init = (function () {
     window.document.getElementById('song-info-text-wrapper')
   );
   var image_box_animator = height_animator_generator(
-    window.document.getElementById('song-image-keeper'),
-    window.document.getElementById('song-image-border')
+    window.document.getElementById('song-info-image'),
+    window.document.getElementById('song-info-image-wrapper')
   );
 
   function save_childs(k, e) {

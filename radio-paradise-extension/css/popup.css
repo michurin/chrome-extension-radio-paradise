@@ -156,27 +156,28 @@ label {
   to { -webkit-transform: rotate(360deg); }
 }
 
-#song-info-image {
-  margin: 8px 0;
+#song-info {
+  padding: 8px 0;
+}
+
+#song-info-image-decor {
+  margin: 0 0 8px 0;
   padding: 8px;
   font-size: 0;
   border: 1px solid #963b21;
   display: inline-block;
 }
 
-#song-image-border, #song-image-keeper {
+.no-decor {
   margin: 0;
-  border: 0;
+  border-width: 0;
+  padding: 0;
 }
 
 img {
   width: 140px;
   margin: 0;
   border: 0;
-}
-
-#song-info-text-wrapper {
-  margin: 8px 0;
 }
 
 .song-info {
