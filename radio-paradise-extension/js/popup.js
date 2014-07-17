@@ -23,6 +23,11 @@
 
     function radio_change(sid) {
       return function () {
+        Array.prototype.slice.call(
+          ss.querySelectorAll('img')
+        ).forEach(function (e) {
+          console.log(e, e.id, sid);
+        });
         storage.set({stream_id: sid});
       };
     }
@@ -36,21 +41,17 @@
       s.innerText = v[1].title;
       d.appendChild(s);
       si.appendChild(d);
-      var e = window.document.createElement('input');
-      e.type = 'radio';
-      e.name = 'stream';
-      e.id = v[0];
-      e.onchange = radio_change(v[0]);
-      ss.appendChild(e);
-      e = window.document.createElement('label');
-      e.setAttribute('for', v[0]);
-      e.innerText = '●';
+      var e = window.document.createElement('img');
+      e.className = 'stream-select-point';
+      e.src = 'images/stream-off.svg';
       e.onmouseover = function () {
         d.style.opacity = 0.8;
       };
       e.onmouseout = function () {
         d.style.opacity = 0;
       };
+      e.onclick = radio_change(v[0]);
+      e.id = v[0];
       ss.appendChild(e);
       ss.appendChild(window.document.createTextNode(' '));
     });
@@ -66,7 +67,16 @@
   };
 
   function update_play_pause_element(state) {
-    play_pause_element.src = 'images/' + (state ? 'play-off' : 'play-on') + '.svg';
+    play_pause_element.src = 'images/play-' + (state ? 'off' : 'on') + '.svg';
+  }
+
+  function update_selectors(sid) {
+    Array.prototype.slice.call(
+      window.document.querySelectorAll('#stream-selectors img')
+    ).forEach(function (e) {
+      e.src = 'images/stream-' + (e.id === sid ? 'on' : 'off') + '.svg';
+      console.log(e, e.id, sid, e.src);
+    });
   }
 
   on_storage_change(function (ch) {
@@ -75,6 +85,9 @@
       // - @here
       // - watchdog in background page
       update_play_pause_element(ch.playing.newValue);
+    }
+    if (ch.stream_id) {
+      update_selectors(ch.stream_id.newValue);
     }
   });
 
@@ -92,11 +105,7 @@
     };
     volume_element.disabled = false;
     init_stream_selectors(x.hidden_streams || streams.hidden_by_default);
-    // element can be null if it hidden (by checkbox on options page)
-    var e = window.document.getElementById(x.stream_id);
-    if (e) {
-      e.checked = true;
-    }
+    update_selectors(x.stream_id);
     var not_animate = !x.animation;
     window.dom_keeper.get_all(function (cache) {
       image_info_init(cache, not_animate);

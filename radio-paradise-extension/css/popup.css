@@ -82,7 +82,7 @@ td {
   white-space: nowrap;
   border: 1px solid #dd5731;
   border-radius: 6px;
-  margin: 1px;
+  margin: 4px 0;
   padding: 0 6px;
   cursor: pointer;
   color: #fbd186;
@@ -93,10 +93,6 @@ td {
 #stream-selectors {
   font-size: 0;
   text-align: center;
-}
-
-#stream-selectors label {
-  font-size: 11px;
 }
 
 input[type=range] {
@@ -121,22 +117,8 @@ input[type=range]::-webkit-slider-thumb {
   cursor: pointer;
 }
 
-input[type="radio"] {
-  display: none;
-}
-
-input[type="radio"]:checked + label {
-  color: #fbd186;
-  cursor: default;
-}
-
 input:focus {
   outline: 0;
-}
-
-label {
-  cursor: pointer;
-  font-size: 11px;
 }
 
 .loading {
@@ -168,16 +150,16 @@ label {
   display: inline-block;
 }
 
+#song-info-image-decor img {
+  width: 140px;
+  margin: 0;
+  border: 0;
+}
+
 .no-decor {
   margin: 0;
   border-width: 0;
   padding: 0;
-}
-
-img {
-  width: 140px;
-  margin: 0;
-  border: 0;
 }
 
 .song-info {
@@ -187,6 +169,12 @@ img {
 .song-info-title {
   padding: 2px 0;
   font-size: 8px;
+}
+
+.stream-select-point {
+  width: 8px;
+  margin: 1px;
+  cursor: pointer;
 }
 
 #rp-link {
