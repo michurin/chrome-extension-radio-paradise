@@ -107,6 +107,22 @@ fieldset {
   cursor: pointer;
 }
 
+#volume-plus:active, #volume-minus:active {
+  border-style: inset;
+}
+
+#volume-plus {
+  padding-right: 0.4em;
+  border-top-right-radius: 25%;
+  border-bottom-right-radius: 25%;
+}
+
+#volume-minus {
+  padding-left: 0.4em;
+  border-top-left-radius: 25%;
+  border-bottom-left-radius: 25%;
+}
+
 #volume-value {
   text-align: center;
   min-width: 4em;
