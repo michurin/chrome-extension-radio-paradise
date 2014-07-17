@@ -16,12 +16,13 @@
 function animator_generator(cb_step, cb_fin) {
   var current_strategy = [];
   function step() {
-    var v = current_strategy.shift();
-    cb_step(v);
+    var v;
     if (current_strategy.length === 0) {
       cb_fin();
     } else {
-      window.setTimeout(step, 33);
+      v = current_strategy.shift();
+      cb_step(v);
+      window.setTimeout(step, 20);
     }
   }
   return function (strategy) {
@@ -35,10 +36,12 @@ function animator_generator(cb_step, cb_fin) {
 
 function height_animator_generator(wrapper, container) {
   var animator = animator_generator(function (v) {
-    container.style.height = Math.round(v) + 'px';
+    container.style.height = v.height;
+    container.style.opacity = v.opacity;
   }, function () {
     container.style.overflow = 'visible';
     container.style.height = 'auto';
+    container.style.opacity = 1;
   });
   function set_content(content) {
     var i;
@@ -61,21 +64,22 @@ function height_animator_generator(wrapper, container) {
     var fh = container.clientHeight;
     container.style.overflow = 'hidden';
     container.style.height = ih + 'px';
+    container.style.opacity = 0;
     wrapper.style.overflowY = 'visible';
     wrapper.style.height = 'auto';
     animator((function (a, b) {
       var f, x, y, m, i, s = [], J = 20;
       m = b - a;
-      if (m === 0) {
-        return s;
-      }
-      for (i = 0; i <= J; ++i) {
+      for (i = 0; i < J; ++i) {
         // like f = Math.sin(i/J * Math.PI/2) but better
-        x = i / J - 2;
-        y = x * x;
-        y = y * y;
+        x = i / J; // 0..1
+        y = 4 - x * 3; // 4..1
+        y *= y; // 16..1
         f = (16 - y) / 15; // 0..1
-        s.push(a + m * f);
+        s.push({
+          height: Math.round(a + m * f) + 'px',
+          opacity: x * x
+        });
       }
       return s;
     }(ih, fh))); // start animation

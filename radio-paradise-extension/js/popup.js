@@ -21,13 +21,8 @@
     var si = window.document.getElementById('stream-info');
     var ss = window.document.getElementById('stream-selectors');
 
-    function radio_change(sid) {
+    function select_stream(sid) {
       return function () {
-        Array.prototype.slice.call(
-          ss.querySelectorAll('img')
-        ).forEach(function (e) {
-          console.log(e, e.id, sid);
-        });
         storage.set({stream_id: sid});
       };
     }
@@ -50,7 +45,7 @@
       e.onmouseout = function () {
         d.style.opacity = 0;
       };
-      e.onclick = radio_change(v[0]);
+      e.onclick = select_stream(v[0]);
       e.id = v[0];
       ss.appendChild(e);
       ss.appendChild(window.document.createTextNode(' '));
@@ -75,7 +70,6 @@
       window.document.querySelectorAll('#stream-selectors img')
     ).forEach(function (e) {
       e.src = 'images/stream-' + (e.id === sid ? 'on' : 'off') + '.svg';
-      console.log(e, e.id, sid, e.src);
     });
   }
 
