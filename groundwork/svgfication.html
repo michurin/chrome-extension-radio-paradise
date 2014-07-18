@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="svgfication.css"></link>
+<body bgcolor=black>
+
+<!-- ---------------------------------------------- -->
+
+<div style="border: 1px solid #fff; position: absolute; left: 0; top: 0; font-size: 0">
+<svg width="0" height="0">
+  <defs>
+    <linearGradient id="svg_light" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" />
+      <stop offset="100%" />
+    </linearGradient>
+    <linearGradient id="svg_dark" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" />
+      <stop offset="100%" />
+    </linearGradient>
+  </defs>
+</svg>
+<svg height="8" width="8" id="stream-point">
+  <g transform="scale(0.1)" stroke-width="10">
+    <circle cx="40" cy="40" r="35" class="svg-light element-on" />
+    <circle cx="40" cy="40" r="35" class="svg-dark element-off" />
+  </g>
+</svg>
+</div>
+
+<!-- ---------------------------------------------- -->
+
+<svg height="12" width="150" id="volume-control">
+  <g transform="scale(0.1)" stroke-width="10">
+    <path d="M 60 5 A 55 55 0 1 0 60 115 L 1440 115 A 55 55 0 1 0 1440 5 Z" class="svg-dark" />
+    <circle cx="60" cy="60" r="45" class="svg-light" />
+  </g>
+</svg>
+
+<!-- ---------------------------------------------- -->
+
+<svg height="12" width="12" id="sound-switch">
+  <g transform="scale(0.1)" stroke-linejoin="round" stroke-width="10px" class="svg-dark">
+    <g class="element-on">
+      <path d="M 5 5 L 45 5 L 45 115 L 5 115 Z" />
+      <path d="M 75 5 L 115 5 L 115 115 L 75 115 Z" />
+    </g>
+    <g class="element-off">
+      <path d="M 5 5 L 115 60 L 5 115 Z" />
+    </g>
+  </g>
+</svg>
+
+<!-- ---------------------------------------------- -->
+
+<div id="stream-selectors">
+</div>
+
+<!-- ---------------------------------------------- -->
+
+<script src="svgfication.js"></script>
+</body>
