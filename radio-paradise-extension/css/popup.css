@@ -95,6 +95,11 @@ td {
   text-align: center;
 }
 
+#stream-selectors svg {
+  cursor: pointer;
+  margin: 1px;
+}
+
 input[type=range] {
   -webkit-appearance: none;
   background: linear-gradient(#963b21, #dd5731);

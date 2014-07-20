@@ -20,6 +20,7 @@
 
     var si = window.document.getElementById('stream-info');
     var ss = window.document.getElementById('stream-selectors');
+    var pe = window.document.getElementById('stream-point');
 
     function select_stream(sid) {
       return function () {
@@ -36,11 +37,9 @@
       s.innerText = v[1].title;
       d.appendChild(s);
       si.appendChild(d);
-      var e = window.document.createElement('img');
-      e.className = 'stream-select-point';
-      e.src = 'images/stream-off.svg';
+      var e = pe.cloneNode(true);
       e.onmouseover = function () {
-        d.style.opacity = 0.8;
+        d.style.opacity = 0.85;
       };
       e.onmouseout = function () {
         d.style.opacity = 0;
@@ -68,9 +67,9 @@
 
   function update_selectors(sid) {
     Array.prototype.slice.call(
-      window.document.querySelectorAll('#stream-selectors img')
+      window.document.querySelectorAll('#stream-selectors svg')
     ).forEach(function (e) {
-      e.src = 'images/stream-' + (e.id === sid ? 'on' : 'off') + '.svg';
+      e.setAttribute('class', 'container-' + (e.id === sid ? 'on' : 'off'));
     });
   }
 
