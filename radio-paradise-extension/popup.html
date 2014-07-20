@@ -17,7 +17,7 @@
         <stop offset="0%" />
         <stop offset="100%" />
       </linearGradient>
-      <svg height="8" width="8" id="stream-point">
+      <svg height="8" width="8" id="stream-point" class="container-undef">
         <g transform="scale(0.1)" stroke-width="10">
           <circle cx="40" cy="40" r="35" class="svg-light element-on" />
           <circle cx="40" cy="40" r="35" class="svg-dark element-off" />
@@ -45,7 +45,14 @@
               </g>
             </svg>
           </td>
-          <td><input type="range" name="volume" min="1" max="100" disabled="disabled"></input></td>
+          <td>
+            <svg height="12" width="150" id="volume-control">
+              <g transform="scale(0.1)" stroke-width="10">
+                <path d="M 60 5 A 55 55 0 1 0 60 115 L 1440 115 A 55 55 0 1 0 1440 5 Z" class="svg-dark" />
+                <circle cx="60" cy="60" r="45" class="svg-light" />
+              </g>
+            </svg>
+          </td>
         </tr>
       </table>
     </div>

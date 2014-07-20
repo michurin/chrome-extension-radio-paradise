@@ -52,7 +52,27 @@
 
   }
 
-  var volume_element = window.document.querySelector('input[name="volume"]');
+  var volume_element = window.document.getElementById('volume-control');
+  var volume_element_is_active = false;
+
+  volume_element.onmousedown = function (e) {
+    volume_element_is_active = true;
+    window.document.body.onmousemove(e);
+  };
+
+  window.document.body.onmouseup = window.document.body.onmouseleave = function () {
+    volume_element_is_active = false;
+  };
+
+  window.document.body.onmousemove = function (e) {
+    if (volume_element_is_active) {
+      var p = volume_element.getBoundingClientRect();
+      var v = e.clientX - p.left - 6;
+      v = (v < 0 ? 0 : v > 138 ? 138 : v) / 138;
+      storage.set({volume: v});
+    }
+  };
+
   var play_pause_element = window.document.getElementById('play-pause-button');
 
   play_pause_element.onclick = function (event) {
@@ -73,6 +93,10 @@
     });
   }
 
+  function update_volume_element(volume) {
+    volume_element.getElementsByTagName('circle')[0].setAttribute('cx', volume * 1380 + 60);
+  }
+
   on_storage_change(function (ch) {
     if (ch.playing) {
       // can be changed by
@@ -82,6 +106,9 @@
     }
     if (ch.stream_id) {
       update_selectors(ch.stream_id.newValue);
+    }
+    if (ch.volume) {
+      update_volume_element(ch.volume.newValue);
     }
   });
 
@@ -93,11 +120,7 @@
     hidden_streams: null // we must NOT use object as default because chrome merge default and actual objects
   }, function (x) {
     update_play_pause_element(x.playing);
-    volume_element.value = Math.round(x.volume * 100);
-    volume_element.oninput = function () {
-      storage.set({volume: this.value / 100});
-    };
-    volume_element.disabled = false;
+    update_volume_element(x.volume);
     init_stream_selectors(x.hidden_streams || streams.hidden_by_default);
     update_selectors(x.stream_id);
     var not_animate = !x.animation;

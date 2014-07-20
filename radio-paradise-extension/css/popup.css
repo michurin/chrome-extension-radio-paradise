@@ -4,7 +4,7 @@ body {
   box-shadow: inset 0 0 8px #ffffff;
   padding: 5px;
   margin: 0;
-  color: #dd5731;
+  color: #f75325;
   cursor: default;
   -webkit-user-select: none;
 }
@@ -100,30 +100,8 @@ td {
   margin: 1px;
 }
 
-input[type=range] {
-  -webkit-appearance: none;
-  background: linear-gradient(#963b21, #dd5731);
-  overflow: hidden;
-  padding: 0;
-  margin: 0;
-  border: 1px solid #dd5731;
-  border-radius: 4px;
-  width: 150px;
-  height: 10px;
-}
-
-input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 10px;
-  height: 10px;
-  border: 0;
-  border-radius: 4px;
-  background: linear-gradient(#fbeed7, #fbd186);
+#volume-control {
   cursor: pointer;
-}
-
-input:focus {
-  outline: 0;
 }
 
 .loading {
