@@ -62,7 +62,7 @@ var audio_controller = (function () {
           drop_audio_element();
           on_timeout_loading();
         }
-      }, 4000);
+      }, 7000);
       audio_element.src = stream_url;
       audio_element.load();
       on_start_loading();
