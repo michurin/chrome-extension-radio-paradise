@@ -7,13 +7,38 @@
 </head>
 <body>
 
+  <svg width="0" height="0" style="float: right">
+    <defs>
+      <linearGradient id="svg_light" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" />
+        <stop offset="100%" />
+      </linearGradient>
+      <linearGradient id="svg_dark" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" />
+        <stop offset="100%" />
+      </linearGradient>
+    </defs>
+  </svg>
+
   <div class="wide">
 
     <div class="center title">Radio Paradise</div>
     <div>
       <table>
         <tr>
-          <td><img id="play-pause-button" src="images/play-undef.svg"></td>
+          <td>
+            <svg height="12" width="12" id="play-pause-button" class="container-undef">
+              <g transform="scale(0.1)" stroke-linejoin="round" stroke-width="10px" class="svg-dark">
+                <g class="element-on">
+                  <path d="M 5 5 L 45 5 L 45 115 L 5 115 Z" />
+                  <path d="M 75 5 L 115 5 L 115 115 L 75 115 Z" />
+                </g>
+                <g class="element-off">
+                  <path d="M 5 5 L 115 60 L 5 115 Z" />
+                </g>
+              </g>
+            </svg>
+          </td>
           <td><input type="range" name="volume" min="1" max="100" disabled="disabled"></input></td>
         </tr>
       </table>

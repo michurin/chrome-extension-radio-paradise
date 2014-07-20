@@ -186,3 +186,50 @@ input:focus {
 #rp-link:hover {
   text-decoration: underline;
 }
+
+/* svg related */
+
+#svg_light stop:nth-child(1) {
+  stop-color: #fbeed7;
+}
+#svg_light stop:nth-child(2) {
+  stop-color: #fbd186;
+}
+#svg_dark stop:nth-child(1) {
+  stop-color: #963b21;
+}
+#svg_dark stop:nth-child(2) {
+  stop-color: #dd5731;
+}
+
+.svg-light {
+  fill: url(#svg_light);
+  stroke: #fbeed7;
+}
+.svg-dark {
+  fill: url(#svg_dark);
+  stroke: #dd5731;
+}
+
+.element-on, .element-off {
+  transition: opacity 400ms ease-in-out;
+}
+
+.container-on .element-on {
+  opacity: 1;
+}
+.container-on .element-off {
+  opacity: 0;
+}
+.container-off .element-on {
+  opacity: 0;
+}
+.container-off .element-off {
+  opacity: 1;
+}
+.container-undef .element-on {
+  opacity: 0;
+}
+.container-undef .element-off {
+  opacity: 0;
+}

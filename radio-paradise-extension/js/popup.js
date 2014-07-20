@@ -62,7 +62,8 @@
   };
 
   function update_play_pause_element(state) {
-    play_pause_element.src = 'images/play-' + (state ? 'off' : 'on') + '.svg';
+    // className do not works in chrome 35-36
+    play_pause_element.setAttribute('class', 'container-' + (state ? 'on' : 'off'));
   }
 
   function update_selectors(sid) {
