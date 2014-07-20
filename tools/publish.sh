@@ -13,7 +13,7 @@ test -z "`git status --porcelain "$base"`" ||
   git status "$base"
   exit 1
 }
-exit
+
 manifest="$base/manifest.json"
 version=`python -c 'print(__import__("json").load(open("'$manifest'", "r"))["version"])'`
 target="$base-$version.zip"
