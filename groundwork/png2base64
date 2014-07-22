@@ -1,0 +1,9 @@
+#!/bin/sh
+
+(
+echo '<img src="data:image/png;base64,'
+openssl enc -base64 -in "$1"
+echo '">'
+) |
+perl -pe 's-\n--g'
+echo

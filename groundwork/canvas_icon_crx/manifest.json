@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "canvas icon",
+  "version": "1.1.1.1",
+  "minimum_chrome_version": "25",
+
+  "description": "canvas icon",
+  "icons": {},
+
+  "browser_action": {},
+
+  "permissions": [],
+
+  "background": { "scripts": [ "x.js" ] }
+}
