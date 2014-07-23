@@ -6,11 +6,7 @@
 
 /*global window */
 /*global height_animator_generator, open_url_in_new_tab */
-/*jslint
-  indent:   2,
-  vars:     true,
-  plusplus: true
-*/
+/*exported image_info_init */
 
 'use strict';
 

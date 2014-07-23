@@ -5,11 +5,6 @@
  */
 
 /*global window */
-/*jslint
-  indent:   2,
-  vars:     true,
-  plusplus: true
-*/
 
 'use strict';
 

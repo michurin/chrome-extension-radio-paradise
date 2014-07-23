@@ -5,11 +5,7 @@
  */
 
 /*global window */
-/*jslint
-  indent:   2,
-  vars:     true,
-  plusplus: true
-*/
+/*exported audio_controller */
 
 'use strict';
 

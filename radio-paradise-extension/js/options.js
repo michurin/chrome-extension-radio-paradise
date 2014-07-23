@@ -6,11 +6,6 @@
 
 /*global window */
 /*global storage, on_storage_change, streams */
-/*jslint
-  indent:   2,
-  vars:     true,
-  plusplus: true
-*/
 
 'use strict';
 

@@ -4,13 +4,8 @@
  * MIT License [http://www.opensource.org/licenses/mit-license.php]
  */
 
-/*global window, chrome */
+/*global chrome */
 /*global streams, storage, audio_controller, on_storage_change, toggle_playing_state, update_field */
-/*jslint
-  indent:   2,
-  vars:     true,
-  plusplus: true
-*/
 
 'use strict';
 

@@ -5,11 +5,7 @@
  */
 
 /*global chrome */
-/*jslint
-  indent:   2,
-  vars:     true,
-  plusplus: true
-*/
+/*exported open_url_in_new_tab */
 
 'use strict';
 

@@ -5,13 +5,7 @@
  */
 
 /*global chrome */
-/*global streams */
-/*jslint
-  indent:   2,
-  vars:     true,
-  plusplus: true,
-  nomen:    true
-*/
+/*exported storage, toggle_playing_state, on_storage_change, update_field */
 
 'use strict';
 

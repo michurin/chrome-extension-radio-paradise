@@ -4,11 +4,7 @@
  * MIT License [http://www.opensource.org/licenses/mit-license.php]
  */
 
-/*jslint
-  indent:   2,
-  vars:     true,
-  plusplus: true
-*/
+/*exported streams */
 
 'use strict';
 

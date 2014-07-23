@@ -6,11 +6,6 @@
 
 /*global window, chrome */
 /*global storage */
-/*jslint
-  indent:   2,
-  vars:     true,
-  plusplus: true
-*/
 
 'use strict';
 
