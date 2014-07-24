@@ -1,0 +1,43 @@
+body {
+  background: #fff;
+  color: #000;
+}
+
+button {
+  font: inherit;
+}
+
+#dialogs {
+  display: none;
+  font-size: 0;
+  position: fixed;
+  text-align: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+#dialogs > * {
+  box-shadow: none;
+  border-width: 0;
+  font-size: 0;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+#dialogs > *:first-child { /* align baseline */
+  height: 100%;
+}
+
+#dialogs > * > * {
+  display: none;
+  box-shadow: 0 0 1em 0.5em rgba(0, 0, 0, 0.4);
+  background: #fff;
+  color: #000;
+  border-radius: 0.5em;
+  padding: 0.5em;
+  border: 1px solid #000;
+  font-size: medium;
+}
