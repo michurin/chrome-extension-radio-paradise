@@ -57,31 +57,28 @@
   function streams_list(state) { // state.hidden_streams, state.stream_id
     var fs = window.document.getElementById('streams-list');
     var hs = state.hidden_streams || streams.hidden_by_default;
-    streams.list.forEach(function (v, n) {
-      if (n > 0) {
-        fs.appendChild(window.document.createElement('br'));
-      }
+    streams.list.forEach(function (v) {
       var eid = 'stream-' + v[0];
-      var g, e = window.document.createElement('input');
-      fs.appendChild(e);
+      var f = window.document.createElement('label');
+      f.setAttribute('for', eid);
+      var e = window.document.createElement('input');
       e.type = 'checkbox';
       e.id = eid;
       e.checked = !hs[v[0]];
       e.onchange = stream_setter;
-      e = window.document.createElement('label');
-      e.setAttribute('for', eid);
-      g = window.document.createElement('b');
-      g.innerText = ' ' + v[1].title;
-      e.appendChild(g);
-      g = window.document.createElement('span');
-      g.id = 'active-' + v[0];
-      e.appendChild(g);
-      g = window.document.createElement('a');
-      g.target = '_blank';
-      g.innerText = v[1].url;
-      g.href = v[1].url;
-      e.appendChild(g);
-      fs.appendChild(e);
+      f.appendChild(e);
+      e = window.document.createElement('b');
+      e.innerText = ' ' + v[1].title;
+      f.appendChild(e);
+      e = window.document.createElement('span');
+      e.id = 'active-' + v[0];
+      f.appendChild(e);
+      e = window.document.createElement('a');
+      e.target = '_blank';
+      e.innerText = v[1].url;
+      e.href = v[1].url;
+      f.appendChild(e);
+      fs.appendChild(f);
     });
     update_streams_list(state.stream_id);
   }

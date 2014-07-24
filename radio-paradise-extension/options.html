@@ -7,19 +7,21 @@
 </head>
 <body>
 
-  <img src="images/logo-64x64.png" widht="64" height="64">
-
-  <div id="body">
-
-    <h1><b>Options</b> | Radio Paradise player</h1>
+    <h1>
+      <img src="images/logo-48x48.png" widht="48" height="48">
+      <b>Options</b> | Radio Paradise player
+    </h1>
 
     <fieldset>
       <legend>Control mode</legend>
-      <input type="radio" name="control_mode" id="popup" disabled="disabled"></input>
-      <label for="popup">Popup window</label>
-      <br>
-      <input type="radio" name="control_mode" id="one-click" disabled="disabled"></input>
-      <label for="one-click">One-click control</label>
+      <label for="popup">
+        <input type="radio" name="control_mode" id="popup" disabled="disabled"></input>
+        Popup window
+      </label>
+      <label for="one-click">
+        <input type="radio" name="control_mode" id="one-click" disabled="disabled"></input>
+        One-click control
+      </label>
     </fieldset>
 
     <fieldset id="volume-control">
@@ -31,8 +33,10 @@
 
     <fieldset>
       <legend>Animation</legend>
-      <input type="checkbox" id="animation">
-      <label for="animation">Animate song info</label>
+      <label for="animation">
+        <input type="checkbox" id="animation">
+        Animate song info
+      </label>
     </fieldset>
 
     <fieldset id="streams-list">
@@ -48,8 +52,6 @@
     </p>
 
     <pre id="bugreport-body"></pre>
-
-  </div>
 
   <script src="js/streams.js"></script>
   <script src="js/storage.js"></script>
