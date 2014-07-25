@@ -47,16 +47,27 @@ function height_animator_generator(wrapper, container) {
     }
   }
   return function (content, no_animation) {
+    // content may be
+    // (i) array with elements to use or
+    // (ii) initial height if content already exists in root element
     if (no_animation) {
       set_content(content);
       return;
     }
-    var ih = container.clientHeight;
+    var predefined_content = (typeof content === 'number');
+    var ih;
+    if (predefined_content) {
+      ih = content;
+    } else {
+      ih = container.clientHeight;
+    }
     container.style.overflow = 'visible';
     container.style.height = 'auto';
     wrapper.style.overflow = 'hidden';
     wrapper.style.height = wrapper.clientHeight + 'px';
-    set_content(content);
+    if (!predefined_content) {
+      set_content(content);
+    }
     var fh = container.clientHeight;
     container.style.overflow = 'hidden';
     container.style.height = ih + 'px';
