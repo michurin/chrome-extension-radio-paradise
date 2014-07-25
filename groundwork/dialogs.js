@@ -10,10 +10,12 @@ var dialogs_generator = (function () {
   var dialogs = document.getElementById('dialogs');
   return function (name) {
     var e = document.getElementById(name);
+    var a = height_animator_generator(e, e.querySelector('div'));
     return {
       open: function () {
         dialogs.style.display = 'block';
         e.style.display = 'block';
+        a(0);
       },
       close: function () {
         dialogs.style.display = 'none';
