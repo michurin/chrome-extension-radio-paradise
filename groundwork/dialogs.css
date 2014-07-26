@@ -31,6 +31,14 @@ button {
   height: 100%;
 }
 
+#dialogs > #dialogs-sentinel { /* sentinel */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
 #dialogs > * > * {
   display: none;
   box-shadow: 0 0 1em 0.5em rgba(0, 0, 0, 0.4);
