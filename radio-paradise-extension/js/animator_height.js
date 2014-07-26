@@ -4,7 +4,6 @@
  * MIT License [http://www.opensource.org/licenses/mit-license.php]
  */
 
-/*global window */
 /*global animator_generator */
 /*exported height_animator_generator */
 
