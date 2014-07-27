@@ -15,11 +15,13 @@
   var root_element = window.document.getElementById('bugreport-body');
 
   bugreport_element.onclick = function () {
+
     root_element.style.display = 'block';
+    root_element.innerText = '';
+
     storage.get(null, function (stor) {
       window.dom_keeper.get_all(function (cache) {
 
-        root_element.innerText = '';
         root_element.innerText =
           'Contributions and bug reports are welcome from anyone!\n' +
           'Please attach this summary to your bug report.\n\n' +
@@ -70,8 +72,9 @@
           'Thanks for reporting!\n\n' +
           chrome.app.getDetails().author;
 
-      });
-    });
-  };
+      }); // window.dom_keeper.get_all
+    }); // storage.get
+
+  }; // onclick
 
 }());
