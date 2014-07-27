@@ -24,10 +24,21 @@ var image_info_init = (function () {
     window.document.getElementById('song-info-text'),
     window.document.getElementById('song-info-text-wrapper')
   );
+
   var image_box_animator = height_animator_generator(
     window.document.getElementById('song-info-image'),
     window.document.getElementById('song-info-image-wrapper')
   );
+
+  function make_clickable(songid) {
+    var e = window.document.getElementById('song-info');
+    e.style.cursor = 'pointer';
+    e.onclick = (function (url) {
+      return function () {
+        open_url_in_new_tab(url);
+      };
+    }(RP_SONGINFO_BASE + songid));
+  }
 
   function save_childs(k, e) {
     window.dom_keeper.set(k, e.map(function (x) {
@@ -40,13 +51,8 @@ var image_info_init = (function () {
       // prepare onclick
       var songid = info.songid;
       if (songid) {
-        var e = window.document.getElementById('song-info');
-        e.style.cursor = 'pointer';
-        e.onclick = (function (url) {
-          return function () {
-            open_url_in_new_tab(url);
-          };
-        }(RP_SONGINFO_BASE + songid));
+        make_clickable(songid);
+        window.dom_keeper.set('song_info_songid', songid);
       }
       // prepare text
       var content = [];
@@ -137,6 +143,9 @@ var image_info_init = (function () {
 
   return function (cache, not_animate_arg) {
     not_animate = not_animate_arg;
+    if (cache.song_info_songid) {
+      make_clickable(cache.song_info_songid);
+    }
     if (cache.song_info_text) {
       text_box_animator(cache.song_info_text, true);
     }
