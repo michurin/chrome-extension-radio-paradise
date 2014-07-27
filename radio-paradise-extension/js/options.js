@@ -20,7 +20,8 @@
   function stream_setter() {
     var vv = {};
     Array.prototype.slice.call(
-      window.document.getElementById('streams-list').querySelectorAll('input:not(:checked)')
+      window.document.getElementById('streams-list').querySelectorAll('input:not(:checked)'),
+      0
     ).forEach(function (v) {
       vv[v.id.substr(7)] = true; // cut off 'stream-'
     });
@@ -40,7 +41,8 @@
   function update_streams_list(sid) {
     var act = 'active-' + sid;
     Array.prototype.slice.call(
-      window.document.querySelectorAll('#streams-list span')
+      window.document.querySelectorAll('#streams-list span'),
+      0
     ).forEach(function (v) {
       if (v.id === act) {
         v.innerText = ' ★ ';
@@ -132,7 +134,8 @@
     // control mode
     window.document.getElementById(state.popup ? 'popup' : 'one-click').checked = true;
     Array.prototype.slice.call(
-      window.document.querySelectorAll('input[name="control_mode"]')
+      window.document.querySelectorAll('input[name="control_mode"]'),
+      0
     ).forEach(function (v) {
       v.disabled = false;
       v.onchange = pupup_setter(v.id === 'popup');
