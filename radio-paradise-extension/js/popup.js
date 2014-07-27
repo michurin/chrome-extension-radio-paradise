@@ -82,7 +82,8 @@
 
   function update_selectors(sid) {
     Array.prototype.slice.call(
-      window.document.querySelectorAll('#stream-selectors svg')
+      window.document.querySelectorAll('#stream-selectors svg'),
+      0
     ).forEach(function (e) {
       e.setAttribute('class', 'container-' + (e.id === sid ? 'on' : 'off'));
     });
