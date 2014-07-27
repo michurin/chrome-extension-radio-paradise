@@ -31,7 +31,9 @@
     return function (event) {
       event.stopPropagation();
       event.preventDefault();
-      storage.set({stream_id: sid}); // will be continued in on_storage_change handler
+      storage.set({
+        stream_id: sid
+      }); // will be continued in on_storage_change handler
     };
   }
 

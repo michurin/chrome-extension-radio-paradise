@@ -53,9 +53,39 @@
 
   <pre id="bugreport-body"></pre>
 
+  <div id="dialogs">
+    <div><!-- baseline aligner --></div>
+    <div><!-- boxes -->
+
+      <div id="dialog-reload">
+        <div>Are you sure you want to reload extension?</div>
+        <div style="overflow: hidden;">
+          <button style="float: left;" id="dialog-reload-cancel">cancel</button>
+          <button style="float: right;" id="dialog-reload-reload">reload</button>
+        </div>
+      </div>
+
+      <div id="dialog-hard-reload">
+        <div>
+          Are you sure you want to clear local storage of this extension?
+          Extensions settings will be lost: sound volume, media source etc.
+        </div>
+        <div style="overflow: hidden;">
+          <button style="float: left;" id="dialog-hard-reload-cancel">cancel</button>
+          <button style="float: right;" id="dialog-hard-reload-reload">reload</button>
+        </div>
+      </div>
+
+    </div>
+    <div id="dialogs-sentinel"><!-- sentinel --></div>
+  </div>
+
   <script src="js/streams.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/options.js"></script>
+
+  <script src="js/animator.js"></script>
+  <script src="js/animator_opacity.js"></script>
 
   <script src="js/bugreport.js"></script>
   <script src="js/reload.js"></script>

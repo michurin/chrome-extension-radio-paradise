@@ -5,18 +5,20 @@
  */
 
 /*global window, chrome */
-/*global storage */
-
+/*global storage, opacity_animator_generator */
 'use strict';
 
 (function () {
 
-  window.document.getElementById('hard-reload').onclick = function () {
-    if (window.confirm('Are you sure you want to clear local storage of this extension? Extensions data will be lost: sound volume, media source etc.')) {
-      storage.clear(function () {
-        chrome.runtime.reload();
-      });
-    }
+  var dialog = opacity_animator_generator('dialog-hard-reload');
+  window.document.getElementById('dialog-hard-reload-cancel').onclick = dialog.close;
+  window.document.getElementById('dialog-hard-reload-reload').onclick = function () {
+    dialog.close();
+    storage.clear(function () {
+      chrome.runtime.reload();
+    });
   };
+
+  window.document.getElementById('hard-reload').onclick = dialog.open;
 
 }());

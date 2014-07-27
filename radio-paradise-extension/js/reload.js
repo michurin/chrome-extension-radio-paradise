@@ -5,15 +5,19 @@
  */
 
 /*global window, chrome */
+/*global opacity_animator_generator */
 
 'use strict';
 
 (function () {
 
-  window.document.getElementById('reload').onclick = function () {
-    if (window.confirm('Are you sure you want to reload extension?')) {
-      chrome.runtime.reload();
-    }
+  var dialog = opacity_animator_generator('dialog-reload');
+  window.document.getElementById('dialog-reload-cancel').onclick = dialog.close;
+  window.document.getElementById('dialog-reload-reload').onclick = function () {
+    dialog.close();
+    chrome.runtime.reload();
   };
+
+  window.document.getElementById('reload').onclick = dialog.open;
 
 }());

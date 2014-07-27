@@ -6,6 +6,10 @@ body {
   margin: 1em;
 }
 
+button {
+  font: inherit;
+}
+
 input[type="radio"], input[type="checkbox"], label {
   margin: 0;
   vertical-align: middle;
@@ -119,4 +123,57 @@ fieldset {
 #volume-value {
   text-align: center;
   min-width: 4em;
+}
+
+/* dialogs */
+
+#dialogs {
+  display: none;
+  font-size: 0;
+  position: fixed;
+  text-align: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(222, 222, 222, 0.8);
+}
+
+#dialogs > div {
+  box-shadow: none;
+  border-width: 0;
+  font-size: 0;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+#dialogs > div:first-child { /* align baseline */
+  height: 100%;
+}
+
+#dialogs > div:nth-child(2) { /* body */
+  max-width: 50%;
+}
+
+#dialogs > #dialogs-sentinel { /* sentinel */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+#dialogs > div > div {
+  display: none;
+  box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.4);
+  background: #fff;
+  color: #000;
+  border-radius: 0.5em;
+  padding: 0.5em;
+  border: 1px solid #000;
+  font-size: medium;
+}
+
+#dialogs > div > div > div {
+  margin: 1em;
 }
