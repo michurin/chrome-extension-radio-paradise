@@ -40,7 +40,7 @@ var image_info_init = (function () {
     }(RP_SONGINFO_BASE + songid));
   }
 
-  function save_childs(k, e) {
+  function save_dom_items(k, e) {
     window.dom_keeper.set(k, e.map(function (x) {
       return x.cloneNode(true);
     }));
@@ -74,7 +74,7 @@ var image_info_init = (function () {
       );
       text_box_animator(content, not_animate);
       // save in cache
-      save_childs('song_info_text', content);
+      save_dom_items('song_info_text', content);
       // prepare image
       var url = ERROR_IMAGE_URL;
       if (info.med_cover) {
@@ -82,8 +82,9 @@ var image_info_init = (function () {
       }
       var g = window.document.createElement('img');
       g.onload = function () {
-        image_box_animator([g], not_animate);
-        save_childs('song_info_image', [g]);
+        var gg = [g];
+        image_box_animator(gg, not_animate);
+        save_dom_items('song_info_image', gg);
         // set and save fingerprint
         prev_fingerprint = info.fingerprint;
         window.dom_keeper.set('song_info_fp', prev_fingerprint);
