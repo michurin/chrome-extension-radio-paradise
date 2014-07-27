@@ -8,6 +8,13 @@ body {
 
 button {
   font: inherit;
+  background: linear-gradient(#fff, #ddd);
+  border: 1px solid #777;
+  border-radius: 4px;
+}
+
+button:active {
+  background: linear-gradient(#ddd, #eee);
 }
 
 input[type="radio"], input[type="checkbox"], label {
@@ -19,7 +26,7 @@ label {
   display: block;
 }
 
-input:focus {
+input:focus, button {
   outline: 0;
 }
 
@@ -96,7 +103,12 @@ fieldset {
 #volume-control span {
   float: left;
   border: 1px outset #ddd;
-  background: #ddd;
+  background: linear-gradient(#fff, #ddd);
+  border: 1px solid #777;
+}
+
+#volume-value {
+  border-radius: 2px;
 }
 
 #volume-plus, #volume-minus {
@@ -105,19 +117,17 @@ fieldset {
 }
 
 #volume-plus:active, #volume-minus:active {
-  border-style: inset;
+  background: linear-gradient(#ddd, #eee);
 }
 
 #volume-plus {
   padding-right: 0.4em;
-  border-top-right-radius: 25%;
-  border-bottom-right-radius: 25%;
+  border-radius: 2px 4px 4px 2px;
 }
 
 #volume-minus {
   padding-left: 0.4em;
-  border-top-left-radius: 25%;
-  border-bottom-left-radius: 25%;
+  border-radius: 4px 2px 2px 4px;
 }
 
 #volume-value {
