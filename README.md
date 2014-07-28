@@ -1,12 +1,24 @@
-chrome-extension-radio-paradise
-===============================
+Google Chrome extension to listen to Radio Paradise online
+==========================================================
 
-Google Chrome extension to easily listen Radio Paradise stream.
+Key features:
 
-Can be installed the extension from
+* Listening radio
+* Change sound volume
+* View song informations: title, album, artist
+* View albums covers
+* Click to access RP web page with song details, lyrics, voting and discussions
+* Select the appropriate media source and bitrate
+* Easy hot key bindings (in one-click mode)
+
+Can be installed from
+[project page](http://michurin.github.io/chrome-extension-radio-paradise/) or
 [Chrome Web Store](https://chrome.google.com/webstore/detail/hljnlacoohhbcfejkmabinbjablnoild).
+
+Found a bug, problem, typo? You are welcome!
+My name is Alexey. Feel free [to contact me](mailto:a.michurin@gmail.com).
 
 Enjoy!
 ------
 
--- [Alexey](http://michurin.github.io/)
+-- [Alexey Michurin](http://michurin.github.io/)
