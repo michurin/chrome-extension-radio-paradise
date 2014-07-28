@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/hljnlacoohhbcfejkmabinbjablnoild">
   <title>Chrome extension to listen Radio Paradise</title>
   <link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
   <style>
@@ -30,6 +31,13 @@
   p, h1, h2 {
     padding: 0;
     margin: 30px 10px;
+  }
+  button {
+    cursor: pointer;
+    font: inherit;
+    font-size: 125%;
+    max-width: 50%;
+    padding: 1em;
   }
   a {
     color: #777;
@@ -82,6 +90,22 @@
       <img src="screen-options.png" alt="Chrome extension to listen Radio Paradise: options page">
     </a>
   </p>
+  <p class="center" id="install">
+    <button onclick="install()">Add to Chrome</button>
+  </p>
+  <script>
+  function hide() {
+    document.getElementById('install').style.display = 'none';
+  }
+  function install() {
+    var url = 'https://chrome.google.com/webstore/detail/hljnlacoohhbcfejkmabinbjablnoild';
+    if (chrome && chrome.webstore && chrome.webstore.install) {
+      chrome.webstore.install(url, hide, function () {});
+    } else {
+      window.location.href = url;
+    }
+  }
+  </script>
   <p>
     Found a bug, problem, typo? You are welcome!
     My name is Alexey.
