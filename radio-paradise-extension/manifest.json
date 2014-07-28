@@ -2,10 +2,10 @@
 
   "manifest_version": 2,
   "name": "Radio Paradise player",
-  "version": "0.12.3.0",
+  "version": "0.12.3.1",
   "minimum_chrome_version": "25",
 
-  "description": "Chrome extension to easily listen Radio Paradise stream",
+  "description": "Chrome extension to easily listen to Radio Paradise stream",
   "icons": {
     "128": "images/logo-128x128.png",
     "64": "images/logo-64x64.png",
