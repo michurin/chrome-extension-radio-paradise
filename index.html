@@ -35,9 +35,12 @@
   button {
     cursor: pointer;
     font: inherit;
+    font-weight: bold;
     font-size: 125%;
     max-width: 50%;
     padding: 1em;
+    -webkit-animation: pulsate 12s infinite linear;
+    -webkit-animation-iteration-count: infinite;
   }
   a {
     color: #777;
@@ -49,6 +52,11 @@
   }
   .center {
     text-align: center;
+  }
+  @-webkit-keyframes pulsate {
+    0% {color: #000;}
+    50% {color: #f7663d;}
+    100% {color: #000;}
   }
   </style>
 </head>
