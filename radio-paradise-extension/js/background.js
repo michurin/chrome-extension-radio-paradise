@@ -13,12 +13,28 @@
 
   var browser_action = chrome.browserAction;
 
+  function update_popup_mode(mode) {
+    browser_action.setPopup({popup: mode ? 'popup.html' : ''});
+  }
+
+  function update_badge_color(color) {
+    browser_action.setBadgeBackgroundColor({color: color});
+  }
+
   function init() {
-    browser_action.setBadgeBackgroundColor({color: '#942'});
     storage.get({
-      popup: true
+      volume: 0.75,
+      playing: false,
+      stream_id: streams.def.stream,
+      popup: true,
+      badge_background_color: '#942'
     }, function (x) {
-      browser_action.setPopup({popup: x.popup ? 'popup.html' : ''});
+      storage.set({last_init_args: x});
+      audio_controller.set_stream(streams.map[x.stream_id].url);
+      audio_controller.set_volume(x.volume);
+      audio_controller.set_state(x.playing);
+      update_popup_mode(x.popup);
+      update_badge_color(x.badge_background_color);
     });
   }
 
@@ -28,21 +44,10 @@
     };
   }
 
-  // we must setup audio every time we load page
+  // we must *NOT* setup audio every time we load page
 
   (function () {
-    browser_action.setBadgeBackgroundColor({color: '#942'});
-    storage.get({
-      volume: 0.75,
-      playing: false,
-      stream_id: streams.def.stream
-    }, function (x) {
-      update_field('last_init');
-      storage.set({last_init_args: x});
-      audio_controller.set_stream(streams.map[x.stream_id].url);
-      audio_controller.set_volume(x.volume);
-      audio_controller.set_state(x.playing);
-    });
+    update_field('last_init');
   }());
 
   // bindings (every loading too)
@@ -60,12 +65,18 @@
   on_storage_change(function (ch) {
     if (ch.volume) {
       audio_controller.set_volume(ch.volume.newValue);
-    } else if (ch.playing) {
+    }
+    if (ch.playing) {
       audio_controller.set_state(ch.playing.newValue);
-    } else if (ch.stream_id) {
+    }
+    if (ch.stream_id) {
       audio_controller.set_stream(streams.map[ch.stream_id.newValue].url);
-    } else if (ch.popup) {
-      browser_action.setPopup({popup: ch.popup.newValue ? 'popup.html' : ''});
+    }
+    if (ch.popup) {
+      update_popup_mode(ch.popup.newValue);
+    }
+    if (ch.badge_background_color) {
+      update_badge_color(ch.badge_background_color.newValue);
     }
   });
   chrome.runtime.onStartup.addListener(function () {
