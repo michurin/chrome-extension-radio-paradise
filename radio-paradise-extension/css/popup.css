@@ -195,7 +195,7 @@ td {
 }
 
 .element-on, .element-off {
-  transition: opacity 400ms ease-in-out;
+  transition: opacity 200ms ease-in-out;
 }
 
 .container-on .element-on {

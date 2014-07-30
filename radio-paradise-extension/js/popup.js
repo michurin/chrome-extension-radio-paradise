@@ -117,6 +117,7 @@
   }, function (x) {
     update_play_pause_element(x.playing);
     update_volume_element(x.volume);
+    volume_element.setAttribute('class', 'container-on');
     init_stream_selectors(x.hidden_streams || streams.hidden_by_default);
     update_selectors(x.stream_id);
     var not_animate = !x.animation;
