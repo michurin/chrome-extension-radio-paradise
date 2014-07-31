@@ -104,6 +104,85 @@
     };
   }
 
+  function make_badge_background_controls(color) {
+    var root = window.document.getElementById('badge-background-color');
+    var colors = [{
+      name: 'red',
+      up: '#f88',
+      down: '#c00',
+      color: '#f00'
+    }, {
+      name: 'orange',
+      up: '#fd8',
+      down: '#c70',
+      color: '#f80'
+    }, {
+      name: 'yellow',
+      up: '#ff8',
+      down: '#cc0',
+      color: '#ff0'
+    }, {
+      name: 'green',
+      up: '#8f8',
+      down: '#0c0',
+      color: '#0c0'
+    }, {
+      name: 'blue',
+      up: '#88f',
+      down: '#44f',
+      color: '#44f'
+    }, {
+      name: 'indigo',
+      up: '#d8f',
+      down: '#70f',
+      color: '#80f'
+    }, {
+      name: 'violet',
+      up: '#f8f',
+      down: '#c0c',
+      color: '#f0f'
+    }, {
+      name: 'classic',
+      up: '#a64',
+      down: '#721',
+      color: '#942'
+    }, {
+      name: 'dark',
+      up: '#777',
+      down: '#444',
+      color: '#222'
+    }, {
+      name: 'light',
+      up: '#fff',
+      down: '#ccc',
+      color: '#eee'
+    }];
+    var elements = [];
+    colors.forEach(function (v) {
+      var x = window.document.createElement('span');
+      x.className = 'color-selector';
+      x.style.backgroundImage = 'linear-gradient(#fff, #ddd, ' + v.up + ', ' + v.down +')';
+      x.innerText = v.name;
+      // the true way is to change here storage state *only*
+      // and change view of elements on storage changeged
+      // in event handler; but life is not perfect
+      x.onclick = function() {
+        storage.set({
+          badge_background_color: v.color
+        });
+        elements.forEach(function (v) {
+          v.classList.remove('color-selected');
+        });
+        x.classList.add('color-selected');
+      };
+      if (v.color === color) {
+        x.classList.add('color-selected');
+      }
+      elements.push(x);
+      root.appendChild(x);
+    });
+  }
+
   on_storage_change(function (ch) {
     if (ch.stream_id) {
       // can be changed by
@@ -129,6 +208,7 @@
     stream_id: streams.def.stream,
     volume: 0.75,
     animation: true,
+    badge_background_color: '#942',
     hidden_streams: null // see comment in popup.js
   }, function (state) {
     // control mode
@@ -148,6 +228,8 @@
     setup_animation(state.animation);
     // streams
     streams_list(state);
+    // badge
+    make_badge_background_controls(state.badge_background_color);
   });
 
 }());

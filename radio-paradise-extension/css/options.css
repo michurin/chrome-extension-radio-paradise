@@ -134,6 +134,35 @@ fieldset {
   min-width: 4em;
 }
 
+/* badge controls */
+
+.color-selector {
+  display: block;
+  float: left;
+  padding: 0 0.3em;
+  margin: 1px;
+  cursor: pointer;
+  background-image: linear-gradient(#fff, #ddd, #8f8, #0c0);
+  background-size: auto 300%;
+  background-position: 0 0;
+  transition: background-position 300ms;
+  border: 1px solid #777;
+  border-radius: 4px;
+}
+
+.color-selector:hover {
+  background-position: 0 100%;
+}
+
+.color-selector:before {
+  content: "☆ ";
+}
+
+.color-selected:before {
+  content: "★ ";
+  color: attr(data-color);
+}
+
 /* dialogs */
 
 #dialogs {
