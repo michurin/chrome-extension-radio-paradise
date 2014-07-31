@@ -147,10 +147,20 @@
       down: '#721',
       color: '#942'
     }, {
+      name: 'gold',
+      up: '#fea',
+      down: '#ca5',
+      color: '#fc7'
+    }, {
       name: 'dark',
       up: '#777',
       down: '#444',
       color: '#222'
+    }, {
+      name: 'middle',
+      up: '#aaa',
+      down: '#777',
+      color: '#888'
     }, {
       name: 'light',
       up: '#fff',
