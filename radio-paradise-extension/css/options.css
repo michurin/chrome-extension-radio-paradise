@@ -160,7 +160,6 @@ fieldset {
 
 .color-selected:before {
   content: "★ ";
-  color: attr(data-color);
 }
 
 /* dialogs */
