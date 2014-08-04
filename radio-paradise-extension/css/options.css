@@ -53,7 +53,15 @@ a:hover {
 }
 
 small {
-  color: #999;
+  color: #ddd;
+}
+
+small span {
+  cursor: pointer;
+}
+
+small span:hover {
+  color: #888;
 }
 
 pre {
