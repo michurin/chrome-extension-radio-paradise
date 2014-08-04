@@ -21,6 +21,8 @@ var audio_controller = (function () {
   var on_stop_playing;
   var on_timeout_loading;
 
+  var default_stream_url;
+
   var target_volume;
   var volume_ctl_timer;
   var audio_element;
@@ -92,27 +94,42 @@ var audio_controller = (function () {
     }
   }
 
+  function run_if_complete(f) {
+    if (
+      normal_volume !== undefined &&
+      state !== undefined &&
+      stream_url !== undefined
+    ) {
+      f();
+    }
+  }
+
   return {
-    set_callbacks: function (start_loading, start_playing, stop_playing, timeout_loading) {
+    // this method *MUST* be called first
+    set_callbacks: function (start_loading, start_playing, stop_playing, timeout_loading, default_url) {
       on_start_loading = start_loading;
       on_start_playing = start_playing;
       on_stop_playing = stop_playing;
       on_timeout_loading = timeout_loading;
+      default_stream_url = default_url;
     },
+    // these methods can be called in any order
     set_volume: function (volume) {
-      normal_volume = volume;
-      run_change_volume();
+      normal_volume = volume === undefined ? 0.75 : volume;
+      run_if_complete(run_change_volume);
     },
     set_state: function (st) {
-      state = st;
-      run_change_volume();
+      state = st === undefined ? false : st;
+      run_if_complete(run_change_volume);
     },
     set_stream: function (url) {
-      if (audio_element !== undefined) {
-        drop_audio_element();
-      }
-      stream_url = url;
-      run_change_volume();
+      stream_url = url === undefined ? default_stream_url : url;
+      run_if_complete(function () {
+        if (audio_element !== undefined) {
+          drop_audio_element();
+        }
+        run_change_volume();
+      });
     }
   };
 

@@ -30,53 +30,53 @@
     };
   }
 
-  function init_audio() {
-    // we *MUST* init audio params every time page loaded
-    // i.e. on every event that raise event page
-    storage.get({
-      volume: 0.75,
-      playing: false,
-      stream_id: streams.def.stream
-    }, function (x) {
-      update_field('last_init_audio');
-      storage.set({last_init_audio_args: x});
-      // step 0: init audio callbacks
-      audio_controller.set_callbacks(
-        badge_updater('…'),
-        badge_updater('►'),
-        badge_updater(''),
-        function (failed_url) {
-          update_field('last_stream_timeout');
-          storage.set({last_stream_timeout_url: failed_url});
-          storage.set({playing: false});
-        }
-      );
-      // step 1: init audio state
-      audio_controller.set_stream(streams.map[x.stream_id].url);
-      audio_controller.set_volume(x.volume);
-      audio_controller.set_state(x.playing);
-      // step 2: bind storage-chaged handlers
-      on_storage_change(function (ch) {
-        if (ch.volume) {
-          audio_controller.set_volume(ch.volume.newValue || 0.75);
-        }
-        if (ch.playing) {
-          audio_controller.set_state(ch.playing.newValue || false);
-        }
-        if (ch.stream_id) {
-          audio_controller.set_stream(streams.map[ch.stream_id.newValue || streams.def.stream].url);
-        }
-        if (ch.popup) {
-          update_popup_mode(ch.popup.newValue);
-        }
-        if (ch.badge_background_color) {
-          update_badge_color(ch.badge_background_color.newValue);
-        }
-      });
-      // step 3: set onclick; fired only if popup === ''
-      browser_action.onClicked.addListener(toggle_playing_state);
-    });
-  }
+  // setup audio element; *MUST* be before bindings
+
+  audio_controller.set_callbacks(
+    badge_updater('…'),
+    badge_updater('►'),
+    badge_updater(''),
+    function (failed_url) {
+      update_field('last_stream_timeout');
+      storage.set({last_stream_timeout_url: failed_url});
+      storage.set({playing: false});
+    },
+    streams.map[streams.def.stream].url
+  );
+
+  // bind state processing
+
+  on_storage_change(function (ch) {
+    if (ch.volume) {
+      audio_controller.set_volume(ch.volume.newValue);
+    }
+    if (ch.playing) {
+      audio_controller.set_state(ch.playing.newValue);
+    }
+    if (ch.stream_id) {
+      audio_controller.set_stream(streams.map[ch.stream_id.newValue || streams.def.stream].url);
+    }
+    if (ch.popup) {
+      update_popup_mode(ch.popup.newValue);
+    }
+    if (ch.badge_background_color) {
+      update_badge_color(ch.badge_background_color.newValue);
+    }
+  });
+
+  // bind state changers
+
+  browser_action.onClicked.addListener(toggle_playing_state);
+
+  // init state
+
+  storage.get(['volume', 'playing', 'stream_id'], function (x) {
+    update_field('last_init_audio');
+    storage.set({last_init_audio_args: x});
+    audio_controller.set_stream(streams.map[x.stream_id || streams.def.stream].url);
+    audio_controller.set_volume(x.volume);
+    audio_controller.set_state(x.playing);
+  });
 
   function init() {
     // part of initialisation, that have not to do
@@ -102,9 +102,5 @@
     // because the background page is currently running
     chrome.runtime.reload();
   });
-
-  // it seems, we can not make initialisation event driven completely
-  // cose audio_controller is not ready to run in half-init state
-  init_audio();
 
 }());
