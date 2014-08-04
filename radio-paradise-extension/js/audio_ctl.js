@@ -27,6 +27,7 @@ var audio_controller = (function () {
 
   function drop_audio_element() {
     // force abort of buffering
+    audio_element.oncanplaythrough = function () {};
     audio_element.pause();
     audio_element.src = '';
     body_element.removeChild(audio_element);
@@ -54,6 +55,7 @@ var audio_controller = (function () {
         if (audio_element && audio_element.paused) {
           if (volume_ctl_timer) {
             window.clearTimeout(volume_ctl_timer);
+            volume_ctl_timer = undefined;
           }
           drop_audio_element();
           on_timeout_loading();

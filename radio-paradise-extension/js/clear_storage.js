@@ -6,6 +6,7 @@
 
 /*global window, chrome */
 /*global storage, opacity_animator_generator */
+
 'use strict';
 
 (function () {
