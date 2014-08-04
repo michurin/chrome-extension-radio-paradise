@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "name": "alarms",
+  "version": "1.1.1.1",
+  "minimum_chrome_version": "25",
+
+  "description": "alarms",
+  "icons": {},
+
+  "browser_action": {},
+
+  "permissions": [
+    "alarms"
+  ],
+
+  "background": {
+    "persistent": false,
+    "scripts": [ "x.js" ]
+  }
+}
