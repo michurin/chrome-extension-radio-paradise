@@ -14,11 +14,14 @@
   var browser_action = chrome.browserAction;
 
   function update_popup_mode(mode) {
-    browser_action.setPopup({popup: mode ? 'popup.html' : ''});
+    // mode === undefined is true
+    browser_action.setPopup({
+      popup: (mode === undefined || mode) ? 'popup.html' : ''
+    });
   }
 
   function update_badge_color(color) {
-    browser_action.setBadgeBackgroundColor({color: color});
+    browser_action.setBadgeBackgroundColor({color: color || '#942'});
   }
 
   function badge_updater(text) {
@@ -35,7 +38,7 @@
       playing: false,
       stream_id: streams.def.stream
     }, function (x) {
-      update_field('last_init');
+      update_field('last_init_audio');
       storage.set({last_load_args: x});
       // step 0: init audio callbacks
       audio_controller.set_callbacks(
@@ -64,48 +67,44 @@
           audio_controller.set_stream(streams.map[ch.stream_id.newValue || streams.def.stream].url);
         }
         if (ch.popup) {
-          update_popup_mode(ch.popup.newValue === undefined ? true : ch.popup.newValue);
+          update_popup_mode(ch.popup.newValue);
         }
         if (ch.badge_background_color) {
-          update_badge_color(ch.badge_background_color.newValue || '#942');
+          update_badge_color(ch.badge_background_color.newValue);
         }
       });
+      // step 3: set onclick; fired only if popup === ''
+      browser_action.onClicked.addListener(toggle_playing_state);
     });
   }
 
   function init() {
     // part of initialisation, that have not to do
     // every time page loaded
-    storage.get({
-      popup: true,
-      badge_background_color: '#942'
-    }, function (x) {
+    storage.get(['popup', 'badge_background_color'], function (x) {
       storage.set({last_init_args: x});
       update_popup_mode(x.popup);
       update_badge_color(x.badge_background_color);
     });
   }
 
-  browser_action.onClicked.addListener(function() {
-    init_audio();
-    toggle_playing_state();
-  });
   chrome.runtime.onStartup.addListener(function () {
     // not fired on installed
     update_field('last_startup');
-    init_audio();
     init();
   });
   chrome.runtime.onInstalled.addListener(function () {
     update_field('last_install');
-    init_audio();
     init();
   });
   chrome.runtime.onUpdateAvailable.addListener(function () {
     // reload if update available, but isn't installed immediately
     // because the background page is currently running
-    init_audio();
     chrome.runtime.reload();
   });
+
+  // it seems, we can not make initialisation event driven completely
+  // cose audio_controller is not ready to run in half-init state
+  init_audio();
 
 }());
