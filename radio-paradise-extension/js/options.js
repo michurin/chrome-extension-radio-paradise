@@ -198,10 +198,10 @@
       // can be changed by
       // - @here
       // - popup window
-      update_streams_list(ch.stream_id.newValue);
+      update_streams_list(ch.stream_id.newValue || streams.def.stream);
     }
     if (ch.volume) {
-      update_volume(ch.volume.newValue);
+      update_volume(ch.volume.newValue || 0.75);
     }
   });
 

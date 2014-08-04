@@ -98,13 +98,13 @@
       // can be changed by
       // - @here
       // - watchdog in background page
-      update_play_pause_element(ch.playing.newValue);
+      update_play_pause_element(ch.playing.newValue || false);
     }
     if (ch.stream_id) {
-      update_selectors(ch.stream_id.newValue);
+      update_selectors(ch.stream_id.newValue || streams.def.stream);
     }
     if (ch.volume) {
-      update_volume_element(ch.volume.newValue);
+      update_volume_element(ch.volume.newValue || 0.75);
     }
   });
 
