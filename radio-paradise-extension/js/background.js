@@ -39,7 +39,7 @@
       stream_id: streams.def.stream
     }, function (x) {
       update_field('last_init_audio');
-      storage.set({last_load_args: x});
+      storage.set({last_init_audio_args: x});
       // step 0: init audio callbacks
       audio_controller.set_callbacks(
         badge_updater('…'),
