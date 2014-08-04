@@ -4,8 +4,7 @@
  * MIT License [http://www.opensource.org/licenses/mit-license.php]
  */
 
-/*global window */
-/*global open_url_in_new_tab */
+/*global window, chrome */
 
 'use strict';
 

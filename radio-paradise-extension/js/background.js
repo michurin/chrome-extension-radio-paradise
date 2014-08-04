@@ -23,16 +23,10 @@
 
   function init() {
     storage.get({
-      volume: 0.75,
-      playing: false,
-      stream_id: streams.def.stream,
       popup: true,
       badge_background_color: '#942'
     }, function (x) {
       storage.set({last_init_args: x});
-      audio_controller.set_stream(streams.map[x.stream_id].url);
-      audio_controller.set_volume(x.volume);
-      audio_controller.set_state(x.playing);
       update_popup_mode(x.popup);
       update_badge_color(x.badge_background_color);
     });
@@ -44,10 +38,21 @@
     };
   }
 
-  // we must *NOT* setup audio every time we load page
+  // we *MUST* init audio params every time page loaded
+  // it is good reason to rewrite audio_ctl
 
   (function () {
     update_field('last_init');
+    storage.get({
+      volume: 0.75,
+      playing: false,
+      stream_id: streams.def.stream
+    }, function (x) {
+      storage.set({last_load_args: x});
+      audio_controller.set_stream(streams.map[x.stream_id].url);
+      audio_controller.set_volume(x.volume);
+      audio_controller.set_state(x.playing);
+    });
   }());
 
   // bindings (every loading too)
