@@ -73,7 +73,7 @@
         audio_controller.set_stream(streams.map[ch.stream_id.newValue || streams.def.stream].url);
       }
       if (ch.popup) {
-        update_popup_mode(ch.popup.newValue || true);
+        update_popup_mode(ch.popup.newValue === undefined ? true : ch.popup.newValue);
       }
       if (ch.badge_background_color) {
         update_badge_color(ch.badge_background_color.newValue || '#942');
