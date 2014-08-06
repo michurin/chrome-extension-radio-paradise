@@ -65,7 +65,7 @@
               confirmation_delete.onclick = function () {
                 confirmation.close();
                 chrome.alarms.clear(name, update);
-              }
+              };
               confirmation.open();
             };
             var td = window.document.createElement('td');
@@ -135,8 +135,10 @@
   };
 
   window.document.getElementById('alarms-add-button').onclick = function () {
-    controls.forEach(function (v) {
-      v.set(0);
+    var t = new Date(new Date().getTime() + 2 * 60 * 1000); // +2m
+    var x = two(t.getHours()) + two(t.getMinutes());
+    controls.forEach(function (v, n) {
+      v.set(x.charAt(n));
     });
     dialog.open();
   };
