@@ -11,11 +11,18 @@
 
 chrome.alarms.onAlarm.addListener(function (alarm) {
   var name = alarm.name;
-  var act;
+  var act, t;
   if (name.substr(0, 6) === 'alarm_') {
-    act = name.substr(12);
-    update_field('last_alarm');
-    storage.set({last_alarm_name: name});
-    storage.set({playing: act === 'on'});
+    t = new Date(new Date().getTime() - 30 * 1000).getTime(); // -30s
+    if (alarm.scheduledTime > t) {
+      act = name.substr(12);
+      update_field('last_alarm');
+      storage.set({last_alarm_name: name});
+      storage.set({playing: act === 'on'});
+    }
+    // we left all alarms from the past;
+    // they can be raised on the first moment Chrome started;
+    // note: there are alarms-at-chrome-startup bugs 236684, 305925 etc.
+    // has been fixed in Chrome 31 only.
   }
 });
