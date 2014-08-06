@@ -5,7 +5,7 @@
  */
 
 /*global window, chrome */
-/*global opacity_animator_generator */
+/*global opacity_animator_generator, storage */
 
 'use strict';
 
