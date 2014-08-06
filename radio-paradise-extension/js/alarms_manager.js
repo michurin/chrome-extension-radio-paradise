@@ -114,8 +114,12 @@
       return;
     }
     dialog.close();
-    var action = window.document.getElementById('alarm-action-on').checked ? 'on' : 'off';
-    var name = 'alarm_' + controls[0].get() + controls[1].get() + '_' + controls[2].get() + controls[3].get() + '_' + action;
+    var checked = window.document.getElementById('alarm-action-on').checked;
+    var action = checked ? 'on' : 'off';
+    var antiaction = checked ? 'off' : 'on';
+    var base_name = 'alarm_' + controls[0].get() + controls[1].get() + '_' + controls[2].get() + controls[3].get() + '_';
+    var name = base_name + action;
+    var antiname = base_name + antiaction;
     var delta = (h * 60 + m) * 60 * 1000;
     var now = new Date();
     var midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -127,7 +131,7 @@
       when: when,
       periodInMinutes: 24 * 60
     });
-    update();
+    chrome.alarms.clear(antiname, update);
   };
 
   window.document.getElementById('alarms-add-button').onclick = function () {
