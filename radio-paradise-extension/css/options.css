@@ -170,6 +170,70 @@ fieldset {
   content: "★ ";
 }
 
+/* alarm */
+
+#dialog-create-new-alarm table {
+  border-collapse:collapse;
+  margin: 0 auto;
+}
+
+#dialog-create-new-alarm td {
+  padding: 0;
+  margin: 0;
+  font-size: 150%;
+  text-align: center;
+}
+
+.triangle-up {
+  width: 0;
+  height: 0;
+  margin: 0 auto;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0) rgba(255, 255, 255, 0) #777 rgba(255, 255, 255, 0);
+  border-width: 0 .25em .25em .25em;
+  cursor: pointer;
+}
+
+.triangle-up:hover {
+  border-color: rgba(255, 255, 255, 0) rgba(255, 255, 255, 0) #950 rgba(255, 255, 255, 0);
+}
+
+.triangle-up:active {
+  border-color: rgba(255, 255, 255, 0) rgba(255, 255, 255, 0) #000 rgba(255, 255, 255, 0);
+}
+
+.triangle-down {
+  width: 0;
+  height: 0;
+  margin: 0 auto;
+  border-style: solid;
+  border-color: #777 rgba(255, 255, 255, 0) rgba(255, 255, 255, 0) rgba(255, 255, 255, 0);
+  border-width: .25em .25em 0 .25em;
+  cursor: pointer;
+}
+
+.triangle-down:hover {
+  border-color: #950 rgba(255, 255, 255, 0) rgba(255, 255, 255, 0) rgba(255, 255, 255, 0);
+}
+
+.triangle-down:active {
+  border-color: #000 rgba(255, 255, 255, 0) rgba(255, 255, 255, 0) rgba(255, 255, 255, 0);
+}
+
+.digit {
+  cursor: pointer;
+  color: #777;
+}
+
+.digit:hover {
+  color: #950;
+}
+
+.alarm-action-group {
+  display: inline-block;
+  text-align: left;
+}
+
 /* dialogs */
 
 #dialogs {

@@ -16,5 +16,7 @@
   "background": {
     "persistent": false,
     "scripts": [ "x.js" ]
-  }
+  },
+
+  "options_page": "options.html"
 }

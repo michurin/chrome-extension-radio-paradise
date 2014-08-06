@@ -98,6 +98,7 @@
       // can be changed by
       // - @here
       // - watchdog in background page
+      // - alarms
       update_play_pause_element(ch.playing.newValue || false);
     }
     if (ch.stream_id) {

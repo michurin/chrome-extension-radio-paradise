@@ -31,6 +31,12 @@
     <span id="volume-plus">+</span>
   </fieldset>
 
+  <fieldset id="alarms">
+    <legend>Alarms</legend>
+    <div id="alarms-root"></div>
+    <button id="alarms-add-button">Add alarm</button>
+  </fieldset>
+
   <fieldset id="badge-background-color">
     <legend>Badge color</legend>
   </fieldset>
@@ -81,6 +87,51 @@
         </div>
       </div>
 
+      <div id="dialog-create-new-alarm">
+        <div><b>New alarm</b></div>
+        <div>
+          <table>
+            <tr>
+              <td><div id="alarms-digit-0-up" class="triangle-up"></div></td>
+              <td><div id="alarms-digit-1-up" class="triangle-up"></div></td>
+              <td></td>
+              <td><div id="alarms-digit-2-up" class="triangle-up"></div></td>
+              <td><div id="alarms-digit-3-up" class="triangle-up"></div></td>
+            </tr>
+            <tr>
+              <td id="alarms-digit-0" class="digit">0</td>
+              <td id="alarms-digit-1" class="digit">0</td>
+              <td>:</td>
+              <td id="alarms-digit-2" class="digit">0</td>
+              <td id="alarms-digit-3" class="digit">0</td>
+            </tr>
+            <tr>
+              <td><div id="alarms-digit-0-down" class="triangle-down"></div></td>
+              <td><div id="alarms-digit-1-down" class="triangle-down"></div></td>
+              <td></td>
+              <td><div id="alarms-digit-2-down" class="triangle-down"></div></td>
+              <td><div id="alarms-digit-3-down" class="triangle-down"></div></td>
+            </tr>
+          </table>
+        </div>
+        <div>
+          <div class="alarm-action-group">
+            <label for="alarm-action-on">
+              <input type="radio" name="alarm-action" id="alarm-action-on" checked="checked">
+              Radio ON
+            </label>
+            <label for="alarm-action-off">
+              <input type="radio" name="alarm-action" id="alarm-action-off">
+              Radio OFF
+            </label>
+          </div>
+        </div>
+        <div style="overflow: hidden;">
+          <button style="float: left;" id="dialog-create-new-alarm-cancel">cancel</button>
+          <button style="float: right;" id="dialog-create-new-alarm-reload">create</button>
+        </div>
+      </div>
+
     </div>
     <div id="dialogs-sentinel"><!-- sentinel --></div>
   </div>
@@ -96,6 +147,8 @@
   <script src="js/bugreport.js"></script>
   <script src="js/reload.js"></script>
   <script src="js/clear_storage.js"></script>
+
+  <script src="js/alarms_manager.js"></script>
 
   <script src="js/rate_it.js"></script>
 

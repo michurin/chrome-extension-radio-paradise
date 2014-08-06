@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "Radio Paradise player",
-  "version": "0.14.4.1",
+  "version": "0.15.0.0",
   "minimum_chrome_version": "25",
 
   "description": "Chrome extension to listen to Radio Paradise online",
@@ -27,7 +27,8 @@
   "permissions": [
     "http://radioparadise.com/ajax_xml_song_info.php",
     "activeTab",
-    "storage"
+    "storage",
+    "alarms"
   ],
 
   "optional_permissions": [],
@@ -38,7 +39,8 @@
       "js/streams.js",
       "js/storage.js",
       "js/background.js",
-      "js/dom_keeper.js"
+      "js/dom_keeper.js",
+      "js/alarms.js"
     ],
     "persistent": false
   },

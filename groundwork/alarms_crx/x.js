@@ -12,6 +12,10 @@ chrome.browserAction.onClicked.addListener(function () {
           when: when + i * 1000
         })
       }
+      chrome.alarms.create('periodic', {
+        when: when + 1000,
+        periodInMinutes: 1
+      })
       console.log('created all');
     });
   });
@@ -21,12 +25,12 @@ function init_alarms() {
   // clean and install listener
   chrome.alarms.getAll(function (aa) {
     console.log('all:', aa);
-    chrome.alarms.clearAll(function () { // .clear(name, callback)
+//    chrome.alarms.clearAll(function () { // .clear(name, callback)
       chrome.alarms.onAlarm.addListener(function (a) {
         chrome.browserAction.setBadgeText({text: a.name.substr(5)}); // remove 'test_'
-        console.log('alarm:', a);
+        console.log('alarm:', a, a.scheduledTime - new Date().getTime());
       });
-    });
+//    });
   });
 }
 
