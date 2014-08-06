@@ -137,7 +137,7 @@
 
   window.document.getElementById('alarms-add-button').onclick = function () {
     var t = new Date(new Date().getTime() + 2 * 60 * 1000); // +2m
-    var x = two(t.getHours()) + two(t.getMinutes());
+    var x = two(t.getHours()) + '' + two(t.getMinutes()); // force string
     controls.forEach(function (v, n) {
       v.set(x.charAt(n));
     });
