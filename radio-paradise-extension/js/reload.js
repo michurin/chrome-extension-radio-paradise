@@ -21,3 +21,21 @@
   window.document.getElementById('reload').onclick = dialog.open;
 
 }());
+
+
+(function () {
+
+  var dialog = opacity_animator_generator('dialog-hard-reload');
+  window.document.getElementById('dialog-hard-reload-cancel').onclick = dialog.close;
+  window.document.getElementById('dialog-hard-reload-reload').onclick = function () {
+    dialog.close();
+    storage.clear(function () {
+      chrome.alarms.clearAll(function () {
+        chrome.runtime.reload();
+      });
+    });
+  };
+
+  window.document.getElementById('hard-reload').onclick = dialog.open;
+
+}());
