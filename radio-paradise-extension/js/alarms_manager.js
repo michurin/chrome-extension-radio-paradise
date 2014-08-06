@@ -20,6 +20,10 @@
     return '0' + x;
   }
 
+  var confirmation = opacity_animator_generator('dialog-remove-alarm');
+  window.document.getElementById('dialog-remove-alarm-cancel').onclick = confirmation.close;
+  var confirmation_delete = window.document.getElementById('dialog-remove-alarm-delete');
+
   function update() {
     chrome.alarms.getAll(function (aa) {
       if (aa.length === 0) {
@@ -58,8 +62,11 @@
             var x = window.document.createElement('div');
             x.innerText = '☒';
             x.onclick = function () {
-              // TODO: ask before delition
-              chrome.alarms.clear(name, update);
+              confirmation_delete.onclick = function () {
+                confirmation.close();
+                chrome.alarms.clear(name, update);
+              }
+              confirmation.open();
             };
             var td = window.document.createElement('td');
             td.appendChild(x);
@@ -97,7 +104,7 @@
 
   var dialog = opacity_animator_generator('dialog-create-new-alarm');
   window.document.getElementById('dialog-create-new-alarm-cancel').onclick = dialog.close;
-  window.document.getElementById('dialog-create-new-alarm-reload').onclick = function () {
+  window.document.getElementById('dialog-create-new-alarm-create').onclick = function () {
     var h = controls[0].get() * 10 + controls[1].get();
     var m = controls[2].get() * 10 + controls[3].get();
     if (h > 24) {
