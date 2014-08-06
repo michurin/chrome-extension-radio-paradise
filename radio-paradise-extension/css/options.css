@@ -234,6 +234,39 @@ fieldset {
   text-align: left;
 }
 
+/* alarms table */
+
+#alarms table {
+  border-collapse:collapse;
+  margin: 0 0 0.5em 0;
+}
+
+#alarms td, #alarms th {
+  border-width: 1px 0;
+  border-style: solid;
+  border-color: #777;
+  padding: 0 10px;
+  margin: 0;
+}
+
+#alarms th {
+  font-size: 70%;
+  text-align: left;
+  background: #eee;
+}
+
+#alarms tr:hover td {
+  background: linear-gradient(#fff, #ddd);
+}
+
+#alarms td div {
+  cursor: pointer;
+}
+
+#alarms td div:hover {
+  color: #950;
+}
+
 /* dialogs */
 
 #dialogs {

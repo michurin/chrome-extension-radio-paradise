@@ -26,34 +26,48 @@
         root.innerText = '(no alarms)';
       } else {
         root.innerText = '';
-        // TODO: create table
+        var table = window.document.createElement('table');
+        var tr = window.document.createElement('tr');
+        ['Alarm', 'Action', 'Next', ''].forEach(function (v) {
+          var th = window.document.createElement('th');
+          th.innerText = v;
+          tr.appendChild(th);
+        });
+        table.appendChild(tr);
         aa.sort(function (a, b) {
           return a.scheduledTime - b.scheduledTime;
         });
         aa.forEach(function (v) {
           var name = v.name;
           if (name.substr(0, 6) === 'alarm_') {
+            var tr = window.document.createElement('tr');
             var h = name.substr(6, 2);
             var m = name.substr(9, 2);
             var a = name.substr(12);
             var d = new Date(v.scheduledTime);
-            var x = window.document.createElement('div');
-            x.innerText = h + ':' + m + ' | ' + a + ' | ' +
-              d.getFullYear() + '-' +
+            var fmt_d = d.getFullYear() + '-' +
               two(d.getMonth()) + '-' +
               two(d.getDate()) + ' ' +
               two(d.getHours()) + ':' +
               two(d.getMinutes());
-            var s = window.document.createElement('span');
-            s.innerText = '[delete]'; // TODO: ugly
-            s.onclick = function () {
+            [h + ':' + m, a, fmt_d].forEach(function (v) {
+              var td = window.document.createElement('td');
+              td.innerText = v;
+              tr.appendChild(td);
+            });
+            var x = window.document.createElement('div');
+            x.innerText = '☒';
+            x.onclick = function () {
               // TODO: ask before delition
               chrome.alarms.clear(name, update);
             };
-            x.appendChild(s);
-            root.appendChild(x);
+            var td = window.document.createElement('td');
+            td.appendChild(x);
+            tr.appendChild(td);
+            table.appendChild(tr);
           }
         });
+        root.appendChild(table);
       }
     });
   }
