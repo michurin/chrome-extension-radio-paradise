@@ -61,6 +61,7 @@
             });
             var x = window.document.createElement('div');
             x.innerText = '☒';
+            x.title = 'delete alarm';
             x.onclick = function () {
               confirmation_delete.onclick = function () {
                 confirmation.close();
