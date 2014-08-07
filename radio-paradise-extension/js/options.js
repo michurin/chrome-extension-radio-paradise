@@ -38,7 +38,7 @@
     };
   }
 
-  function update_streams_list(sid) {
+  function update_stream_id_in_streams_list(sid) {
     var act = 'active-' + sid;
     Array.prototype.slice.call(
       window.document.querySelectorAll('#streams-list span'),
@@ -58,9 +58,18 @@
     });
   }
 
+  function update_active_streams_in_streams_list(hs) {
+    hs = hs || streams.hidden_by_default;
+    Array.prototype.slice.call(
+      window.document.querySelectorAll('#streams-list input'),
+      0
+    ).forEach(function (v) {
+      v.checked = !hs[v.id.substr(7)]; // cut off 'active-'
+    });
+  }
+
   function streams_list(state) { // state.hidden_streams, state.stream_id
     var fs = window.document.getElementById('streams-list');
-    var hs = state.hidden_streams || streams.hidden_by_default;
     streams.list.forEach(function (v) {
       var eid = 'stream-' + v[0];
       var f = window.document.createElement('label');
@@ -68,7 +77,6 @@
       var e = window.document.createElement('input');
       e.type = 'checkbox';
       e.id = eid;
-      e.checked = !hs[v[0]];
       e.onchange = stream_setter;
       f.appendChild(e);
       e = window.document.createElement('b');
@@ -84,7 +92,8 @@
       f.appendChild(e);
       fs.appendChild(f);
     });
-    update_streams_list(state.stream_id);
+    update_stream_id_in_streams_list(state.stream_id);
+    update_active_streams_in_streams_list(state.hidden_streams);
   }
 
   function update_volume(vol) {
@@ -173,17 +182,12 @@
       x.className = 'color-selector';
       x.style.backgroundImage = 'linear-gradient(#fff, #ddd, ' + v.up + ', ' + v.down +')';
       x.innerText = v.name;
-      // the true way is to change here storage state *only*
-      // and change view of elements on storage changeged
-      // in event handler; but life is not perfect
+      x.dataset.color = v.color;
       x.onclick = function() {
+        // here we fire storage event; UI changes in handler
         storage.set({
           badge_background_color: v.color
         });
-        elements.forEach(function (v) {
-          v.classList.remove('color-selected');
-        });
-        x.classList.add('color-selected');
       };
       if (v.color === color) {
         x.classList.add('color-selected');
@@ -194,14 +198,43 @@
   }
 
   on_storage_change(function (ch) {
+    var x;
     if (ch.stream_id) {
       // can be changed by
       // - @here
       // - popup window
-      update_streams_list(ch.stream_id.newValue || streams.def.stream);
+      update_stream_id_in_streams_list(ch.stream_id.newValue || streams.def.stream);
     }
     if (ch.volume) {
       update_volume(ch.volume.newValue || 0.75);
+    }
+    // helpers to sync options pages if user open a number
+    if (ch.popup) {
+      x = ch.popup.newValue;
+      // undefined -> true
+      window.document.getElementById(
+        (x === undefined || x) ? 'popup' : 'one-click'
+      ).checked = true;
+    }
+    if (ch.badge_background_color) {
+      x = ch.badge_background_color.newValue || '#942';
+      Array.prototype.slice.call(
+        window.document.getElementsByClassName('color-selector'),
+        0
+      ).forEach(function (v) {
+        if (v.dataset.color === x) {
+          v.classList.add('color-selected');
+        } else {
+          v.classList.remove('color-selected');
+        }
+      });
+    }
+    if (ch.animation) {
+      x = ch.animation.newValue;
+      setup_animation(x === undefined || x); // undefined -> true
+    }
+    if (ch.hidden_streams) {
+      update_active_streams_in_streams_list(ch.hidden_streams.newValue);
     }
   });
 

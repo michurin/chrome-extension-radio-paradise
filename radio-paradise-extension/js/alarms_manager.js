@@ -5,7 +5,7 @@
  */
 
 /*global window, chrome */
-/*global opacity_animator_generator */
+/*global opacity_animator_generator, update_field, on_storage_change */
 
 'use strict';
 
@@ -24,7 +24,10 @@
   window.document.getElementById('dialog-remove-alarm-cancel').onclick = confirmation.close;
   var confirmation_delete = window.document.getElementById('dialog-remove-alarm-delete');
 
-  function update() {
+  function update_action() {
+    // this function *CAN* be called as on-storage-changed
+    // handler *ONLY*
+    // this is done to synchronize tabs
     chrome.alarms.getAll(function (aa) {
       if (aa.length === 0) {
         root.innerText = '(no alarms)';
@@ -79,6 +82,18 @@
       }
     });
   }
+
+  function update() {
+    // field 'last_alarm_change' used *NOT FOR LOGGING ONLY*
+    // it used to fire on-storage-changed event and synchronize tabs
+    update_field('last_alarm_change');
+  }
+
+  on_storage_change(function (ch) {
+    if (ch.last_alarm_change) {
+      update_action();
+    }
+  });
 
   var controls = [3, 10, 6, 10].map(function (v, n) {
     var r = {
