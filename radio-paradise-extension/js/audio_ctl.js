@@ -54,7 +54,7 @@ var audio_controller = (function () {
         change_volume();
       };
       window.setTimeout(function () { // watchdog
-        if (audio_element && audio_element.paused) {
+        if (audio_element && audio_element.readyState !== 4) {
           if (volume_ctl_timer) {
             window.clearTimeout(volume_ctl_timer);
             volume_ctl_timer = undefined;
