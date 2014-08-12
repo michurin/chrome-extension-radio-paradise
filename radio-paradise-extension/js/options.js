@@ -5,7 +5,7 @@
  */
 
 /*global window */
-/*global storage, on_storage_change, streams */
+/*global storage, on_storage_change, streams, volume_change */
 
 'use strict';
 
@@ -97,19 +97,15 @@
   }
 
   function update_volume(vol) {
+    if (typeof vol !== 'number') {
+      vol = 0.75;
+    }
     window.document.getElementById('volume-value').innerText = Math.round(vol * 100) + '%';
   }
 
-  function volume_changer(dv) {
+  function volume_changer(levels) {
     return function () {
-      storage.get({volume: 0.75}, function (x) {
-        var v = x.volume;
-        v += dv;
-        v = Math.round(v * 10) / 10;
-        v = v > 1 ? 1 : v;
-        v = v < 0 ? 0 : v;
-        storage.set({volume: v});
-      });
+      volume_change(levels);
     };
   }
 
@@ -206,7 +202,7 @@
       update_stream_id_in_streams_list(ch.stream_id.newValue || streams.def.stream);
     }
     if (ch.volume) {
-      update_volume(ch.volume.newValue || 0.75);
+      update_volume(ch.volume.newValue);
     }
     // helpers to sync options pages if user open a number
     if (ch.popup) {
@@ -265,8 +261,8 @@
     });
     // volue controller
     update_volume(state.volume);
-    window.document.getElementById('volume-plus').onclick = volume_changer(0.1);
-    window.document.getElementById('volume-minus').onclick = volume_changer(-0.1);
+    window.document.getElementById('volume-plus').onclick = volume_changer(10);
+    window.document.getElementById('volume-minus').onclick = volume_changer(-10);
     // animation
     setup_animation(state.animation);
     // streams
