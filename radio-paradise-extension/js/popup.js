@@ -68,10 +68,17 @@
     }
   };
 
+  window.document.body.onkeydown = function (e) {
+    if (e.which === 32 || e.which === 13) {
+      e.preventDefault();
+      toggle_playing_state();
+    }
+  };
+
   var play_pause_element = window.document.getElementById('play-pause-button');
 
-  play_pause_element.onclick = function (event) {
-    event.preventDefault();
+  play_pause_element.onclick = function (e) {
+    e.preventDefault();
     toggle_playing_state();
   };
 
