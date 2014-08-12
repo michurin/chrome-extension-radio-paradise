@@ -59,8 +59,8 @@ var audio_controller = (function () {
             window.clearTimeout(volume_ctl_timer);
             volume_ctl_timer = undefined;
           }
-          drop_audio_element();
           on_timeout_loading(audio_element.src);
+          drop_audio_element();
         }
       }, 7000);
       audio_element.src = stream_url;
