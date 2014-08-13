@@ -14,6 +14,7 @@
   var root = window.document.getElementById('custom-streams-root');
 
   var dialog_add = opacity_animator_generator('dialog-create-new-custom-stream');
+  var dialog_remove = opacity_animator_generator('dialog-remove-custom-stream');
 
   var panel = {
     init: function (streams, hidden, active_stream_id) {
@@ -77,6 +78,19 @@
           a.href = stream.url;
           a.innerText = stream.url;
           label.appendChild(a);
+          b = window.document.createElement('b');
+          b.innerText = ' ☒';
+          b.title = 'remove stream';
+          b.onclick = function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            window.document.getElementById('dialog-remove-custom-stream-delete').onclick = function () {
+              panel.remove_stream(stream_iid);
+              dialog_remove.close();
+            };
+            dialog_remove.open();
+          };
+          label.appendChild(b);
         });
         panel.update_active();
         panel.update_checkboxes();
@@ -91,6 +105,15 @@
       Array.prototype.slice.call(root.querySelectorAll('input'), 0).forEach(function (v) {
         v.checked = !panel.hidden[v.id.substr(7)];
       });
+    },
+    remove_stream: function (iid) {
+      var x = [];
+      panel.streams.forEach(function (v) {
+        if (v[0] !== iid) {
+          x.push(v);
+        }
+      });
+      storage.set({custom_streams: x});
     }
   };
 
@@ -125,6 +148,7 @@
     });
     dialog_add.close();
   };
+  window.document.getElementById('dialog-remove-custom-stream-cancel').onclick = dialog_remove.close;
 
   storage.get({
     stream_id: streams.def.stream,
