@@ -79,6 +79,9 @@
     if (ch.stream_id) {
       audio_controller.set_stream(url_resolver.resolv(ch.stream_id.newValue));
     }
+    if (ch.custom_streams) {
+      url_resolver.set_customs(ch.custom_streams.newValue);
+    }
     if (ch.popup) {
       update_popup_mode(ch.popup.newValue);
     }
