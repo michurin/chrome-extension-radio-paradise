@@ -12,40 +12,50 @@
 
 (function () {
 
+  var si = window.document.getElementById('stream-info');
+  var ss = window.document.getElementById('stream-selectors');
+  var pe = window.document.getElementById('stream-point');
+
+  function select_stream(sid) {
+    return function () {
+      storage.set({stream_id: sid});
+    };
+  }
+
+  function select_stream_ctl(iid, title) {
+    var d = window.document.createElement('div');
+    var s = window.document.createElement('span');
+    s.innerText = title;
+    d.appendChild(s);
+    si.appendChild(d);
+    var e = pe.cloneNode(true);
+    e.onmouseover = function () {
+      d.style.opacity = 0.85;
+    };
+    e.onmouseout = function () {
+      d.style.opacity = 0;
+    };
+    e.onclick = select_stream(iid);
+    e.id = iid;
+    ss.appendChild(e);
+    ss.appendChild(window.document.createTextNode(' '));
+  }
+
   function init_stream_selectors(hidden_streams) {
-
-    var si = window.document.getElementById('stream-info');
-    var ss = window.document.getElementById('stream-selectors');
-    var pe = window.document.getElementById('stream-point');
-
-    function select_stream(sid) {
-      return function () {
-        storage.set({stream_id: sid});
-      };
-    }
-
     streams.list.forEach(function (v) {
       if (hidden_streams[v[0]]) {
         return;
       }
-      var d = window.document.createElement('div');
-      var s = window.document.createElement('span');
-      s.innerText = v[1].title;
-      d.appendChild(s);
-      si.appendChild(d);
-      var e = pe.cloneNode(true);
-      e.onmouseover = function () {
-        d.style.opacity = 0.85;
-      };
-      e.onmouseout = function () {
-        d.style.opacity = 0;
-      };
-      e.onclick = select_stream(v[0]);
-      e.id = v[0];
-      ss.appendChild(e);
-      ss.appendChild(window.document.createTextNode(' '));
+      select_stream_ctl(v[0], v[1].title);
     });
+  }
 
+  function init_custom_streams_selectors(custom_streams, hidden) {
+    custom_streams.forEach(function (v) {
+      if (! hidden[v[0]]) {
+        select_stream_ctl(v[0], v[1].title);
+      }
+    });
   }
 
   var volume_element = window.document.getElementById('volume-control');
@@ -138,12 +148,15 @@
     volume: 0.75,
     stream_id: streams.def.stream,
     animation: true,
-    hidden_streams: null // we must NOT use object as default because chrome merge default and actual objects
+    hidden_streams: null, // we must NOT use object as default because chrome merge default and actual objects
+    custom_streams: null,
+    hidden_custom_streams: null
   }, function (x) {
     update_play_pause_element(x.playing);
     update_volume_element(x.volume);
     volume_element.setAttribute('class', 'container-on');
     init_stream_selectors(x.hidden_streams || streams.hidden_by_default);
+    init_custom_streams_selectors(x.custom_streams || [], x.hidden_custom_streams || {});
     update_selectors(x.stream_id);
     var not_animate = !x.animation;
     window.dom_keeper.get_all(function (cache) {

@@ -53,6 +53,12 @@
     <legend>Streams on popup window</legend>
   </fieldset>
 
+  <fieldset id="custom-streams-list">
+    <legend>Custom streams (for advanced users)</legend>
+    <div id="custom-streams-root"></div>
+    <button id="custom-streams-add-button">Add custom stream</button>
+  </fieldset>
+
   <p>
     <small>
       <span id="bugreport">bug report</span> |
@@ -142,6 +148,18 @@
         </div>
       </div>
 
+      <div id="dialog-create-new-custom-stream">
+        <div><b>New custom stream</b></div>
+        <div>
+          <input type="text" id="dialog-create-new-custom-stream-name" placeholder="stream name">
+          <input type="text" id="dialog-create-new-custom-stream-url" placeholder="stream url">
+        </div>
+        <div style="overflow: hidden;">
+          <button style="float: left;" id="dialog-create-new-custom-stream-cancel">cancel</button>
+          <button style="float: right;" id="dialog-create-new-custom-stream-create">create</button>
+        </div>
+      </div>
+
     </div>
     <div id="dialogs-sentinel"><!-- sentinel --></div>
   </div>
@@ -159,6 +177,7 @@
   <script src="js/reload.js"></script>
 
   <script src="js/alarms_manager.js"></script>
+  <script src="js/custom_streams_manager.js"></script>
 
   <script src="js/rate_it.js"></script>
 

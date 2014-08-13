@@ -30,6 +30,29 @@
     };
   }
 
+  var url_resolver = {
+    custom_streams: {},
+    set_customs: function (c) {
+      url_resolver.custom_streams = {};
+      if (c) {
+        c.forEach(function (v) {
+          url_resolver.custom_streams[v[0]] = v[1];
+        });
+      }
+    },
+    resolv: function (iid) {
+      var x = streams.map[iid];
+      if (x) {
+        return x.url;
+      }
+      x = url_resolver.custom_streams[iid];
+      if (x) {
+        return x.url;
+      }
+      return streams.map[streams.def.stream].url;
+    }
+  };
+
   // setup audio element; *MUST* be before bindings
 
   audio_controller.set_callbacks(
@@ -54,7 +77,7 @@
       audio_controller.set_state(ch.playing.newValue);
     }
     if (ch.stream_id) {
-      audio_controller.set_stream(streams.map[ch.stream_id.newValue || streams.def.stream].url);
+      audio_controller.set_stream(url_resolver.resolv(ch.stream_id.newValue));
     }
     if (ch.popup) {
       update_popup_mode(ch.popup.newValue);
@@ -70,10 +93,11 @@
 
   // init state
 
-  storage.get(['volume', 'playing', 'stream_id'], function (x) {
+  storage.get(['volume', 'playing', 'stream_id', 'custom_streams'], function (x) {
     update_field('last_init_audio');
     storage.set({last_init_audio_args: x});
-    audio_controller.set_stream(streams.map[x.stream_id || streams.def.stream].url);
+    url_resolver.set_customs(x.custom_streams);
+    audio_controller.set_stream(url_resolver.resolv(x.stream_id));
     audio_controller.set_volume(x.volume);
     audio_controller.set_state(x.playing);
   });
