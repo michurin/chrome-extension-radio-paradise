@@ -69,12 +69,6 @@
           var span = window.document.createElement('span');
           span.id = 'active-' + stream_iid;
           span.title = 'choose custom stream';
-          span.className = 'cursor-ponter';
-          span.onclick = function (e) {
-            e.stopPropagation();
-            e.preventDefault();
-            storage.set({stream_id: stream_iid});
-          };
           label.appendChild(span);
           var a = window.document.createElement('a');
           a.target = '_blank';
@@ -131,7 +125,20 @@
     },
     update_active: function () {
       Array.prototype.slice.call(root.querySelectorAll('span'), 0).forEach(function (v) {
-        v.innerText = panel.active_stream_id === v.id.substr(7) ? ' ★ ' : ' ☆ ';
+        var id = v.id.substr(7);
+        if (panel.active_stream_id === id) {
+          v.innerText = ' ★ ';
+          v.className = 'stream-star';
+          v.onclick = undefined;
+        } else {
+          v.innerText = ' ☆ ';
+          v.className = 'stream-star cursor-pointer';
+          v.onclick = function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            storage.set({stream_id: id});
+          };
+        }
       });
     },
     update_checkboxes: function () {

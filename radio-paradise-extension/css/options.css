@@ -17,6 +17,14 @@ button:active {
   background: linear-gradient(#ddd, #eee);
 }
 
+button.red:hover {
+  background: linear-gradient(#f99, #f66);
+}
+
+button.red:active {
+  background: linear-gradient(#f66, #f99);
+}
+
 input[type="radio"], input[type="checkbox"], label {
   margin: 0;
   vertical-align: middle;
@@ -40,7 +48,7 @@ b, a {
   color: #555;
 }
 
-#streams-list span {
+span.stream-star {
   color: #950;
 }
 
@@ -142,6 +150,10 @@ fieldset {
   min-width: 4em;
 }
 
+.settings-box {
+  padding: 0 0 0.5em 0;
+}
+
 /* badge controls */
 
 .color-selector {
@@ -238,7 +250,7 @@ fieldset {
 
 #alarms table {
   border-collapse:collapse;
-  margin: 0 0 0.5em 0;
+  margin: 0;
 }
 
 #alarms td, #alarms th {
@@ -318,4 +330,16 @@ fieldset {
 
 #dialogs > div > div > div {
   margin: 1em;
+}
+
+#dialogs .two-button-box {
+  overflow: hidden;
+}
+
+#dialogs .two-button-box > button:nth-child(1) {
+  float: left;
+}
+
+#dialogs .two-button-box > button:nth-child(2) {
+  float: right;
 }

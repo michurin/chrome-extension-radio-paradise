@@ -47,12 +47,12 @@
       if (v.id === act) {
         v.innerText = ' ★ ';
         v.title = 'current stream';
-        v.className = '';
+        v.className = 'stream-star';
         v.onclick = undefined;
       } else {
         v.innerText = ' ☆ ';
         v.title = 'choose stream';
-        v.className = 'cursor-pointer';
+        v.className = 'stream-star cursor-pointer';
         v.onclick = stream_activator(v.id.substr(7)); // cut off 'active-'
       }
     });
