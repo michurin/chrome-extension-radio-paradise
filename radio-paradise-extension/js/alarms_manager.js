@@ -35,7 +35,7 @@
         root.innerText = '';
         var table = window.document.createElement('table');
         var tr = window.document.createElement('tr');
-        ['Alarm', 'Action', 'Next', ''].forEach(function (v) {
+        ['Alarm', 'Action', 'Next', '', ''].forEach(function (v) {
           var th = window.document.createElement('th');
           th.innerText = v;
           tr.appendChild(th);
@@ -62,7 +62,26 @@
               td.innerText = v;
               tr.appendChild(td);
             });
-            var x = window.document.createElement('div');
+            var x, td;
+            x = window.document.createElement('div');
+            x.innerText = '⚙';
+            x.title = 'edit alarm';
+            x.onclick = function () {
+              var x =  v.name.substr(6, 2) + v.name.substr(9, 2);
+              controls.forEach(function (v, n) {
+                v.set(x.charAt(n));
+              });
+              window.document.getElementById('alarm-id').value = v.name; // edit mode
+              window.document.getElementById(
+                'alarm-action-' + v.name.substr(12)
+              ).checked = true;
+              dialog.open();
+            };
+            td = window.document.createElement('td');
+            td.appendChild(x);
+            tr.appendChild(td);
+            table.appendChild(tr);
+            x = window.document.createElement('div');
             x.innerText = '☒';
             x.title = 'delete alarm';
             x.onclick = function () {
@@ -72,10 +91,9 @@
               };
               confirmation.open();
             };
-            var td = window.document.createElement('td');
+            td = window.document.createElement('td');
             td.appendChild(x);
             tr.appendChild(td);
-            table.appendChild(tr);
           }
         });
         root.appendChild(table);
@@ -120,7 +138,7 @@
 
   var dialog = opacity_animator_generator('dialog-create-new-alarm');
   window.document.getElementById('dialog-create-new-alarm-cancel').onclick = dialog.close;
-  window.document.getElementById('dialog-create-new-alarm-create').onclick = function () {
+  window.document.getElementById('dialog-create-new-alarm-save').onclick = function () {
     var h = controls[0].get() * 10 + controls[1].get();
     var m = controls[2].get() * 10 + controls[3].get();
     if (h > 24) {
@@ -147,7 +165,14 @@
       when: when,
       periodInMinutes: 24 * 60
     });
-    chrome.alarms.clear(antiname, update);
+    chrome.alarms.clear(antiname, function () {
+      var old = window.document.getElementById('alarm-id').value;
+      if (old !== '' && old !== name) {
+        chrome.alarms.clear(old, update);
+      } else {
+        update();
+      }
+    });
   };
 
   window.document.getElementById('alarms-add-button').onclick = function () {
@@ -156,6 +181,8 @@
     controls.forEach(function (v, n) {
       v.set(x.charAt(n));
     });
+    window.document.getElementById('alarm-action-on').checked = true;
+    window.document.getElementById('alarm-id').value = ''; // create mode
     dialog.open();
   };
 

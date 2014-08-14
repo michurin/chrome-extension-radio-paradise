@@ -184,7 +184,7 @@
     var mode;
     if (stream_id === '') {
       mode = 'add';
-      var stream_id = 'custom_' +
+      stream_id = 'custom_' +
         (new Date().getTime()) + '_' +
         Math.floor(10000 + 10000 * Math.random()).toString(10).substr(1);
     } else {
