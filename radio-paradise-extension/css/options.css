@@ -108,8 +108,12 @@ img {
   margin: 0 0.4em 0 0;
 }
 
-.cursor-pointer {
+.cursor-pointer, .control-char {
   cursor: pointer;
+}
+
+.control-char:hover {
+  color: #950;
 }
 
 fieldset {
@@ -269,14 +273,6 @@ fieldset {
 
 #alarms tr:hover td {
   background: linear-gradient(#fff, #ddd);
-}
-
-#alarms td div {
-  cursor: pointer;
-}
-
-#alarms td div:hover {
-  color: #950;
 }
 
 /* dialogs */

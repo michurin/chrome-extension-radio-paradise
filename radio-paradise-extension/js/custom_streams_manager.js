@@ -67,6 +67,7 @@
           label.appendChild($.tx());
           var span = $.create('span');
           span.id = 'active-' + stream_iid;
+          span.className = 'stream-star';
           span.title = 'choose custom stream';
           label.appendChild(span);
           label.appendChild($.tx());
@@ -76,8 +77,9 @@
           a.innerText = stream.url;
           label.appendChild(a);
           label.appendChild($.tx());
-          b = $.create('b');
+          b = $.create('span');
           b.innerText = '⚙';
+          b.className = 'control-char';
           b.title = 'edit stream';
           b.onclick = function (e) {
             e.stopPropagation();
@@ -89,7 +91,8 @@
           };
           label.appendChild(b);
           label.appendChild($.tx());
-          b = $.create('b');
+          b = $.create('span');
+          b.className = 'control-char';
           b.innerText = '☒';
           b.title = 'remove stream';
           b.onclick = function (e) {
@@ -103,7 +106,8 @@
           };
           label.appendChild(b);
           label.appendChild($.tx());
-          b = $.create('b');
+          b = $.create('span');
+          b.className = 'control-char';
           b.innerText = '⇧';
           b.title = 'move up';
           b.onclick = function (e) {
@@ -113,7 +117,8 @@
           };
           label.appendChild(b);
           label.appendChild($.tx());
-          b = $.create('b');
+          b = $.create('span');
+          b.className = 'control-char';
           b.innerText = '⇩';
           b.title = 'move down';
           b.onclick = function (e) {
@@ -128,7 +133,7 @@
       }
     },
     update_active: function () {
-      $.each(root, 'span', function (v) {
+      $.each(root, 'span.stream-star', function (v) {
         var id = v.id.substr(7);
         if (panel.active_stream_id === id) {
           v.innerText = '★';

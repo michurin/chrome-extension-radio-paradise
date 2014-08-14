@@ -63,8 +63,9 @@
               tr.appendChild(td);
             });
             var x, td;
-            x = $.create('div');
+            x = $.create('span');
             x.innerText = '⚙';
+            x.className = 'control-char';
             x.title = 'edit alarm';
             x.onclick = function () {
               var x =  v.name.substr(6, 2) + v.name.substr(9, 2);
@@ -81,8 +82,9 @@
             td.appendChild(x);
             tr.appendChild(td);
             table.appendChild(tr);
-            x = $.create('div');
+            x = $.create('span');
             x.innerText = '☒';
+            x.className = 'control-char';
             x.title = 'delete alarm';
             x.onclick = function () {
               confirmation_delete.onclick = function () {
