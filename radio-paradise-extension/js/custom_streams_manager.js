@@ -82,6 +82,18 @@
           a.innerText = stream.url;
           label.appendChild(a);
           b = window.document.createElement('b');
+          b.innerText = ' ⚙';
+          b.title = 'edit stream';
+          b.onclick = function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            window.document.getElementById('dialog-create-new-custom-stream-name').value = stream.title;
+            window.document.getElementById('dialog-create-new-custom-stream-url').value = stream.url;
+            window.document.getElementById('dialog-create-new-custom-stream-id').value = stream_iid;
+            dialog_add.open();
+          };
+          label.appendChild(b);
+          b = window.document.createElement('b');
           b.innerText = ' ☒';
           b.title = 'remove stream';
           b.onclick = function (e) {
@@ -158,22 +170,43 @@
     }
   });
 
-  window.document.getElementById('custom-streams-add-button').onclick = dialog_add.open;
+  window.document.getElementById('custom-streams-add-button').onclick = function () {
+    window.document.getElementById('dialog-create-new-custom-stream-name').value = 'radio';
+    window.document.getElementById('dialog-create-new-custom-stream-url').value = 'http://';
+    window.document.getElementById('dialog-create-new-custom-stream-id').value = '';
+    dialog_add.open();
+  };
   window.document.getElementById('dialog-create-new-custom-stream-cancel').onclick = dialog_add.close;
-  window.document.getElementById('dialog-create-new-custom-stream-create').onclick = function () {
+  window.document.getElementById('dialog-create-new-custom-stream-save').onclick = function () {
     var stream_name = window.document.getElementById('dialog-create-new-custom-stream-name').value;
     var stream_url = window.document.getElementById('dialog-create-new-custom-stream-url').value;
-    var stream_id = 'custom_' +
-      (new Date().getTime()) + '_' +
-      Math.floor(10000 + 10000 * Math.random()).toString(10).substr(1);
+    var stream_id = window.document.getElementById('dialog-create-new-custom-stream-id').value;
+    var mode;
+    if (stream_id === '') {
+      mode = 'add';
+      var stream_id = 'custom_' +
+        (new Date().getTime()) + '_' +
+        Math.floor(10000 + 10000 * Math.random()).toString(10).substr(1);
+    } else {
+      mode = 'edit';
+    }
     var pair = [stream_id, {
       url: stream_url,
       title: stream_name
     }];
     storage.get({custom_streams: null}, function (x) {
       var streams = x.custom_streams || [];
-      streams.push(pair);
-      storage.set({custom_streams: streams});
+      var t;
+      if (mode === 'add') {
+        streams.push(pair);
+        storage.set({custom_streams: streams});
+      } else {
+        t = [];
+        streams.forEach(function (v) {
+          t.push(v[0] === stream_id ? pair : v);
+        });
+        storage.set({custom_streams: t});
+      }
     });
     dialog_add.close();
   };
