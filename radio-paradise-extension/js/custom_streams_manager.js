@@ -41,7 +41,10 @@
         root.innerText = '(no custom streams)';
       } else {
         root.innerText = '';
-        panel.streams.forEach(function (v) {
+        var len = panel.streams.length;
+        panel.streams.forEach(function (v, n) {
+          var p = (n + len - 1) % len;
+          var q = (n + len + 1) % len;
           var stream_iid = v[0];
           var stream = v[1];
           var label = window.document.createElement('label');
@@ -91,6 +94,24 @@
             dialog_remove.open();
           };
           label.appendChild(b);
+          b = window.document.createElement('b');
+          b.innerText = ' ⇧';
+          b.title = 'move up';
+          b.onclick = function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            panel.swap(n, p); // redraw will be fired by event
+          };
+          label.appendChild(b);
+          b = window.document.createElement('b');
+          b.innerText = ' ⇩';
+          b.title = 'move down';
+          b.onclick = function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            panel.swap(n, q);
+          };
+          label.appendChild(b);
         });
         panel.update_active();
         panel.update_checkboxes();
@@ -114,6 +135,14 @@
         }
       });
       storage.set({custom_streams: x});
+    },
+    swap: function (a, b) {
+      // it is not realy swap a and b
+      // it shift element a to position b
+      var tmp = panel.streams[a];
+      panel.streams.splice(a, 1);
+      panel.streams.splice(b, 0, tmp);
+      storage.set({custom_streams: panel.streams});
     }
   };
 
