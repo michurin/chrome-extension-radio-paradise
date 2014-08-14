@@ -60,20 +60,24 @@
             storage.set({hidden_custom_streams: s});
           };
           label.appendChild(input);
+          label.appendChild($.tx());
           var b = $.create('b');
-          b.innerText = ' ' + stream.title;
+          b.innerText = stream.title;
           label.appendChild(b);
+          label.appendChild($.tx());
           var span = $.create('span');
           span.id = 'active-' + stream_iid;
           span.title = 'choose custom stream';
           label.appendChild(span);
+          label.appendChild($.tx());
           var a = $.create('a');
           a.target = '_blank';
           a.href = stream.url;
           a.innerText = stream.url;
           label.appendChild(a);
+          label.appendChild($.tx());
           b = $.create('b');
-          b.innerText = ' ⚙';
+          b.innerText = '⚙';
           b.title = 'edit stream';
           b.onclick = function (e) {
             e.stopPropagation();
@@ -84,8 +88,9 @@
             dialog_add.open();
           };
           label.appendChild(b);
+          label.appendChild($.tx());
           b = $.create('b');
-          b.innerText = ' ☒';
+          b.innerText = '☒';
           b.title = 'remove stream';
           b.onclick = function (e) {
             e.stopPropagation();
@@ -97,8 +102,9 @@
             dialog_remove.open();
           };
           label.appendChild(b);
+          label.appendChild($.tx());
           b = $.create('b');
-          b.innerText = ' ⇧';
+          b.innerText = '⇧';
           b.title = 'move up';
           b.onclick = function (e) {
             e.stopPropagation();
@@ -106,8 +112,9 @@
             panel.swap(n, p); // redraw will be fired by event
           };
           label.appendChild(b);
+          label.appendChild($.tx());
           b = $.create('b');
-          b.innerText = ' ⇩';
+          b.innerText = '⇩';
           b.title = 'move down';
           b.onclick = function (e) {
             e.stopPropagation();
@@ -124,11 +131,11 @@
       $.each(root, 'span', function (v) {
         var id = v.id.substr(7);
         if (panel.active_stream_id === id) {
-          v.innerText = ' ★ ';
+          v.innerText = '★';
           v.className = 'stream-star';
           v.onclick = undefined;
         } else {
-          v.innerText = ' ☆ ';
+          v.innerText = '☆';
           v.className = 'stream-star cursor-pointer';
           v.onclick = function (e) {
             e.stopPropagation();

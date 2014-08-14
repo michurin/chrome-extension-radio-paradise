@@ -20,6 +20,9 @@ var $ = (function (doc) {
     },
     each: function (root, selector, callback) {
       Array.prototype.slice.call(root.querySelectorAll(selector), 0).forEach(callback);
+    },
+    tx: function (text) {
+      return doc.createTextNode(text || ' ');
     }
   };
 }(window.document));

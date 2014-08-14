@@ -38,7 +38,7 @@
     e.onclick = select_stream(iid);
     e.id = iid;
     ss.appendChild(e);
-    ss.appendChild(window.document.createTextNode(' '));
+    ss.appendChild($.tx());
   }
 
   function init_stream_selectors(hidden_streams) {

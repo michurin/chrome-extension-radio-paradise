@@ -41,12 +41,12 @@
     var act = 'active-' + sid;
     $.each(stream_list, 'span', function (v) {
       if (v.id === act) {
-        v.innerText = ' ★ ';
+        v.innerText = '★';
         v.title = 'current stream';
         v.className = 'stream-star';
         v.onclick = undefined;
       } else {
-        v.innerText = ' ☆ ';
+        v.innerText = '☆';
         v.title = 'choose stream';
         v.className = 'stream-star cursor-pointer';
         v.onclick = stream_activator(v.id.substr(7)); // cut off 'active-'
@@ -71,12 +71,15 @@
       e.id = eid;
       e.onchange = stream_setter;
       f.appendChild(e);
+      f.appendChild($.tx());
       e = $.create('b');
-      e.innerText = ' ' + v[1].title;
+      e.innerText = v[1].title;
       f.appendChild(e);
+      f.appendChild($.tx());
       e = $.create('span');
       e.id = 'active-' + v[0];
       f.appendChild(e);
+      f.appendChild($.tx());
       e = $.create('a');
       e.target = '_blank';
       e.innerText = v[1].url;
