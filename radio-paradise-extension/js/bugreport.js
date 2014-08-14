@@ -5,14 +5,14 @@
  */
 
 /*global window, chrome */
-/*global storage */
+/*global storage, $ */
 
 'use strict';
 
 (function () {
 
-  var bugreport_element = window.document.getElementById('bugreport');
-  var root_element = window.document.getElementById('bugreport-body');
+  var bugreport_element = $.id('bugreport');
+  var root_element = $.id('bugreport-body');
 
   bugreport_element.onclick = function () {
 

@@ -5,16 +5,16 @@
  */
 
 /*global window */
-/*global streams, storage, toggle_playing_state, on_storage_change */
+/*global streams, storage, toggle_playing_state, on_storage_change, $ */
 /*global image_info_init, volume_change */
 
 'use strict';
 
 (function () {
 
-  var si = window.document.getElementById('stream-info');
-  var ss = window.document.getElementById('stream-selectors');
-  var pe = window.document.getElementById('stream-point');
+  var si = $.id('stream-info');
+  var ss = $.id('stream-selectors');
+  var pe = $.id('stream-point');
 
   function select_stream(sid) {
     return function () {
@@ -23,8 +23,8 @@
   }
 
   function select_stream_ctl(iid, title) {
-    var d = window.document.createElement('div');
-    var s = window.document.createElement('span');
+    var d = $.create('div');
+    var s = $.create('span');
     s.innerText = title;
     d.appendChild(s);
     si.appendChild(d);
@@ -58,19 +58,19 @@
     });
   }
 
-  var volume_element = window.document.getElementById('volume-control');
+  var volume_element = $.id('volume-control');
   var volume_element_is_active = false;
 
   volume_element.onmousedown = function (e) {
     volume_element_is_active = true;
-    window.document.body.onmousemove(e);
+    $.body.onmousemove(e);
   };
 
-  window.document.body.onmouseup = window.document.body.onmouseleave = function () {
+  $.body.onmouseup = $.body.onmouseleave = function () {
     volume_element_is_active = false;
   };
 
-  window.document.body.onmousemove = function (e) {
+  $.body.onmousemove = function (e) {
     if (volume_element_is_active) {
       var p = volume_element.getBoundingClientRect();
       var v = e.clientX - p.left - 6;
@@ -79,7 +79,7 @@
     }
   };
 
-  window.document.body.onkeydown = function (e) {
+  $.body.onkeydown = function (e) {
     switch (e.which) {
       case 32:
       case 13:
@@ -99,7 +99,7 @@
     e.preventDefault();
   };
 
-  var play_pause_element = window.document.getElementById('play-pause-button');
+  var play_pause_element = $.id('play-pause-button');
 
   play_pause_element.onclick = function (e) {
     e.preventDefault();
@@ -112,10 +112,7 @@
   }
 
   function update_selectors(sid) {
-    Array.prototype.slice.call(
-      window.document.querySelectorAll('#stream-selectors svg'),
-      0
-    ).forEach(function (e) {
+    $.each(ss, 'svg', function (e) {
       e.setAttribute('class', 'container-' + (e.id === sid ? 'on' : 'off'));
     });
   }

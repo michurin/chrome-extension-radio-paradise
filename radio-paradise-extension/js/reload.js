@@ -4,21 +4,21 @@
  * MIT License [http://www.opensource.org/licenses/mit-license.php]
  */
 
-/*global window, chrome */
-/*global opacity_animator_generator, storage */
+/*global chrome */
+/*global opacity_animator_generator, storage, $ */
 
 'use strict';
 
 (function () {
 
   var dialog = opacity_animator_generator('dialog-reload');
-  window.document.getElementById('dialog-reload-cancel').onclick = dialog.close;
-  window.document.getElementById('dialog-reload-reload').onclick = function () {
+  $.id('dialog-reload-cancel').onclick = dialog.close;
+  $.id('dialog-reload-reload').onclick = function () {
     dialog.close();
     chrome.runtime.reload();
   };
 
-  window.document.getElementById('reload').onclick = dialog.open;
+  $.id('reload').onclick = dialog.open;
 
 }());
 
@@ -26,8 +26,8 @@
 (function () {
 
   var dialog = opacity_animator_generator('dialog-hard-reload');
-  window.document.getElementById('dialog-hard-reload-cancel').onclick = dialog.close;
-  window.document.getElementById('dialog-hard-reload-reload').onclick = function () {
+  $.id('dialog-hard-reload-cancel').onclick = dialog.close;
+  $.id('dialog-hard-reload-reload').onclick = function () {
     dialog.close();
     storage.clear(function () {
       chrome.alarms.clearAll(function () {
@@ -36,6 +36,6 @@
     });
   };
 
-  window.document.getElementById('hard-reload').onclick = dialog.open;
+  $.id('hard-reload').onclick = dialog.open;
 
 }());

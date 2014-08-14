@@ -4,16 +4,12 @@
  * MIT License [http://www.opensource.org/licenses/mit-license.php]
  */
 
-/*global window */
-/*global animator_generator */
+/*global animator_generator, $ */
 /*exported opacity_animator_generator */
 
 'use strict';
 
 var opacity_animator_generator = (function () {
-  function getElementById(id) {
-    return window.document.getElementById(id);
-  }
   var seq_forward = [];
   var seq_backward = [];
   (function (i) {
@@ -22,13 +18,13 @@ var opacity_animator_generator = (function () {
       seq_backward.push(1 - i);
     }
   }());
-  var dialogs = getElementById('dialogs');
-  var dialogs_sentinel = getElementById('dialogs-sentinel');
+  var dialogs = $.id('dialogs');
+  var dialogs_sentinel = $.id('dialogs-sentinel');
   function animation_step(v) {
     dialogs.style.opacity = v;
   }
   return function (name) {
-    var e = getElementById(name);
+    var e = $.id(name);
     var a = animator_generator(animation_step, function () { // fin
       dialogs.style.opacity = 1;
       dialogs_sentinel.style.display = 'none';

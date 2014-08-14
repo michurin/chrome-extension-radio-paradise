@@ -5,6 +5,7 @@
  */
 
 /*global window */
+/*global $ */
 /*exported audio_controller */
 
 'use strict';
@@ -14,7 +15,6 @@ var audio_controller = (function () {
   var stream_url;
   var normal_volume;
   var state;
-  var body_element = window.document.body;
 
   var on_start_loading;
   var on_start_playing;
@@ -32,7 +32,7 @@ var audio_controller = (function () {
     audio_element.oncanplaythrough = function () {};
     audio_element.pause();
     audio_element.src = '';
-    body_element.removeChild(audio_element);
+    $.body.removeChild(audio_element);
     audio_element = undefined;
     // /force
     on_stop_playing();
@@ -45,8 +45,8 @@ var audio_controller = (function () {
         return;
       }
       // init
-      audio_element = window.document.createElement('audio');
-      body_element.appendChild(audio_element);
+      audio_element = $.create('audio');
+      $.body.appendChild(audio_element);
       audio_element.oncanplaythrough = function () {
         audio_element.volume = 0;
         audio_element.play();

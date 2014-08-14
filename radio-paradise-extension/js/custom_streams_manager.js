@@ -4,14 +4,13 @@
  * MIT License [http://www.opensource.org/licenses/mit-license.php]
  */
 
-/*global window */
-/*global opacity_animator_generator, storage, on_storage_change, streams */
+/*global opacity_animator_generator, storage, on_storage_change, streams, $ */
 
 'use strict';
 
 (function () {
 
-  var root = window.document.getElementById('custom-streams-root');
+  var root = $.id('custom-streams-root');
 
   var dialog_add = opacity_animator_generator('dialog-create-new-custom-stream');
   var dialog_remove = opacity_animator_generator('dialog-remove-custom-stream');
@@ -47,60 +46,58 @@
           var q = (n + len + 1) % len;
           var stream_iid = v[0];
           var stream = v[1];
-          var label = window.document.createElement('label');
+          var label = $.create('label');
           label.setAttribute('for', 'stream-' + stream_iid);
           root.appendChild(label);
-          var input = window.document.createElement('input');
+          var input = $.create('input');
           input.type = 'checkbox';
           input.id = 'stream-' + stream_iid;
           input.onchange = function () {
             var s = {};
-            Array.prototype.slice.call(root.querySelectorAll('input'), 0).forEach(function (v) {
-              if (! v.checked) {
-                s[v.id.substr(7)] = true;
-              }
+            $.each(root, 'input:not(:checked)', function (v) {
+              s[v.id.substr(7)] = true;
             });
             storage.set({hidden_custom_streams: s});
           };
           label.appendChild(input);
-          var b = window.document.createElement('b');
+          var b = $.create('b');
           b.innerText = ' ' + stream.title;
           label.appendChild(b);
-          var span = window.document.createElement('span');
+          var span = $.create('span');
           span.id = 'active-' + stream_iid;
           span.title = 'choose custom stream';
           label.appendChild(span);
-          var a = window.document.createElement('a');
+          var a = $.create('a');
           a.target = '_blank';
           a.href = stream.url;
           a.innerText = stream.url;
           label.appendChild(a);
-          b = window.document.createElement('b');
+          b = $.create('b');
           b.innerText = ' ⚙';
           b.title = 'edit stream';
           b.onclick = function (e) {
             e.stopPropagation();
             e.preventDefault();
-            window.document.getElementById('dialog-create-new-custom-stream-name').value = stream.title;
-            window.document.getElementById('dialog-create-new-custom-stream-url').value = stream.url;
-            window.document.getElementById('dialog-create-new-custom-stream-id').value = stream_iid;
+            $.id('dialog-create-new-custom-stream-name').value = stream.title;
+            $.id('dialog-create-new-custom-stream-url').value = stream.url;
+            $.id('dialog-create-new-custom-stream-id').value = stream_iid;
             dialog_add.open();
           };
           label.appendChild(b);
-          b = window.document.createElement('b');
+          b = $.create('b');
           b.innerText = ' ☒';
           b.title = 'remove stream';
           b.onclick = function (e) {
             e.stopPropagation();
             e.preventDefault();
-            window.document.getElementById('dialog-remove-custom-stream-delete').onclick = function () {
+            $.id('dialog-remove-custom-stream-delete').onclick = function () {
               panel.remove_stream(stream_iid);
               dialog_remove.close();
             };
             dialog_remove.open();
           };
           label.appendChild(b);
-          b = window.document.createElement('b');
+          b = $.create('b');
           b.innerText = ' ⇧';
           b.title = 'move up';
           b.onclick = function (e) {
@@ -109,7 +106,7 @@
             panel.swap(n, p); // redraw will be fired by event
           };
           label.appendChild(b);
-          b = window.document.createElement('b');
+          b = $.create('b');
           b.innerText = ' ⇩';
           b.title = 'move down';
           b.onclick = function (e) {
@@ -124,7 +121,7 @@
       }
     },
     update_active: function () {
-      Array.prototype.slice.call(root.querySelectorAll('span'), 0).forEach(function (v) {
+      $.each(root, 'span', function (v) {
         var id = v.id.substr(7);
         if (panel.active_stream_id === id) {
           v.innerText = ' ★ ';
@@ -142,7 +139,7 @@
       });
     },
     update_checkboxes: function () {
-      Array.prototype.slice.call(root.querySelectorAll('input'), 0).forEach(function (v) {
+      $.each(root, 'input', function (v) {
         v.checked = !panel.hidden[v.id.substr(7)];
       });
     },
@@ -177,17 +174,17 @@
     }
   });
 
-  window.document.getElementById('custom-streams-add-button').onclick = function () {
-    window.document.getElementById('dialog-create-new-custom-stream-name').value = 'radio';
-    window.document.getElementById('dialog-create-new-custom-stream-url').value = 'http://';
-    window.document.getElementById('dialog-create-new-custom-stream-id').value = '';
+  $.id('custom-streams-add-button').onclick = function () {
+    $.id('dialog-create-new-custom-stream-name').value = 'radio';
+    $.id('dialog-create-new-custom-stream-url').value = 'http://';
+    $.id('dialog-create-new-custom-stream-id').value = '';
     dialog_add.open();
   };
-  window.document.getElementById('dialog-create-new-custom-stream-cancel').onclick = dialog_add.close;
-  window.document.getElementById('dialog-create-new-custom-stream-save').onclick = function () {
-    var stream_name = window.document.getElementById('dialog-create-new-custom-stream-name').value;
-    var stream_url = window.document.getElementById('dialog-create-new-custom-stream-url').value;
-    var stream_id = window.document.getElementById('dialog-create-new-custom-stream-id').value;
+  $.id('dialog-create-new-custom-stream-cancel').onclick = dialog_add.close;
+  $.id('dialog-create-new-custom-stream-save').onclick = function () {
+    var stream_name = $.id('dialog-create-new-custom-stream-name').value;
+    var stream_url = $.id('dialog-create-new-custom-stream-url').value;
+    var stream_id = $.id('dialog-create-new-custom-stream-id').value;
     var mode;
     if (stream_id === '') {
       mode = 'add';
@@ -217,7 +214,7 @@
     });
     dialog_add.close();
   };
-  window.document.getElementById('dialog-remove-custom-stream-cancel').onclick = dialog_remove.close;
+  $.id('dialog-remove-custom-stream-cancel').onclick = dialog_remove.close;
 
   storage.get({
     stream_id: streams.def.stream,

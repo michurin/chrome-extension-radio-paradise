@@ -5,7 +5,7 @@
  */
 
 /*global window */
-/*global height_animator_generator, open_url_in_new_tab */
+/*global height_animator_generator, open_url_in_new_tab, $ */
 /*exported image_info_init */
 
 'use strict';
@@ -21,17 +21,17 @@ var image_info_init = (function () {
   var not_animate = false;
 
   var text_box_animator = height_animator_generator(
-    window.document.getElementById('song-info-text'),
-    window.document.getElementById('song-info-text-wrapper')
+    $.id('song-info-text'),
+    $.id('song-info-text-wrapper')
   );
 
   var image_box_animator = height_animator_generator(
-    window.document.getElementById('song-info-image'),
-    window.document.getElementById('song-info-image-wrapper')
+    $.id('song-info-image'),
+    $.id('song-info-image-wrapper')
   );
 
   function make_clickable(songid) {
-    var e = window.document.getElementById('song-info');
+    var e = $.id('song-info');
     e.style.cursor = 'pointer';
     e.onclick = (function (url) {
       return function () {
@@ -61,11 +61,11 @@ var image_info_init = (function () {
           var x;
           var t = info[v[0]];
           if (t) {
-            x = window.document.createElement('div');
+            x = $.create('div');
             x.innerText = '• ' + v[1] + ' •';
             x.className = 'song-info-title';
             content.push(x);
-            x = window.document.createElement('div');
+            x = $.create('div');
             x.innerText = t;
             x.className = 'song-info';
             content.push(x);
@@ -80,7 +80,7 @@ var image_info_init = (function () {
       if (info.med_cover) {
         url = info.med_cover;
       }
-      var g = window.document.createElement('img');
+      var g = $.create('img');
       g.onload = function () {
         var gg = [g];
         image_box_animator(gg, not_animate);

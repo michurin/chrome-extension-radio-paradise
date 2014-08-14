@@ -4,12 +4,14 @@
  * MIT License [http://www.opensource.org/licenses/mit-license.php]
  */
 
-/*global window */
-/*global storage, on_storage_change, streams, volume_change */
+/*global storage, on_storage_change, streams, volume_change, $ */
 
 'use strict';
 
 (function () {
+
+  var stream_list = $.id('streams-list');
+  var badge_color = $.id('badge-background-color');
 
   function pupup_setter(v) {
     return function () {
@@ -19,10 +21,7 @@
 
   function stream_setter() {
     var vv = {};
-    Array.prototype.slice.call(
-      window.document.getElementById('streams-list').querySelectorAll('input:not(:checked)'),
-      0
-    ).forEach(function (v) {
+    $.each(stream_list, 'input:not(:checked)', function (v) {
       vv[v.id.substr(7)] = true; // cut off 'stream-'
     });
     storage.set({hidden_streams: vv});
@@ -40,10 +39,7 @@
 
   function update_stream_id_in_streams_list(sid) {
     var act = 'active-' + sid;
-    Array.prototype.slice.call(
-      window.document.querySelectorAll('#streams-list span'),
-      0
-    ).forEach(function (v) {
+    $.each(stream_list, 'span', function (v) {
       if (v.id === act) {
         v.innerText = ' ★ ';
         v.title = 'current stream';
@@ -60,37 +56,33 @@
 
   function update_active_streams_in_streams_list(hs) {
     hs = hs || streams.hidden_by_default;
-    Array.prototype.slice.call(
-      window.document.querySelectorAll('#streams-list input'),
-      0
-    ).forEach(function (v) {
+    $.each(stream_list, 'input', function (v) {
       v.checked = !hs[v.id.substr(7)]; // cut off 'active-'
     });
   }
 
   function streams_list(state) { // state.hidden_streams, state.stream_id
-    var fs = window.document.getElementById('streams-list');
     streams.list.forEach(function (v) {
       var eid = 'stream-' + v[0];
-      var f = window.document.createElement('label');
+      var f = $.create('label');
       f.setAttribute('for', eid);
-      var e = window.document.createElement('input');
+      var e = $.create('input');
       e.type = 'checkbox';
       e.id = eid;
       e.onchange = stream_setter;
       f.appendChild(e);
-      e = window.document.createElement('b');
+      e = $.create('b');
       e.innerText = ' ' + v[1].title;
       f.appendChild(e);
-      e = window.document.createElement('span');
+      e = $.create('span');
       e.id = 'active-' + v[0];
       f.appendChild(e);
-      e = window.document.createElement('a');
+      e = $.create('a');
       e.target = '_blank';
       e.innerText = v[1].url;
       e.href = v[1].url;
       f.appendChild(e);
-      fs.appendChild(f);
+      stream_list.appendChild(f);
     });
     update_stream_id_in_streams_list(state.stream_id);
     update_active_streams_in_streams_list(state.hidden_streams);
@@ -100,7 +92,7 @@
     if (typeof vol !== 'number') {
       vol = 0.75;
     }
-    window.document.getElementById('volume-value').innerText = Math.round(vol * 100) + '%';
+    $.id('volume-value').innerText = Math.round(vol * 100) + '%';
   }
 
   function volume_changer(levels) {
@@ -110,7 +102,6 @@
   }
 
   function make_badge_background_controls(color) {
-    var root = window.document.getElementById('badge-background-color');
     var colors = [{
       name: 'red',
       up: '#f88',
@@ -174,7 +165,7 @@
     }];
     var elements = [];
     colors.forEach(function (v) {
-      var x = window.document.createElement('span');
+      var x = $.create('span');
       x.className = 'color-selector';
       x.style.backgroundImage = 'linear-gradient(#fff, #ddd, ' + v.up + ', ' + v.down +')';
       x.innerText = v.name;
@@ -189,7 +180,7 @@
         x.classList.add('color-selected');
       }
       elements.push(x);
-      root.appendChild(x);
+      badge_color.appendChild(x);
     });
   }
 
@@ -208,16 +199,11 @@
     if (ch.popup) {
       x = ch.popup.newValue;
       // undefined -> true
-      window.document.getElementById(
-        (x === undefined || x) ? 'popup' : 'one-click'
-      ).checked = true;
+      $.id((x === undefined || x) ? 'popup' : 'one-click').checked = true;
     }
     if (ch.badge_background_color) {
       x = ch.badge_background_color.newValue || '#942';
-      Array.prototype.slice.call(
-        window.document.getElementsByClassName('color-selector'),
-        0
-      ).forEach(function (v) {
+      $.each(badge_color, '.color-selector', function (v) {
         if (v.dataset.color === x) {
           v.classList.add('color-selected');
         } else {
@@ -235,7 +221,7 @@
   });
 
   function setup_animation(a) {
-    var e = window.document.getElementById('animation');
+    var e = $.id('animation');
     e.checked = a;
     e.onchange = function () {
       storage.set({animation: e.checked});
@@ -251,18 +237,15 @@
     hidden_streams: null // see comment in popup.js
   }, function (state) {
     // control mode
-    window.document.getElementById(state.popup ? 'popup' : 'one-click').checked = true;
-    Array.prototype.slice.call(
-      window.document.querySelectorAll('input[name="control_mode"]'),
-      0
-    ).forEach(function (v) {
+    $.id(state.popup ? 'popup' : 'one-click').checked = true;
+    $.each($.id('mode-control'), 'input[name="control_mode"]', function (v) {
       v.disabled = false;
       v.onchange = pupup_setter(v.id === 'popup');
     });
     // volue controller
     update_volume(state.volume);
-    window.document.getElementById('volume-plus').onclick = volume_changer(10);
-    window.document.getElementById('volume-minus').onclick = volume_changer(-10);
+    $.id('volume-plus').onclick = volume_changer(10);
+    $.id('volume-minus').onclick = volume_changer(-10);
     // animation
     setup_animation(state.animation);
     // streams

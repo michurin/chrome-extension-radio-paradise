@@ -4,14 +4,14 @@
  * MIT License [http://www.opensource.org/licenses/mit-license.php]
  */
 
-/*global window, chrome */
-/*global opacity_animator_generator, update_field, on_storage_change */
+/*global chrome */
+/*global opacity_animator_generator, update_field, on_storage_change, $ */
 
 'use strict';
 
 (function () {
 
-  var root = window.document.getElementById('alarms-root');
+  var root = $.id('alarms-root');
 
   function two(x) {
     if (x > 9) {
@@ -21,8 +21,8 @@
   }
 
   var confirmation = opacity_animator_generator('dialog-remove-alarm');
-  window.document.getElementById('dialog-remove-alarm-cancel').onclick = confirmation.close;
-  var confirmation_delete = window.document.getElementById('dialog-remove-alarm-delete');
+  $.id('dialog-remove-alarm-cancel').onclick = confirmation.close;
+  var confirmation_delete = $.id('dialog-remove-alarm-delete');
 
   function update_action() {
     // this function *CAN* be called as on-storage-changed
@@ -33,10 +33,10 @@
         root.innerText = '(no alarms)';
       } else {
         root.innerText = '';
-        var table = window.document.createElement('table');
-        var tr = window.document.createElement('tr');
+        var table = $.create('table');
+        var tr = $.create('tr');
         ['Alarm', 'Action', 'Next', '', ''].forEach(function (v) {
-          var th = window.document.createElement('th');
+          var th = $.create('th');
           th.innerText = v;
           tr.appendChild(th);
         });
@@ -47,7 +47,7 @@
         aa.forEach(function (v) {
           var name = v.name;
           if (name.substr(0, 6) === 'alarm_') {
-            var tr = window.document.createElement('tr');
+            var tr = $.create('tr');
             var h = name.substr(6, 2);
             var m = name.substr(9, 2);
             var a = name.substr(12);
@@ -58,12 +58,12 @@
               two(d.getHours()) + ':' +
               two(d.getMinutes());
             [h + ':' + m, a, fmt_d].forEach(function (v) {
-              var td = window.document.createElement('td');
+              var td = $.create('td');
               td.innerText = v;
               tr.appendChild(td);
             });
             var x, td;
-            x = window.document.createElement('div');
+            x = $.create('div');
             x.innerText = '⚙';
             x.title = 'edit alarm';
             x.onclick = function () {
@@ -71,17 +71,17 @@
               controls.forEach(function (v, n) {
                 v.set(x.charAt(n));
               });
-              window.document.getElementById('alarm-id').value = v.name; // edit mode
-              window.document.getElementById(
+              $.id('alarm-id').value = v.name; // edit mode
+              $.id(
                 'alarm-action-' + v.name.substr(12)
               ).checked = true;
               dialog.open();
             };
-            td = window.document.createElement('td');
+            td = $.create('td');
             td.appendChild(x);
             tr.appendChild(td);
             table.appendChild(tr);
-            x = window.document.createElement('div');
+            x = $.create('div');
             x.innerText = '☒';
             x.title = 'delete alarm';
             x.onclick = function () {
@@ -91,7 +91,7 @@
               };
               confirmation.open();
             };
-            td = window.document.createElement('td');
+            td = $.create('td');
             td.appendChild(x);
             tr.appendChild(td);
           }
@@ -115,9 +115,9 @@
 
   var controls = [3, 10, 6, 10].map(function (v, n) {
     var r = {
-      up: window.document.getElementById('alarms-digit-' + n + '-up'),
-      down: window.document.getElementById('alarms-digit-' + n + '-down'),
-      digit: window.document.getElementById('alarms-digit-' + n),
+      up: $.id('alarms-digit-' + n + '-up'),
+      down: $.id('alarms-digit-' + n + '-down'),
+      digit: $.id('alarms-digit-' + n),
       set: function (v) {
         r.digit.innerText = v;
       },
@@ -137,8 +137,8 @@
   });
 
   var dialog = opacity_animator_generator('dialog-create-new-alarm');
-  window.document.getElementById('dialog-create-new-alarm-cancel').onclick = dialog.close;
-  window.document.getElementById('dialog-create-new-alarm-save').onclick = function () {
+  $.id('dialog-create-new-alarm-cancel').onclick = dialog.close;
+  $.id('dialog-create-new-alarm-save').onclick = function () {
     var h = controls[0].get() * 10 + controls[1].get();
     var m = controls[2].get() * 10 + controls[3].get();
     if (h > 24) {
@@ -148,7 +148,7 @@
       return;
     }
     dialog.close();
-    var checked = window.document.getElementById('alarm-action-on').checked;
+    var checked = $.id('alarm-action-on').checked;
     var action = checked ? 'on' : 'off';
     var antiaction = checked ? 'off' : 'on';
     var base_name = 'alarm_' + controls[0].get() + controls[1].get() + '_' + controls[2].get() + controls[3].get() + '_';
@@ -166,7 +166,7 @@
       periodInMinutes: 24 * 60
     });
     chrome.alarms.clear(antiname, function () {
-      var old = window.document.getElementById('alarm-id').value;
+      var old = $.id('alarm-id').value;
       if (old !== '' && old !== name) {
         chrome.alarms.clear(old, update);
       } else {
@@ -175,14 +175,14 @@
     });
   };
 
-  window.document.getElementById('alarms-add-button').onclick = function () {
+  $.id('alarms-add-button').onclick = function () {
     var t = new Date(new Date().getTime() + 2 * 60 * 1000); // +2m
     var x = two(t.getHours()) + '' + two(t.getMinutes()); // force string
     controls.forEach(function (v, n) {
       v.set(x.charAt(n));
     });
-    window.document.getElementById('alarm-action-on').checked = true;
-    window.document.getElementById('alarm-id').value = ''; // create mode
+    $.id('alarm-action-on').checked = true;
+    $.id('alarm-id').value = ''; // create mode
     dialog.open();
   };
 

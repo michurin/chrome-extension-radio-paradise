@@ -4,11 +4,10 @@
  * MIT License [http://www.opensource.org/licenses/mit-license.php]
  */
 
-/*global window */
-/*global open_url_in_new_tab */
+/*global open_url_in_new_tab, $ */
 
 'use strict';
 
-window.document.getElementById('rp-link').onclick = function () {
+$.id('rp-link').onclick = function () {
   open_url_in_new_tab('http://www.radioparadise.com/');
 };
