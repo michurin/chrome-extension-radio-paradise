@@ -60,15 +60,20 @@ a:hover {
   text-decoration: underline;
 }
 
-small {
-  color: #ddd;
+td {
+  padding: 0;
+  text-align: left;
 }
 
-small span {
+.debug small {
+  color: #ccc;
+}
+
+.debug small span {
   cursor: pointer;
 }
 
-small span:hover {
+.debug small span:hover {
   color: #888;
 }
 

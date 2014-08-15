@@ -187,8 +187,8 @@
   });
 
   $.id('custom-streams-add-button').onclick = function () {
-    $.id('dialog-create-new-custom-stream-name').value = 'radio';
-    $.id('dialog-create-new-custom-stream-url').value = 'http://';
+    $.id('dialog-create-new-custom-stream-name').value = '';
+    $.id('dialog-create-new-custom-stream-url').value = '';
     $.id('dialog-create-new-custom-stream-id').value = '';
     dialog_add.open();
   };

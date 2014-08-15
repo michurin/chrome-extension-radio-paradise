@@ -59,7 +59,7 @@
     <button id="custom-streams-add-button">Add custom stream</button>
   </fieldset>
 
-  <p>
+  <p class="debug">
     <small>
       <span id="bugreport">bug report</span> |
       <span id="reload">reload extension</span> |
@@ -152,8 +152,12 @@
       <div id="dialog-create-new-custom-stream">
         <div><b>New custom stream</b></div>
         <div>
-          <input type="text" id="dialog-create-new-custom-stream-name" placeholder="stream name">
-          <input type="text" id="dialog-create-new-custom-stream-url" placeholder="stream url">
+          <table>
+            <tr><td><small>Short name</small></td></tr>
+            <tr><td><input type="text" id="dialog-create-new-custom-stream-name" size="25"></td></tr>
+            <tr><td><small>Stream URL</small></td></tr>
+            <tr><td><input type="text" id="dialog-create-new-custom-stream-url" size="50"></td></tr>
+          </table>
           <input type="hidden" id="dialog-create-new-custom-stream-id">
         </div>
         <div class="two-button-box">
