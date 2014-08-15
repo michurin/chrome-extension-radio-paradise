@@ -78,6 +78,28 @@
           label.appendChild(a);
           label.appendChild($.tx());
           b = $.create('span');
+          b.className = 'control-char';
+          b.innerText = '⇧';
+          b.title = 'move up';
+          b.onclick = function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            panel.swap(n, p); // redraw will be fired by event
+          };
+          label.appendChild(b);
+          label.appendChild($.tx());
+          b = $.create('span');
+          b.className = 'control-char';
+          b.innerText = '⇩';
+          b.title = 'move down';
+          b.onclick = function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            panel.swap(n, q);
+          };
+          label.appendChild(b);
+          label.appendChild($.tx());
+          b = $.create('span');
           b.innerText = '⚙';
           b.className = 'control-char';
           b.title = 'edit stream';
@@ -103,28 +125,6 @@
               dialog_remove.close();
             };
             dialog_remove.open();
-          };
-          label.appendChild(b);
-          label.appendChild($.tx());
-          b = $.create('span');
-          b.className = 'control-char';
-          b.innerText = '⇧';
-          b.title = 'move up';
-          b.onclick = function (e) {
-            e.stopPropagation();
-            e.preventDefault();
-            panel.swap(n, p); // redraw will be fired by event
-          };
-          label.appendChild(b);
-          label.appendChild($.tx());
-          b = $.create('span');
-          b.className = 'control-char';
-          b.innerText = '⇩';
-          b.title = 'move down';
-          b.onclick = function (e) {
-            e.stopPropagation();
-            e.preventDefault();
-            panel.swap(n, q);
           };
           label.appendChild(b);
         });
