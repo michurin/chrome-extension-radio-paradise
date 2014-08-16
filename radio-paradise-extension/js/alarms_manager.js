@@ -5,7 +5,7 @@
  */
 
 /*global chrome */
-/*global opacity_animator_generator, update_field, on_storage_change, $ */
+/*global opacity_animator_generator, update_field, $ */
 
 'use strict';
 
@@ -25,9 +25,8 @@
   var confirmation_delete = $.id('dialog-remove-alarm-delete');
 
   function update_action() {
-    // this function *CAN* be called as on-storage-changed
-    // handler *ONLY*
-    // this is done to synchronize tabs
+    // this function can be called as onmessage handler *ONLY*
+    // this is done to synchronize tabs if any
     chrome.alarms.getAll(function (aa) {
       if (aa.length === 0) {
         root.innerText = '(no alarms)';
@@ -104,13 +103,12 @@
   }
 
   function update() {
-    // field 'last_alarm_change' used *NOT FOR LOGGING ONLY*
-    // it used to fire on-storage-changed event and synchronize tabs
-    update_field('last_alarm_change');
+    chrome.runtime.sendMessage({action: 'alarms_changed'});
+    update_field('last_alarm_change'); // for debugging only
   }
 
-  on_storage_change(function (ch) {
-    if (ch.last_alarm_change) {
+  chrome.runtime.onMessage.addListener(function (request) {
+    if (request.action === 'alarms_changed') {
       update_action();
     }
   });
