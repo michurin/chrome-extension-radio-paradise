@@ -27,8 +27,19 @@
       panel.update_active();
     },
     set_streams: function (s) {
+      var f;
       panel.streams = s || [];
       panel.redraw();
+      if (panel.active_stream_id.substr(0, 7) === 'custom_') {
+        f = false;
+        panel.streams.forEach(function (v) {
+          f = (f || v[0] === panel.active_stream_id);
+        });
+        if (!f) {
+          // we delete an active stream, drop to default stream
+          storage.remove(['stream_id']);
+        }
+      }
     },
     set_hidden: function (h) {
       panel.hidden = h || {};
