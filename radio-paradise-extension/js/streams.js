@@ -122,17 +122,6 @@ streams.list =   [
     hidden_by_default: true
   } ] ];
 
-streams.hidden_by_default = (function (x) {
-  var i, v, r = {};
-  for (i = 0; i < x.length; ++i) {
-    v = x[i];
-    if (v[1].hidden_by_default) {
-      r[v[0]] = true;
-    }
-  }
-  return r;
-}(streams.list));
-
 streams.map = (function (x) {
   var i, v, d = {};
   for (i = 0; i < x.length; ++i) {
@@ -143,5 +132,18 @@ streams.map = (function (x) {
 }(streams.list));
 
 streams.def = {
-  stream: 'ogg-96k'
+  stream: 'ogg-96k',
+  hidden: (function (x) {
+    // used only as generator in storage.js
+    return function () {
+      var i, v, r = {};
+      for (i = 0; i < x.length; ++i) {
+        v = x[i];
+        if (v[1].hidden_by_default) {
+          r[v[0]] = true;
+        }
+      }
+      return r;
+    };
+  }(streams.list))
 };

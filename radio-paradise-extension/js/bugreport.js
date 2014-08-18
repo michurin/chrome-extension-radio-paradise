@@ -5,7 +5,7 @@
  */
 
 /*global window, chrome */
-/*global storage, $ */
+/*global $ */
 
 'use strict';
 
@@ -20,7 +20,7 @@
     root_element.innerText = '';
 
     chrome.alarms.getAll(function (all_alarms) {
-      storage.get(null, function (stor) {
+      chrome.storage.local.get(null, function (stor) {
         window.dom_keeper.get_all(function (cache) {
 
           root_element.innerText =
@@ -75,7 +75,7 @@
             chrome.app.getDetails().author;
 
         }); // window.dom_keeper.get_all
-      }); // storage.get
+      }); // chrome.storage.local.get
     }); // chrome.alarms.getAll
 
   }; // onclick

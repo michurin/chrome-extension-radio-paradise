@@ -5,7 +5,7 @@
  */
 
 /*global chrome */
-/*global opacity_animator_generator, update_field, $ */
+/*global opacity_animator_generator, storage, $ */
 
 'use strict';
 
@@ -104,7 +104,7 @@
 
   function update() {
     chrome.runtime.sendMessage({action: 'alarms_changed'});
-    update_field('last_alarm_change'); // for debugging only
+    storage.update_field('last_alarm_change'); // for debugging only
   }
 
   chrome.runtime.onMessage.addListener(function (request) {

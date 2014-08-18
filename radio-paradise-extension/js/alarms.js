@@ -5,7 +5,7 @@
  */
 
 /*global chrome */
-/*global storage, update_field */
+/*global storage */
 
 'use strict';
 
@@ -16,7 +16,7 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
     t = new Date(new Date().getTime() - 30 * 1000).getTime(); // -30s
     if (alarm.scheduledTime > t) {
       act = name.substr(12);
-      update_field('last_alarm');
+      storage.update_field('last_alarm');
       storage.set({last_alarm_name: name});
       storage.set({playing: act === 'on'});
     }

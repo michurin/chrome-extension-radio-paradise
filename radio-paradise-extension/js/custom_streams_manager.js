@@ -4,7 +4,7 @@
  * MIT License [http://www.opensource.org/licenses/mit-license.php]
  */
 
-/*global opacity_animator_generator, storage, on_storage_change, streams, $ */
+/*global opacity_animator_generator, storage, $ */
 
 'use strict';
 
@@ -185,16 +185,10 @@
     }
   };
 
-  on_storage_change(function (cn) {
-    if (cn.stream_id) {
-      panel.set_stream_id(cn.stream_id.newValue);
-    }
-    if (cn.custom_streams) {
-      panel.set_streams(cn.custom_streams.newValue);
-    }
-    if (cn.hidden_custom_streams) {
-      panel.set_hidden(cn.hidden_custom_streams.newValue);
-    }
+  storage.onchange({
+    stream_id: panel.set_stream_id,
+    custom_streams: panel.set_streams,
+    hidden_custom_streams: panel.set_hidden
   });
 
   $.id('custom-streams-add-button').onclick = function () {
@@ -221,7 +215,7 @@
       url: stream_url,
       title: stream_name
     }];
-    storage.get({custom_streams: null}, function (x) {
+    storage.get(['custom_streams'], function (x) {
       var streams = x.custom_streams || [];
       var t;
       if (mode === 'add') {
@@ -239,11 +233,7 @@
   };
   $.id('dialog-remove-custom-stream-cancel').onclick = dialog_remove.close;
 
-  storage.get({
-    stream_id: streams.def.stream,
-    custom_streams: null,
-    hidden_custom_streams: null
-  }, function (x) {
+  storage.get(['stream_id', 'custom_streams', 'hidden_custom_streams'], function (x) {
     panel.init(x.custom_streams, x.hidden_custom_streams, x.stream_id);
   });
 

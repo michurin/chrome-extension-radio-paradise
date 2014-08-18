@@ -5,7 +5,7 @@
  */
 
 /*global chrome */
-/*global opacity_animator_generator, storage, $ */
+/*global opacity_animator_generator, $ */
 
 'use strict';
 
@@ -29,7 +29,7 @@
   $.id('dialog-hard-reload-cancel').onclick = dialog.close;
   $.id('dialog-hard-reload-reload').onclick = function () {
     dialog.close();
-    storage.clear(function () {
+    chrome.storage.local.clear(function () {
       chrome.alarms.clearAll(function () {
         chrome.runtime.reload();
       });

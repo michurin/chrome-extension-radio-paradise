@@ -5,7 +5,7 @@
  */
 
 /*global chrome */
-/*global streams, storage, audio_controller, on_storage_change, toggle_playing_state, update_field */
+/*global streams, storage, audio_controller */
 
 'use strict';
 
@@ -14,14 +14,13 @@
   var browser_action = chrome.browserAction;
 
   function update_popup_mode(mode) {
-    // mode === undefined is true
     browser_action.setPopup({
-      popup: (mode === undefined || mode) ? 'popup.html' : ''
+      popup: mode ? 'popup.html' : ''
     });
   }
 
   function update_badge_color(color) {
-    browser_action.setBadgeBackgroundColor({color: color || '#942'});
+    browser_action.setBadgeBackgroundColor({color: color});
   }
 
   function badge_updater(text) {
@@ -49,60 +48,42 @@
       if (x) {
         return x.url;
       }
+      // we can not get here
       return streams.map[streams.def.stream].url;
     }
   };
 
-  // setup audio element; *MUST* be before bindings
-
-  audio_controller.set_callbacks(
-    badge_updater('…'),
-    badge_updater('►'),
-    badge_updater(''),
-    function (failed_url) {
-      update_field('last_stream_timeout');
-      storage.set({last_stream_timeout_url: failed_url});
-      storage.set({playing: false});
-    },
-    streams.map[streams.def.stream].url
-  );
-
-  // bind state processing
-
-  on_storage_change(function (ch) {
-    if (ch.volume) {
-      audio_controller.set_volume(ch.volume.newValue);
-    }
-    if (ch.playing) {
-      audio_controller.set_state(ch.playing.newValue);
-    }
-    if (ch.stream_id) {
-      audio_controller.set_stream(url_resolver.resolv(ch.stream_id.newValue));
-    }
-    if (ch.custom_streams) {
-      url_resolver.set_customs(ch.custom_streams.newValue);
-    }
-    if (ch.popup) {
-      update_popup_mode(ch.popup.newValue);
-    }
-    if (ch.badge_background_color) {
-      update_badge_color(ch.badge_background_color.newValue);
-    }
-  });
-
-  // bind state changers
-
-  browser_action.onClicked.addListener(toggle_playing_state);
-
   // init state
 
   storage.get(['volume', 'playing', 'stream_id', 'custom_streams'], function (x) {
-    update_field('last_init_audio');
+    storage.update_field('last_init_audio');
     storage.set({last_init_audio_args: x});
     url_resolver.set_customs(x.custom_streams);
+    audio_controller.set_callbacks(
+      badge_updater('…'),
+      badge_updater('►'),
+      badge_updater(''),
+      function (failed_url) {
+        storage.update_field('last_stream_timeout');
+        storage.set({last_stream_timeout_url: failed_url});
+        storage.set({playing: false});
+      }
+    );
     audio_controller.set_stream(url_resolver.resolv(x.stream_id));
     audio_controller.set_volume(x.volume);
     audio_controller.set_state(x.playing);
+    // bind state processing only after audio_controller settings complete
+    browser_action.onClicked.addListener(storage.toggle_playing_state);
+    storage.onchange({
+      volume: audio_controller.set_volume,
+      playing: audio_controller.set_state,
+      stream_id: function (x) {
+        audio_controller.set_stream(url_resolver.resolv(x));
+      },
+      custom_streams: url_resolver.set_customs,
+      popup: update_popup_mode,
+      badge_background_color: update_badge_color
+    });
   });
 
   function init() {
@@ -117,11 +98,11 @@
 
   chrome.runtime.onStartup.addListener(function () {
     // not fired on installed
-    update_field('last_startup');
+    storage.update_field('last_startup');
     init();
   });
   chrome.runtime.onInstalled.addListener(function () {
-    update_field('last_install');
+    storage.update_field('last_install');
     init();
   });
   chrome.runtime.onUpdateAvailable.addListener(function () {

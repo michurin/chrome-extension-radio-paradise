@@ -5,7 +5,7 @@
  */
 
 /*global window */
-/*global streams, storage, toggle_playing_state, on_storage_change, $ */
+/*global streams, storage, $ */
 /*global image_info_init, volume_change */
 
 'use strict';
@@ -83,7 +83,7 @@
     switch (e.which) {
       case 32:
       case 13:
-        toggle_playing_state();
+        storage.toggle_playing_state();
         break;
       case 37:
       case 40:
@@ -103,7 +103,7 @@
 
   play_pause_element.onclick = function (e) {
     e.preventDefault();
-    toggle_playing_state();
+    storage.toggle_playing_state();
   };
 
   function update_play_pause_element(state) {
@@ -118,42 +118,33 @@
   }
 
   function update_volume_element(volume) {
-    if (typeof volume !== 'number') {
-      volume = 0.75;
-    }
     volume_element.getElementsByTagName('circle')[0].setAttribute('cx', volume * 1380 + 60);
   }
 
-  on_storage_change(function (ch) {
-    if (ch.playing) {
-      // can be changed by
-      // - @here
-      // - watchdog in background page
-      // - alarms
-      update_play_pause_element(ch.playing.newValue || false);
-    }
-    if (ch.stream_id) {
-      update_selectors(ch.stream_id.newValue || streams.def.stream);
-    }
-    if (ch.volume) {
-      update_volume_element(ch.volume.newValue);
-    }
+  storage.onchange({
+    // can be changed by
+    // - @here
+    // - watchdog in background page
+    // - alarms
+    playing: update_play_pause_element,
+    stream_id: update_selectors,
+    volume: update_volume_element
   });
 
-  storage.get({
-    playing: false,
-    volume: 0.75,
-    stream_id: streams.def.stream,
-    animation: true,
-    hidden_streams: null, // we must NOT use object as default because chrome merge default and actual objects
-    custom_streams: null,
-    hidden_custom_streams: null
-  }, function (x) {
+  storage.get([
+    'playing',
+    'volume',
+    'stream_id',
+    'animation',
+    'hidden_streams',
+    'custom_streams',
+    'hidden_custom_streams'
+  ], function (x) {
     update_play_pause_element(x.playing);
     update_volume_element(x.volume);
     volume_element.setAttribute('class', 'container-on');
-    init_stream_selectors(x.hidden_streams || streams.hidden_by_default);
-    init_custom_streams_selectors(x.custom_streams || [], x.hidden_custom_streams || {});
+    init_stream_selectors(x.hidden_streams);
+    init_custom_streams_selectors(x.custom_streams, x.hidden_custom_streams);
     update_selectors(x.stream_id);
     var not_animate = !x.animation;
     window.dom_keeper.get_all(function (cache) {

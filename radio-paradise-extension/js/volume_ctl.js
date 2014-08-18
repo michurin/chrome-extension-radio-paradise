@@ -10,7 +10,7 @@
 'use strict';
 
 function volume_change(levels) {
-  storage.get({volume: 0.75}, function (x) {
+  storage.get(['volume'], function (x) {
     var v = x.volume;
     v += 1 / levels;
     v = Math.round(v * levels) / levels;

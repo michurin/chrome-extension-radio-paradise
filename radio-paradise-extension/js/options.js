@@ -4,7 +4,7 @@
  * MIT License [http://www.opensource.org/licenses/mit-license.php]
  */
 
-/*global storage, on_storage_change, streams, volume_change, $ */
+/*global storage, streams, volume_change, $ */
 
 'use strict';
 
@@ -33,7 +33,7 @@
       event.preventDefault();
       storage.set({
         stream_id: sid
-      }); // will be continued in on_storage_change handler
+      }); // will be continued in storage.onchange handler
     };
   }
 
@@ -55,7 +55,6 @@
   }
 
   function update_active_streams_in_streams_list(hs) {
-    hs = hs || streams.hidden_by_default;
     $.each(stream_list, 'input', function (v) {
       v.checked = !hs[v.id.substr(7)]; // cut off 'active-'
     });
@@ -92,9 +91,6 @@
   }
 
   function update_volume(vol) {
-    if (typeof vol !== 'number') {
-      vol = 0.75;
-    }
     $.id('volume-value').innerText = Math.round(vol * 100) + '%';
   }
 
@@ -187,42 +183,6 @@
     });
   }
 
-  on_storage_change(function (ch) {
-    var x;
-    if (ch.stream_id) {
-      // can be changed by
-      // - @here
-      // - popup window
-      update_stream_id_in_streams_list(ch.stream_id.newValue || streams.def.stream);
-    }
-    if (ch.volume) {
-      update_volume(ch.volume.newValue);
-    }
-    // helpers to sync options pages if user open a number
-    if (ch.popup) {
-      x = ch.popup.newValue;
-      // undefined -> true
-      $.id((x === undefined || x) ? 'popup' : 'one-click').checked = true;
-    }
-    if (ch.badge_background_color) {
-      x = ch.badge_background_color.newValue || '#942';
-      $.each(badge_color, '.color-selector', function (v) {
-        if (v.dataset.color === x) {
-          v.classList.add('color-selected');
-        } else {
-          v.classList.remove('color-selected');
-        }
-      });
-    }
-    if (ch.animation) {
-      x = ch.animation.newValue;
-      setup_animation(x === undefined || x); // undefined -> true
-    }
-    if (ch.hidden_streams) {
-      update_active_streams_in_streams_list(ch.hidden_streams.newValue);
-    }
-  });
-
   function setup_animation(a) {
     var e = $.id('animation');
     e.checked = a;
@@ -231,14 +191,33 @@
     };
   }
 
-  storage.get({
-    popup: true,
-    stream_id: streams.def.stream,
-    volume: 0.75,
-    animation: true,
-    badge_background_color: '#942',
-    hidden_streams: null // see comment in popup.js
-  }, function (state) {
+  storage.onchange({
+    stream_id: update_stream_id_in_streams_list,
+    volume: update_volume,
+    popup: function (x) {
+      $.id(x ? 'popup' : 'one-click').checked = true;
+    },
+    badge_background_color: function (x) {
+      $.each(badge_color, '.color-selector', function (v) {
+        if (v.dataset.color === x) {
+          v.classList.add('color-selected');
+        } else {
+          v.classList.remove('color-selected');
+        }
+      });
+    },
+    animation: setup_animation,
+    hidden_streams: update_active_streams_in_streams_list
+  });
+
+  storage.get([
+    'popup',
+    'stream_id',
+    'volume',
+    'animation',
+    'badge_background_color',
+    'hidden_streams'
+  ], function (state) {
     // control mode
     $.id(state.popup ? 'popup' : 'one-click').checked = true;
     $.each($.id('mode-control'), 'input[name="control_mode"]', function (v) {
