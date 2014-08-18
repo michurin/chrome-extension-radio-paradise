@@ -148,9 +148,11 @@
       return;
     }
     dialog.close();
-    var checked = $.id('alarm-action-on').checked;
-    var action = checked ? 'on' : 'off';
-    var antiaction = checked ? 'off' : 'on';
+
+    var action = $.id('dialog-create-new-alarm').querySelector(
+      'input[type=radio]:checked'
+    ).id.substr(13); // remove 'alarm-action-'
+    var antiaction = action === 'on' ? 'off' : action === 'off' ? 'on' : 'X';
     var base_name = 'alarm_' + controls[0].get() + controls[1].get() + '_' + controls[2].get() + controls[3].get() + '_';
     var name = base_name + action;
     var antiname = base_name + antiaction;
@@ -166,6 +168,7 @@
       periodInMinutes: 24 * 60
     });
     chrome.alarms.clear(antiname, function () {
+      // FIXIT: we do not really need to remove X-alarms
       var old = $.id('alarm-id').value;
       if (old !== '' && old !== name) {
         chrome.alarms.clear(old, update);
