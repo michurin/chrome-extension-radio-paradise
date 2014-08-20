@@ -8,6 +8,11 @@
 
 'use strict';
 
+// unfortunately we can not use runtime.sendMessage
+// to communicate to cache because we have to keep
+// in cache DOM elements (at least <img>) those
+// can not be JSONify by Chrome internal routines.
+
 window.dom_keeper = (function () {
 
   var CACHE_EXPIRATION_MS = 10000;

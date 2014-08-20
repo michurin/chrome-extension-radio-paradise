@@ -17,7 +17,7 @@
   bugreport_element.onclick = function () {
 
     root_element.style.display = 'block';
-    root_element.innerText = '';
+    $.empty(root_element);
 
     chrome.alarms.getAll(function (all_alarms) {
       chrome.storage.local.get(null, function (stor) {

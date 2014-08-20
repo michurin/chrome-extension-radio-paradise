@@ -4,7 +4,7 @@
  * MIT License [http://www.opensource.org/licenses/mit-license.php]
  */
 
-/*global animator_generator */
+/*global animator_generator, $ */
 /*exported height_animator_generator */
 
 'use strict';
@@ -20,7 +20,7 @@ function height_animator_generator(wrapper, container) {
   });
   function set_content(content) {
     var i;
-    container.innerText = '';
+    $.empty(container);
     for (i = 0; i < content.length; ++i) {
       container.appendChild(content[i]);
     }

@@ -50,7 +50,7 @@
       if (panel.streams.length === 0) {
         root.innerText = '(no custom streams)';
       } else {
-        root.innerText = '';
+        $.empty(root);
         var len = panel.streams.length;
         panel.streams.forEach(function (v, n) {
           var p = (n + len - 1) % len;

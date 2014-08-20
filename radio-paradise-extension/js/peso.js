@@ -23,6 +23,11 @@ var $ = (function (doc) {
     },
     tx: function (text) {
       return doc.createTextNode(text || ' ');
+    },
+    empty: function (root) {
+      while(root.firstChild) {
+        root.removeChild(root.firstChild);
+      }
     }
   };
 }(window.document));

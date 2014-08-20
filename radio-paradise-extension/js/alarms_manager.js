@@ -31,7 +31,7 @@
       if (aa.length === 0) {
         root.innerText = '(no alarms)';
       } else {
-        root.innerText = '';
+        $.empty(root);
         var table = $.create('table');
         var tr = $.create('tr');
         ['Alarm', 'Action', 'Next', '', ''].forEach(function (v) {
