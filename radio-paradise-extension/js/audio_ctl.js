@@ -51,6 +51,10 @@ var audio_controller = (function () {
         on_start_playing();
         change_volume();
       };
+      audio_element.onstalled = function () {
+        on_timeout_loading('[stalled]' + audio_element.src);
+        drop_audio_element();
+      };
       window.setTimeout(function () { // watchdog
         if (audio_element && audio_element.readyState !== 4) {
           if (volume_ctl_timer) {
