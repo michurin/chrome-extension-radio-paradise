@@ -10,6 +10,7 @@ Key features:
 * Click to access RP web page with song details, lyrics, voting and discussions
 * Select the appropriate media source and bitrate
 * Easy hot key bindings (in one-click mode)
+* Alarm clock functionality: delayed turn on/off or bell ringing
 * Advanced users can specify custom media streams to listening to any other online radios
 
 Can be installed from
