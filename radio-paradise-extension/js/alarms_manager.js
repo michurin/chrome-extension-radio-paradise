@@ -1,6 +1,6 @@
 /*
  * Radio Paradise player
- * Copyright (c) 2014 Alexey Michurin <a.michurin@gmail.com>
+ * Copyright (c) 2014-2016 Alexey Michurin <a.michurin@gmail.com>
  * MIT License [http://www.opensource.org/licenses/mit-license.php]
  */
 
@@ -23,6 +23,36 @@
   var confirmation = opacity_animator_generator('dialog-remove-alarm');
   $.id('dialog-remove-alarm-cancel').onclick = confirmation.close;
   var confirmation_delete = $.id('dialog-remove-alarm-delete');
+
+  function update() {
+    chrome.runtime.sendMessage({action: 'alarms_changed'});
+    storage.update_field('last_alarm_change'); // for debugging only
+  }
+
+  var controls = [3, 10, 6, 10].map(function (v, n) {
+    var r = {
+      up: $.id('alarms-digit-' + n + '-up'),
+      down: $.id('alarms-digit-' + n + '-down'),
+      digit: $.id('alarms-digit-' + n),
+      set: function (v) {
+        r.digit.innerText = v;
+      },
+      get: function () {
+        return parseInt(r.digit.innerText, 10);
+      },
+      incr: function () {
+        r.set((r.get() + 1) % v);
+      },
+      decr: function () {
+        r.set((r.get() + v - 1) % v);
+      }
+    };
+    r.up.onclick = r.digit.onclick = r.incr;
+    r.down.onclick = r.decr;
+    return r;
+  });
+
+  var dialog = opacity_animator_generator('dialog-create-new-alarm');
 
   function update_action() {
     // this function can be called as onmessage handler *ONLY*
@@ -102,41 +132,12 @@
     });
   }
 
-  function update() {
-    chrome.runtime.sendMessage({action: 'alarms_changed'});
-    storage.update_field('last_alarm_change'); // for debugging only
-  }
-
   chrome.runtime.onMessage.addListener(function (request) {
     if (request.action === 'alarms_changed') {
       update_action();
     }
   });
 
-  var controls = [3, 10, 6, 10].map(function (v, n) {
-    var r = {
-      up: $.id('alarms-digit-' + n + '-up'),
-      down: $.id('alarms-digit-' + n + '-down'),
-      digit: $.id('alarms-digit-' + n),
-      set: function (v) {
-        r.digit.innerText = v;
-      },
-      get: function () {
-        return parseInt(r.digit.innerText, 10);
-      },
-      incr: function () {
-        r.set((r.get() + 1) % v);
-      },
-      decr: function () {
-        r.set((r.get() + v - 1) % v);
-      }
-    };
-    r.up.onclick = r.digit.onclick = r.incr;
-    r.down.onclick = r.decr;
-    return r;
-  });
-
-  var dialog = opacity_animator_generator('dialog-create-new-alarm');
   $.id('dialog-create-new-alarm-cancel').onclick = dialog.close;
   $.id('dialog-create-new-alarm-save').onclick = function () {
     var h = controls[0].get() * 10 + controls[1].get();
