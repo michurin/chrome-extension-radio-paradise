@@ -5,7 +5,7 @@
  */
 
 /*global chrome */
-/*global streams, storage, audio_controller */
+/*global streams, storage, audio_controller, volume_change */
 
 'use strict';
 
@@ -96,6 +96,17 @@
     });
   }
 
+  chrome.commands.onCommand.addListener(function(command) {
+    if (command === 'toggle-sound') {
+      storage.toggle_playing_state();
+    }
+    if (command === 'volume-lower') {
+      volume_change(-10);
+    }
+    if (command === 'volume-raise') {
+      volume_change(10);
+    }
+  });
   chrome.runtime.onStartup.addListener(function () {
     // not fired on installed
     storage.update_field('last_startup');

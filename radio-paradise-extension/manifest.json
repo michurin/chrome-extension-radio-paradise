@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "Radio Paradise player",
-  "version": "0.19.3.0",
+  "version": "0.20.0.0",
   "minimum_chrome_version": "26",
 
   "description": "Chrome extension to listen to Radio Paradise online",
@@ -41,12 +41,29 @@
       "js/storage.js",
       "js/background.js",
       "js/dom_keeper.js",
-      "js/alarms.js"
+      "js/alarms.js",
+      "js/volume_ctl.js"
     ],
     "persistent": false
   },
 
   "options_page": "options.html",
+
+  "commands": {
+    "toggle-sound": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+S",
+        "mac": "Command+Shift+S"
+      },
+      "description": "Toggle sound on/off"
+    },
+    "volume-lower": {
+      "description": "Lower sound volume"
+    },
+    "volume-raise": {
+      "description": "Raise sound volume"
+    }
+  },
 
   "offline_enabled": false,
 
