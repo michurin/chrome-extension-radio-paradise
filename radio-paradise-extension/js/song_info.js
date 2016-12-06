@@ -13,7 +13,7 @@
 var image_info_init = (function () {
 
   var RP_INFO_URL = 'http://radioparadise.com/ajax_xml_song_info.php?song_id=now';
-  var RP_SONGINFO_BASE = 'http://www.radioparadise.com/rp2p-content.php?name=Music&file=songinfo&song_id=';
+  var RP_SONGINFO_BASE = 'http://www.radioparadise.com/rp_2.php?#name=songinfo&song_id=';
   var ERROR_IMAGE_URL = 'images/0.jpg';
 
   var prev_fingerprint = '';
