@@ -191,6 +191,14 @@
     };
   }
 
+  function setup_show_release_date(a) {
+    var e = $.id('show-release-date');
+    e.checked = a;
+    e.onchange = function () {
+      storage.set({show_release_date: e.checked});
+    };
+  }
+
   storage.onchange({
     stream_id: update_stream_id_in_streams_list,
     volume: update_volume,
@@ -207,6 +215,7 @@
       });
     },
     animation: setup_animation,
+    show_release_date: setup_show_release_date,
     hidden_streams: update_active_streams_in_streams_list
   });
 
@@ -215,6 +224,7 @@
     'stream_id',
     'volume',
     'animation',
+    'show_release_date',
     'badge_background_color',
     'hidden_streams'
   ], function (state) {
@@ -228,8 +238,9 @@
     update_volume(state.volume);
     $.id('volume-plus').onclick = volume_changer(10);
     $.id('volume-minus').onclick = volume_changer(-10);
-    // animation
+    // view
     setup_animation(state.animation);
+    setup_show_release_date(state.setup_show_release_date);
     // streams
     streams_list(state);
     // badge

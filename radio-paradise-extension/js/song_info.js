@@ -96,7 +96,7 @@ var image_info_init = (function () {
     }
   }
 
-  function parse_song_info(dom) {
+  function parse_song_info(dom, show_release_date) {
     // dom can be null
     if (!dom) {
       return;
@@ -108,41 +108,48 @@ var image_info_init = (function () {
     var info = {
       fingerprint: ''
     };
-    ['artist', 'title', 'album', 'med_cover', 'songid'].forEach(
+    ['release_date', 'artist', 'title', 'album', 'med_cover', 'songid'].forEach(
       function (v) {
-        var ee, e;
+        var ee, e, t;
         ee = fc.getElementsByTagName(v);
         if (ee.length > 0) {
           e = ee[0];
         }
         if (e && typeof e.textContent === 'string') {
-          info[v] = e.textContent;
-          info.fingerprint += '::' + e.textContent;
+          t = e.textContent;
+          if (show_release_date && v === 'album') {
+            t += ' (' + (info.release_date || 'n/a') + ')';
+          }
+          info[v] = t;
+          info.fingerprint += '::' + t; // updated album have to get into fingerprint
         }
       }
     );
     return info;
   }
 
-  function get_song_info() {
-    var xhr = new window.XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4) {
-        var info = parse_song_info(xhr.responseXML);
-        if (info) {
-          display_song_info(info);
+  function mk_get_song_info(show_release_date) {
+    function get_song_info() {
+      var xhr = new window.XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          var info = parse_song_info(xhr.responseXML, show_release_date);
+          if (info) {
+            display_song_info(info);
+          }
+          window.setTimeout(get_song_info, 20000);
         }
-        window.setTimeout(get_song_info, 20000);
-      }
-    };
-    xhr.onerror = function () {
-      window.setTimeout(get_song_info, 5000);
-    };
-    xhr.open('GET', RP_INFO_URL, true);
-    xhr.send();
+      };
+      xhr.onerror = function () {
+        window.setTimeout(get_song_info, 5000);
+      };
+      xhr.open('GET', RP_INFO_URL, true);
+      xhr.send();
+    }
+    return get_song_info;
   }
 
-  return function (cache, not_animate_arg) {
+  return function (cache, not_animate_arg, show_release_date) {
     not_animate = not_animate_arg;
     if (cache.song_info_songid) {
       make_clickable(cache.song_info_songid);
@@ -156,7 +163,7 @@ var image_info_init = (function () {
     if (cache.song_info_fp) {
       prev_fingerprint = cache.song_info_fp;
     }
-    get_song_info();
+    mk_get_song_info(show_release_date)();
   };
 
 }());

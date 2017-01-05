@@ -136,6 +136,7 @@
     'volume',
     'stream_id',
     'animation',
+    'show_release_date',
     'hidden_streams',
     'custom_streams',
     'hidden_custom_streams'
@@ -147,8 +148,9 @@
     init_custom_streams_selectors(x.custom_streams, x.hidden_custom_streams);
     update_selectors(x.stream_id);
     var not_animate = !x.animation;
+    var show_release_date = !!x.show_release_date;
     window.dom_keeper.get_all(function (cache) {
-      image_info_init(cache, not_animate);
+      image_info_init(cache, not_animate, show_release_date);
     });
   });
 
