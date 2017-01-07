@@ -120,7 +120,171 @@ streams.list =   [
     url: 'http://stream-uk1.radioparadise.com:80/mp3-32',
     title: 'mp3 32k (uk)',
     hidden_by_default: true
-  } ] ];
+  } ],
+
+  [
+    'aac-320k',
+    {
+      hidden_by_default: true,
+      title: 'aac 320k (us-tx)',
+      url: 'http://stream-tx3.radioparadise.com:80/aac-320'
+    }
+  ],
+  [
+    'aac-320k-us',
+    {
+      hidden_by_default: true,
+      title: 'aac 320k (us-dc)',
+      url: 'http://stream-dc1.radioparadise.com:80/aac-320'
+    }
+  ],
+  [
+    'aac-320k-uk',
+    {
+      hidden_by_default: true,
+      title: 'aac 320k (uk)',
+      url: 'http://stream-uk1.radioparadise.com:80/aac-320'
+    }
+  ],
+  [
+    'aac-320k-ru',
+    {
+      hidden_by_default: true,
+      title: 'aac 320k (ru)',
+      url: 'http://stream-ru1.radioparadise.com:9000/aac-320'
+    }
+  ],
+  [
+    'aac-128k',
+    {
+      hidden_by_default: true,
+      title: 'aac 128k (us-tx)',
+      url: 'http://stream-tx3.radioparadise.com:80/aac-128'
+    }
+  ],
+  [
+    'aac-128k-us',
+    {
+      hidden_by_default: true,
+      title: 'aac 128k (us-dc)',
+      url: 'http://stream-dc1.radioparadise.com:80/aac-128'
+    }
+  ],
+  [
+    'aac-128k-uk',
+    {
+      hidden_by_default: true,
+      title: 'aac 128k (uk)',
+      url: 'http://stream-uk1.radioparadise.com:80/aac-128'
+    }
+  ],
+  [
+    'aac-128k-ru',
+    {
+      hidden_by_default: true,
+      title: 'aac 128k (ru)',
+      url: 'http://stream-ru1.radioparadise.com:9000/aac-128'
+    }
+  ],
+  [
+    'aac-64k',
+    {
+      hidden_by_default: true,
+      title: 'aac 64k (us-tx)',
+      url: 'http://stream-tx3.radioparadise.com:80/aac-64'
+    }
+  ],
+  [
+    'aac-64k-us',
+    {
+      hidden_by_default: true,
+      title: 'aac 64k (us-dc)',
+      url: 'http://stream-dc1.radioparadise.com:80/aac-64'
+    }
+  ],
+  [
+    'aac-64k-uk',
+    {
+      hidden_by_default: true,
+      title: 'aac 64k (uk)',
+      url: 'http://stream-uk1.radioparadise.com:80/aac-64'
+    }
+  ],
+  [
+    'aac-64k-ru',
+    {
+      hidden_by_default: true,
+      title: 'aac 64k (ru)',
+      url: 'http://stream-ru1.radioparadise.com:9000/aac-64'
+    }
+  ],
+  [
+    'aac-32k',
+    {
+      hidden_by_default: true,
+      title: 'aac 32k (us-tx)',
+      url: 'http://stream-tx3.radioparadise.com:80/aac-32'
+    }
+  ],
+  [
+    'aac-32k-us',
+    {
+      hidden_by_default: true,
+      title: 'aac 32k (us-dc)',
+      url: 'http://stream-dc1.radioparadise.com:80/aac-32'
+    }
+  ],
+  [
+    'aac-32k-uk',
+    {
+      hidden_by_default: true,
+      title: 'aac 32k (uk)',
+      url: 'http://stream-uk1.radioparadise.com:80/aac-32'
+    }
+  ],
+  [
+    'aac-32k-ru',
+    {
+      hidden_by_default: true,
+      title: 'aac 32k (ru)',
+      url: 'http://stream-ru1.radioparadise.com:9000/aac-32'
+    }
+  ],
+  [
+    'aac-24k',
+    {
+      hidden_by_default: true,
+      title: 'aac 24k (us-tx)',
+      url: 'http://stream-tx3.radioparadise.com:80/aac-24'
+    }
+  ],
+  [
+    'aac-24k-us',
+    {
+      hidden_by_default: true,
+      title: 'aac 24k (us-dc)',
+      url: 'http://stream-dc1.radioparadise.com:80/aac-24'
+    }
+  ],
+  [
+    'aac-24k-uk',
+    {
+      hidden_by_default: true,
+      title: 'aac 24k (uk)',
+      url: 'http://stream-uk1.radioparadise.com:80/aac-24'
+    }
+  ],
+  [
+    'aac-24k-ru',
+    {
+      hidden_by_default: true,
+      title: 'aac 24k (ru)',
+      url: 'http://stream-ru1.radioparadise.com:9000/aac-24'
+    }
+  ]
+
+
+];
 
 streams.map = (function (x) {
   var i, v, d = {};
