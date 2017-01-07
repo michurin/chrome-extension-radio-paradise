@@ -283,7 +283,6 @@ streams.list =   [
     }
   ]
 
-
 ];
 
 streams.map = (function (x) {
