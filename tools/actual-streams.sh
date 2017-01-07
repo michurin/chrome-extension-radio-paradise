@@ -14,6 +14,8 @@ for h in \
   http://stream-uk1.radioparadise.com
 do
   echo $h
+  debug="$(echo "$h" | sed 's-.*//-tmp_debug_-;s-:.*--;s-$-.html-')"
+  wget -qO"$debug" "$h"
   export RP_HOST="$h"
-  wget -qO- "$h" | perl actual-streams.pl >>"$collection"
+  perl actual-streams.pl "$debug" >>"$collection"
 done

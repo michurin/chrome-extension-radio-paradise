@@ -7,21 +7,27 @@ m3u_tmp='/tmp/m3u_tmp'
 list_of_streams='streams.txt'
 
 export GREP_OPTIONS=''
+export LC_ALL=C
 
 cat "$collection" |
-egrep '^(application/ogg|audio/mpeg) ' |
-grep -v 'kfat-' |
 while read line
 do
-  wget -qO- "${line##* }" > "$m3u_tmp"
-  one=`wc -l "$m3u_tmp" | cut -f1 -d ' '`
-  if [ "x$one" = 'x1' ]
+  if echo "$line" | egrep '^(application/ogg|audio/mpeg|audio/aacp) .*\.radioparadise\.com.*/(ogg|mp3|aac)-' >/dev/null
   then
-    echo "$line `sed 's/\x0D$//' "$m3u_tmp"`"
+    echo "Proc '$line'" >&2
+    wget -qO- "${line##* }" > "$m3u_tmp"
+    one=`wc -l "$m3u_tmp" | cut -f1 -d ' '`
+    if [ "x$one" = 'x1' ]
+    then
+      echo "$line `sed 's/\x0D$//' "$m3u_tmp"`"
+    else
+      echo 'INVALID FILE!'
+      echo "# $line"
+      cat "$m3u_tmp"
+    fi
+    rm "$m3u_tmp"
   else
-    echo 'INVALID FILE!'
-    echo "# $line"
-    cat "$m3u_tmp"
+    echo "\033[1;31mDrop\033[0m '$line'" >&2
   fi
-  rm "$m3u_tmp"
-done > "$list_of_streams"
+done |
+sort > "$list_of_streams"
