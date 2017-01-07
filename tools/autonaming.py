@@ -2,7 +2,7 @@
 # coding: U8
 
 '''
-Get valid names, titles and urls. Sort. Produce json ready for streams.js
+Get valid names, titles and urls. Clean dups. Sort. Produce json ready for streams.js
 '''
 
 
@@ -55,12 +55,17 @@ def main():
     orig_data = dict(orig)
     assert len(orig) == len(orig_data)
     data = []
+    urls = set()
     for x in sys.stdin:
         name, title, url = x.strip().split('\t')
         hidden = True
         if name in orig_data:
             hidden = orig_data[name]['hidden_by_default']
             del orig_data[name]
+        if url in urls:
+            print >>sys.stderr, 'Dup url %r' % url
+            continue
+        urls.add(url)
         data.append([
             name, {
                 'url': url,
