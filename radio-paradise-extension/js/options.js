@@ -240,7 +240,7 @@
     $.id('volume-minus').onclick = volume_changer(-10);
     // view
     setup_animation(state.animation);
-    setup_show_release_date(state.setup_show_release_date);
+    setup_show_release_date(state.show_release_date);
     // streams
     streams_list(state);
     // badge
