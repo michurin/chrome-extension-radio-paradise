@@ -25,7 +25,8 @@
   var confirmation_delete = $.id('dialog-remove-alarm-delete');
 
   function update() {
-    chrome.runtime.sendMessage({action: 'alarms_changed'});
+    chrome.runtime.sendMessage({action: 'alarms_changed'}); // fire for all frames (except for the sender's frame)
+    update_action(); // fire for sender's frame
     storage.update_field('last_alarm_change'); // for debugging only
   }
 
@@ -55,7 +56,8 @@
   var dialog = opacity_animator_generator('dialog-create-new-alarm');
 
   function update_action() {
-    // this function can be called as onmessage handler *ONLY*
+    // this function have to be called as onmessage handler
+    // to change all options tabs if any, see update()
     // this is done to synchronize tabs if any
     chrome.alarms.getAll(function (aa) {
       if (aa.length === 0) {
