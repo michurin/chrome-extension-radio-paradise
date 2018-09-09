@@ -14,6 +14,7 @@ function open_url_in_new_tab(target_url) {
     url: '*://*.radioparadise.com/*'
   }, function (tabs) {
     var tab, tab_selector;
+    tabs = tabs.filter((x) => x.url !== 'https://new.radioparadise.com/player');
     if (tabs.length) {
       tab = tabs[0];
       tab_selector = function () {

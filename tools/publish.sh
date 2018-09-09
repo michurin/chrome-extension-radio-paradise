@@ -6,7 +6,8 @@ cd .. ||
   echo 'Can not change dir'
   exit 1
 }
-base='radio-paradise-extension'
+base="${1-radio-paradise-extension}"
+echo "base=$base"
 test -z "`git status --porcelain "$base"`" ||
 {
   echo 'ERROR: not clean.'

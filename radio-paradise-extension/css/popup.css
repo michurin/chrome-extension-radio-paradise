@@ -163,11 +163,41 @@ td {
 #rp-link {
   cursor: pointer;
   font-size: 10px;
-  padding: 3px;
+  padding: 0px;
+  margin: 3px 10px;
+  border: 1px solid #000;
+  border-radius: 2px;
+  background-color: #000;
+  transition: background-color 200ms ease-in-out;
+  -webkit-animation: rp-link 15s infinite linear;
 }
 
 #rp-link:hover {
-  text-decoration: underline;
+  border-color: #3adb00;
+  color: #fff;
+  background-color: #3a773a;
+  -webkit-animation: none;
+}
+
+@-webkit-keyframes rp-link {
+  0% {
+    color: #f7663d;
+  }
+  20% {
+    color: #f7663d;
+  }
+  28% {
+    color: #000;
+  }
+  30% {
+    color: #fae5c1;
+  }
+  32% {
+    color: #f7663d;
+  }
+  100% {
+    color: #f7663d;
+  }
 }
 
 /* svg related */
