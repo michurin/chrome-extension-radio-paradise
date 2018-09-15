@@ -168,8 +168,9 @@ td {
   border: 1px solid #000;
   border-radius: 2px;
   background-color: #000;
-  transition: background-color 200ms ease-in-out;
-  -webkit-animation: rp-link 15s infinite linear;
+  transition: background-color 800ms ease-in-out, border-color 800ms ease-in-out, color 800ms ease-in-out;
+  text-shadow: none;
+  -webkit-animation: rp-link 30s infinite linear;
 }
 
 #rp-link:hover {
@@ -177,26 +178,41 @@ td {
   color: #fff;
   background-color: #3a773a;
   -webkit-animation: none;
+  text-shadow: none
 }
 
 @-webkit-keyframes rp-link {
   0% {
     color: #f7663d;
+    text-shadow: none;
   }
   20% {
     color: #f7663d;
+    text-shadow: none;
   }
   28% {
     color: #000;
+    text-shadow: none;
   }
   30% {
     color: #fae5c1;
+    text-shadow: none;
+  }
+  31% {
+    color: #fae5c1;
+    text-shadow: 1px 1px 4px #fff, -1px -1px 4px #fff, -1px 1px 4px #fff, 1px -1px 4px #fff;
   }
   32% {
+    color: #fae5c1;
+    text-shadow: none;
+  }
+  35% {
     color: #f7663d;
+    text-shadow: none;
   }
   100% {
     color: #f7663d;
+    text-shadow: none;
   }
 }
 
