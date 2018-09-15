@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "Radio Paradise player",
-  "version": "0.23.0.0",
+  "version": "0.24.0.0",
   "minimum_chrome_version": "26",
 
   "description": "Radio Paradise: commercial-free DJ-mixed flow of modern & classic rock, world music, electronica, and more",
@@ -28,7 +28,8 @@
     "http://radioparadise.com/ajax_xml_song_info.php",
     "activeTab",
     "storage",
-    "alarms"
+    "alarms",
+    "tabs"
   ],
 
   "optional_permissions": [],
@@ -42,7 +43,8 @@
       "js/background.js",
       "js/dom_keeper.js",
       "js/alarms.js",
-      "js/volume_ctl.js"
+      "js/volume_ctl.js",
+      "js/modern_pleer.js"
     ],
     "persistent": false
   },

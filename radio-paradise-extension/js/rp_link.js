@@ -4,10 +4,11 @@
  * MIT License [http://www.opensource.org/licenses/mit-license.php]
  */
 
-/*global open_url_in_new_tab, $ */
+/*global chrome, window, $ */
 
 'use strict';
 
 $.id('rp-link').onclick = function () {
-  open_url_in_new_tab('http://www.radioparadise.com/');
+  chrome.extension.sendMessage({ action: 'modern_pleer' });
+  window.close();
 };
