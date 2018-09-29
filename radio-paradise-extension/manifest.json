@@ -2,8 +2,8 @@
 
   "manifest_version": 2,
   "name": "Radio Paradise player",
-  "version": "0.24.0.0",
-  "minimum_chrome_version": "26",
+  "version": "0.24.0.1",
+  "minimum_chrome_version": "46",
 
   "description": "Radio Paradise: commercial-free DJ-mixed flow of modern & classic rock, world music, electronica, and more",
   "icons": {
@@ -44,7 +44,7 @@
       "js/dom_keeper.js",
       "js/alarms.js",
       "js/volume_ctl.js",
-      "js/modern_pleer.js"
+      "js/modern_player.js"
     ],
     "persistent": false
   },

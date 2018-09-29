@@ -8,7 +8,7 @@
 
 (() => {
 
-  const pleerUrl = 'https://new.radioparadise.com/player';
+  const playerUrl = 'https://new.radioparadise.com/player';
 
   let openingLock = false;
 
@@ -18,7 +18,7 @@
         populate: true,
         windowTypes: ['popup'], // req chrome 46
       }, (ww) => {
-        resolve(ww.filter(x => x.tabs && x.tabs.length === 1 && x.tabs[0].url && x.tabs[0].url.startsWith(pleerUrl)));
+        resolve(ww.filter(x => x.tabs && x.tabs.length === 1 && x.tabs[0].url && x.tabs[0].url.startsWith(playerUrl)));
       });
     });
   }
@@ -26,7 +26,7 @@
   function createWindow() {
     return new Promise((resolve) => {
       chrome.windows.create({
-        url: pleerUrl,
+        url: playerUrl,
         width: 400,
         focused: true,
         type: 'popup',
@@ -69,7 +69,7 @@
 
   // chrome.browserAction.onClicked.addListener(createUpdateWindow);
   chrome.extension.onMessage.addListener((request) => {
-    if (request.action === 'modern_pleer') {
+    if (request.action === 'modern_player') {
       setTimeout(createUpdateWindow, 100); // we have to give time to close popup to free focus on MacOS
     }
   });

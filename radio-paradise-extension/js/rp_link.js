@@ -9,6 +9,6 @@
 'use strict';
 
 $.id('rp-link').onclick = function () {
-  chrome.extension.sendMessage({ action: 'modern_pleer' });
+  chrome.extension.sendMessage({ action: 'modern_player' });
   window.close();
 };
