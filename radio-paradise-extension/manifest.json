@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "Radio Paradise player",
-  "version": "0.24.0.1",
+  "version": "0.25.0.0",
   "minimum_chrome_version": "46",
 
   "description": "Radio Paradise: commercial-free DJ-mixed flow of modern & classic rock, world music, electronica, and more",
@@ -20,51 +20,16 @@
       "19": "images/logo-19x19.png",
       "38": "images/logo-38x38.png"
     },
-    "default_title": "Radio Paradise",
-    "default_popup": "popup.html"
+    "default_title": "Radio Paradise"
   },
 
-  "permissions": [
-    "http://radioparadise.com/ajax_xml_song_info.php",
-    "activeTab",
-    "storage",
-    "alarms",
-    "tabs"
-  ],
+  "permissions": ["tabs", "storage"],
 
   "optional_permissions": [],
 
   "background": {
-    "scripts": [
-      "js/peso.js",
-      "js/audio_ctl.js",
-      "js/streams.js",
-      "js/storage.js",
-      "js/background.js",
-      "js/dom_keeper.js",
-      "js/alarms.js",
-      "js/volume_ctl.js",
-      "js/modern_player.js"
-    ],
+    "scripts": ["main.js"],
     "persistent": false
-  },
-
-  "options_page": "options.html",
-
-  "commands": {
-    "toggle-sound": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+S",
-        "mac": "Command+Shift+S"
-      },
-      "description": "Toggle sound on/off"
-    },
-    "volume-lower": {
-      "description": "Lower sound volume"
-    },
-    "volume-raise": {
-      "description": "Raise sound volume"
-    }
   },
 
   "offline_enabled": false,

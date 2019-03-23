@@ -1,26 +1,21 @@
-Google Chrome extension to listen to Radio Paradise online
-==========================================================
+Google Chrome extension to listen to Radio Paradise
+===================================================
 
-Key features:
+Very simple extension to slimplify listening of Radio Paradise.
 
-* Listening radio
-* Change sound volume
-* View song informations: title, album, artist
-* View albums covers
-* Click to access RP web page with song details, lyrics, voting and discussions
-* Select the appropriate media source and bitrate
-* Easy hot key bindings (in one-click mode)
-* Alarm clock functionality: delayed turn on/off or bell ringing
-* Advanced users can specify custom media streams to listening to any other online radios
+It provide pure buttom at the right of the address bar with following functionality:
 
-Can be installed from
-[project page](http://michurin.github.io/chrome-extension-radio-paradise/) or
-[Chrome Web Store](https://chrome.google.com/webstore/detail/hljnlacoohhbcfejkmabinbjablnoild).
+- If RP (or other site) plays music in some tab, it switch to this tab
+- If RP plays in current tab, it switchs back to previos active tab
+- If there is not RP tabs, it create new tab with RP and switch to it
 
-Found a bug, problem, typo? You are welcome!
-My name is Alexey. Feel free [to contact me](mailto:a.michurin@gmail.com).
+It makes easy (1) to open Radio Paradise, and (2) to qiuck look to RP tab and return back.
 
-Enjoy!
-------
+Historically...
+---------------
 
--- [Alexey Michurin](http://michurin.github.io/)
+...it was (at 2014) a rich player based on PR API and streams. But in course of time
+native RP player become much more powerful. In 2019 I decide to rewrite this extension
+to very simple way, just to simplify listning RP, using there native player.
+
+All source code of rich player still available in GitHub history.
