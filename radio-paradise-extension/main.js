@@ -1,14 +1,15 @@
 /*
  * Radio Paradise player
- * Copyright (c) 2014-2019 Alexey Michurin <a.michurin@gmail.com>
+ * Copyright (c) 2014-2021 Alexey Michurin <a.michurin@gmail.com>
  * MIT License [http://www.opensource.org/licenses/mit-license.php]
  */
 /* global chrome */
 
 (() => {
+  const version = chrome.runtime.getManifest().version;
   const rpUtm = 'chrome-extension-michurin';
   const rpDomain = 'radioparadise.com';
-  const rpUrl = `https://www.${rpDomain}/?utm_source=${rpUtm}`;
+  const rpUrl = `https://${rpDomain}/player/?utm_source=${rpUtm}&utm_content=${version}`;
   const rpUrlPattern = `*://*.${rpDomain}/*`;
 
   const storageSet = v => new Promise((resolve) => {

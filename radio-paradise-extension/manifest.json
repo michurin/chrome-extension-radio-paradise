@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "Radio Paradise player",
-  "version": "0.25.0.0",
+  "version": "0.25.0.1",
   "minimum_chrome_version": "46",
 
   "description": "Radio Paradise: commercial-free DJ-mixed flow of modern & classic rock, world music, electronica, and more",
@@ -36,7 +36,7 @@
 
   "short_name": "RP player",
 
-  "homepage_url": "http://www.radioparadise.com/",
+  "homepage_url": "https://github.com/michurin/chrome-extension-radio-paradise",
   "author": "Alexey Michurin <a.michurin@gmail.com>"
 
 }
