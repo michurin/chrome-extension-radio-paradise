@@ -1,6 +1,16 @@
 Google Chrome extension to listen to Radio Paradise
 ===================================================
 
+:warning: | Unfortunately, due to [new policies][policies] (update: June 29, 2021) I must remove this extension from Google WebStore. I hope it was useful. I thank all the customers. It was a pleasant experience.
+:--- | :---
+
+- The extension lasted for 7 years: from summer 2014 up to summer 2021
+- It had almost 2k customers and ☆4.48 out of 5 average score (42 users rated, 14 users rated with review)
+- You are still able to install it manually from github in developer mode
+- or just [start listening][player] Radio Paradise right now
+
+<details>
+<summary>Original README</summary>
 Very simple [Chrome extension][webstore] to simplify listening of [Radio Paradise][rp].
 
 It provide a button on the right of the address bar with following functionality:
@@ -25,6 +35,9 @@ native RP player became much more powerful. In 2019 I decided to rewrite this ex
 to very simple way, just to simplify listening RP, using the native player.
 
 All source code of rich player still available in GitHub history.
+</details>
 
 [rp]: https://radioparadise.com/home
 [webstore]: https://chrome.google.com/webstore/detail/radio-paradise-player/hljnlacoohhbcfejkmabinbjablnoild
+[policies]: https://developer.chrome.com/docs/webstore/program_policies/#content_policies
+[player]: https://radioparadise.com/
